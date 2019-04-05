@@ -25,6 +25,16 @@ namespace FastFoodSystem.Database
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Table> Tables { get; set; }
+        public virtual DbSet<CategoryType> CategoryTypes { get; set; }
+        public virtual DbSet<Combo> Comboes { get; set; }
+        public virtual DbSet<CompoundProduct> CompoundProducts { get; set; }
+        public virtual DbSet<CompoundProductCombo> CompoundProductComboes { get; set; }
+        public virtual DbSet<CompoundProductFoodInput> CompoundProductFoodInputs { get; set; }
+        public virtual DbSet<FoodInput> FoodInputs { get; set; }
+        public virtual DbSet<FoodInputCombo> FoodInputComboes { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<SimpleProduct> SimpleProducts { get; set; }
+        public virtual DbSet<SimpleProductCombo> SimpleProductComboes { get; set; }
+        public virtual DbSet<UnitType> UnitTypes { get; set; }
     }
 }

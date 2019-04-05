@@ -109,23 +109,53 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Database\Model.Context.cs">
+    <Compile Include="Database\CategoryType.cs">
+      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Combo.cs">
+      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\CompoundProduct.cs">
+      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\CompoundProductCombo.cs">
+      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\CompoundProductFoodInput.cs">
+      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\FastFoodDBModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Model.Context.tt</DependentUpon>
+      <DependentUpon>FastFoodDBModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\Model.cs">
+    <Compile Include="Database\FastFoodDBModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Model.tt</DependentUpon>
+      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\Model.Designer.cs">
+    <Compile Include="Database\FastFoodDBModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Model.edmx</DependentUpon>
+      <DependentUpon>FastFoodDBModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Database\Table.cs">
-      <DependentUpon>Model.tt</DependentUpon>
+    <Compile Include="Database\FoodInput.cs">
+      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\FoodInputCombo.cs">
+      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Product.cs">
+      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\SimpleProduct.cs">
+      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\SimpleProductCombo.cs">
+      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\UnitType.cs">
+      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="InputBox.xaml.cs">
       <DependentUpon>InputBox.xaml</DependentUpon>
@@ -153,12 +183,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="Database\Model.edmx">
+    <EntityDeploy Include="Database\FastFoodDBModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model.Designer.cs</LastGenOutput>
+      <LastGenOutput>FastFoodDBModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Database\Model.edmx.diagram">
-      <DependentUpon>Model.edmx</DependentUpon>
+    <None Include="Database\FastFoodDBModel.edmx.diagram">
+      <DependentUpon>FastFoodDBModel.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -174,15 +204,15 @@
     <Content Include="Database.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Database\Model.Context.tt">
+    <Content Include="Database\FastFoodDBModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model.edmx</DependentUpon>
-      <LastGenOutput>Model.Context.cs</LastGenOutput>
+      <DependentUpon>FastFoodDBModel.edmx</DependentUpon>
+      <LastGenOutput>FastFoodDBModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Database\Model.tt">
+    <Content Include="Database\FastFoodDBModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model.edmx</DependentUpon>
-      <LastGenOutput>Model.cs</LastGenOutput>
+      <DependentUpon>FastFoodDBModel.edmx</DependentUpon>
+      <LastGenOutput>FastFoodDBModel.cs</LastGenOutput>
     </Content>
     <Content Include="Database_log.ldf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

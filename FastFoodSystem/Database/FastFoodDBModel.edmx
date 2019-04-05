@@ -1,0 +1,824 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CategoryType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Combo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CompoundProduct">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CompoundProductCombo">
+          <Key>
+            <PropertyRef Name="CompoundProductId" />
+            <PropertyRef Name="ComboId" />
+          </Key>
+          <Property Name="CompoundProductId" Type="int" Nullable="false" />
+          <Property Name="ComboId" Type="int" Nullable="false" />
+          <Property Name="RequiredUnits" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CompoundProductFoodInput">
+          <Key>
+            <PropertyRef Name="CompoundProductId" />
+            <PropertyRef Name="FoodInputId" />
+          </Key>
+          <Property Name="CompoundProductId" Type="int" Nullable="false" />
+          <Property Name="FoodInputId" Type="int" Nullable="false" />
+          <Property Name="RequiredUnits" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FoodInput">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="UnitTypeId" Type="int" Nullable="false" />
+          <Property Name="UnitValue" Type="int" Nullable="false" />
+          <Property Name="UnitCost" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Units" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FoodInputCombo">
+          <Key>
+            <PropertyRef Name="FoodInputId" />
+            <PropertyRef Name="ComboId" />
+          </Key>
+          <Property Name="FoodInputId" Type="int" Nullable="false" />
+          <Property Name="ComboId" Type="int" Nullable="false" />
+          <Property Name="RequiredUnits" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryTypeId" Type="int" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="256" Nullable="false" />
+          <Property Name="SaleValue" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ImagePath" Type="varchar" MaxLength="512" />
+          <Property Name="SaleDiscount" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SimpleProduct">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Units" Type="int" Nullable="false" />
+          <Property Name="UnitCost" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SimpleProductCombo">
+          <Key>
+            <PropertyRef Name="SimpleProductId" />
+            <PropertyRef Name="ComboId" />
+          </Key>
+          <Property Name="SimpleProductId" Type="int" Nullable="false" />
+          <Property Name="ComboId" Type="int" Nullable="false" />
+          <Property Name="RequiredUnits" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UnitType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Combo__Id__49C3F6B7">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="Combo" Type="Self.Combo" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Combo">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CompoundP__Combo__5CD6CB2B">
+          <End Role="Combo" Type="Self.Combo" Multiplicity="1" />
+          <End Role="CompoundProductCombo" Type="Self.CompoundProductCombo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Combo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompoundProductCombo">
+              <PropertyRef Name="ComboId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CompoundP__Compo__5812160E">
+          <End Role="CompoundProduct" Type="Self.CompoundProduct" Multiplicity="1" />
+          <End Role="CompoundProductFoodInput" Type="Self.CompoundProductFoodInput" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompoundProduct">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompoundProductFoodInput">
+              <PropertyRef Name="CompoundProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CompoundP__Compo__5BE2A6F2">
+          <End Role="CompoundProduct" Type="Self.CompoundProduct" Multiplicity="1" />
+          <End Role="CompoundProductCombo" Type="Self.CompoundProductCombo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompoundProduct">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompoundProductCombo">
+              <PropertyRef Name="CompoundProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CompoundP__FoodI__59063A47">
+          <End Role="FoodInput" Type="Self.FoodInput" Multiplicity="1" />
+          <End Role="CompoundProductFoodInput" Type="Self.CompoundProductFoodInput" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FoodInput">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompoundProductFoodInput">
+              <PropertyRef Name="FoodInputId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CompoundProd__Id__5070F446">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="CompoundProduct" Type="Self.CompoundProduct" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompoundProduct">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FoodInput__Combo__60A75C0F">
+          <End Role="Combo" Type="Self.Combo" Multiplicity="1" />
+          <End Role="FoodInputCombo" Type="Self.FoodInputCombo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Combo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FoodInputCombo">
+              <PropertyRef Name="ComboId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FoodInput__FoodI__5FB337D6">
+          <End Role="FoodInput" Type="Self.FoodInput" Multiplicity="1" />
+          <End Role="FoodInputCombo" Type="Self.FoodInputCombo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FoodInput">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FoodInputCombo">
+              <PropertyRef Name="FoodInputId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FoodInput__Id__5535A963">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="FoodInput" Type="Self.FoodInput" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FoodInput">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FoodInput__UnitT__5441852A">
+          <End Role="UnitType" Type="Self.UnitType" Multiplicity="1" />
+          <End Role="FoodInput" Type="Self.FoodInput" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UnitType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FoodInput">
+              <PropertyRef Name="UnitTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Product__Categor__4316F928">
+          <End Role="CategoryType" Type="Self.CategoryType" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoryType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="CategoryTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SimplePro__Combo__4D94879B">
+          <End Role="Combo" Type="Self.Combo" Multiplicity="1" />
+          <End Role="SimpleProductCombo" Type="Self.SimpleProductCombo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Combo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SimpleProductCombo">
+              <PropertyRef Name="ComboId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SimplePro__Simpl__4CA06362">
+          <End Role="SimpleProduct" Type="Self.SimpleProduct" Multiplicity="1" />
+          <End Role="SimpleProductCombo" Type="Self.SimpleProductCombo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SimpleProduct">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SimpleProductCombo">
+              <PropertyRef Name="SimpleProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SimpleProduc__Id__46E78A0C">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="SimpleProduct" Type="Self.SimpleProduct" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SimpleProduct">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DatabaseModelStoreContainer">
+          <EntitySet Name="CategoryType" EntityType="Self.CategoryType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Combo" EntityType="Self.Combo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CompoundProduct" EntityType="Self.CompoundProduct" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CompoundProductCombo" EntityType="Self.CompoundProductCombo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CompoundProductFoodInput" EntityType="Self.CompoundProductFoodInput" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FoodInput" EntityType="Self.FoodInput" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FoodInputCombo" EntityType="Self.FoodInputCombo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SimpleProduct" EntityType="Self.SimpleProduct" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SimpleProductCombo" EntityType="Self.SimpleProductCombo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UnitType" EntityType="Self.UnitType" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Combo__Id__49C3F6B7" Association="Self.FK__Combo__Id__49C3F6B7">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Combo" EntitySet="Combo" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CompoundP__Combo__5CD6CB2B" Association="Self.FK__CompoundP__Combo__5CD6CB2B">
+            <End Role="Combo" EntitySet="Combo" />
+            <End Role="CompoundProductCombo" EntitySet="CompoundProductCombo" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CompoundP__Compo__5812160E" Association="Self.FK__CompoundP__Compo__5812160E">
+            <End Role="CompoundProduct" EntitySet="CompoundProduct" />
+            <End Role="CompoundProductFoodInput" EntitySet="CompoundProductFoodInput" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CompoundP__Compo__5BE2A6F2" Association="Self.FK__CompoundP__Compo__5BE2A6F2">
+            <End Role="CompoundProduct" EntitySet="CompoundProduct" />
+            <End Role="CompoundProductCombo" EntitySet="CompoundProductCombo" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CompoundP__FoodI__59063A47" Association="Self.FK__CompoundP__FoodI__59063A47">
+            <End Role="FoodInput" EntitySet="FoodInput" />
+            <End Role="CompoundProductFoodInput" EntitySet="CompoundProductFoodInput" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CompoundProd__Id__5070F446" Association="Self.FK__CompoundProd__Id__5070F446">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="CompoundProduct" EntitySet="CompoundProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FoodInput__Combo__60A75C0F" Association="Self.FK__FoodInput__Combo__60A75C0F">
+            <End Role="Combo" EntitySet="Combo" />
+            <End Role="FoodInputCombo" EntitySet="FoodInputCombo" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FoodInput__FoodI__5FB337D6" Association="Self.FK__FoodInput__FoodI__5FB337D6">
+            <End Role="FoodInput" EntitySet="FoodInput" />
+            <End Role="FoodInputCombo" EntitySet="FoodInputCombo" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FoodInput__Id__5535A963" Association="Self.FK__FoodInput__Id__5535A963">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="FoodInput" EntitySet="FoodInput" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FoodInput__UnitT__5441852A" Association="Self.FK__FoodInput__UnitT__5441852A">
+            <End Role="UnitType" EntitySet="UnitType" />
+            <End Role="FoodInput" EntitySet="FoodInput" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Product__Categor__4316F928" Association="Self.FK__Product__Categor__4316F928">
+            <End Role="CategoryType" EntitySet="CategoryType" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SimplePro__Combo__4D94879B" Association="Self.FK__SimplePro__Combo__4D94879B">
+            <End Role="Combo" EntitySet="Combo" />
+            <End Role="SimpleProductCombo" EntitySet="SimpleProductCombo" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SimplePro__Simpl__4CA06362" Association="Self.FK__SimplePro__Simpl__4CA06362">
+            <End Role="SimpleProduct" EntitySet="SimpleProduct" />
+            <End Role="SimpleProductCombo" EntitySet="SimpleProductCombo" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SimpleProduc__Id__46E78A0C" Association="Self.FK__SimpleProduc__Id__46E78A0C">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="SimpleProduct" EntitySet="SimpleProduct" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CategoryType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Products" Relationship="Self.FK__Product__Categor__4316F928" FromRole="CategoryType" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Combo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="Self.FK__Combo__Id__49C3F6B7" FromRole="Combo" ToRole="Product" />
+          <NavigationProperty Name="CompoundProductComboes" Relationship="Self.FK__CompoundP__Combo__5CD6CB2B" FromRole="Combo" ToRole="CompoundProductCombo" />
+          <NavigationProperty Name="FoodInputComboes" Relationship="Self.FK__FoodInput__Combo__60A75C0F" FromRole="Combo" ToRole="FoodInputCombo" />
+          <NavigationProperty Name="SimpleProductComboes" Relationship="Self.FK__SimplePro__Combo__4D94879B" FromRole="Combo" ToRole="SimpleProductCombo" />
+        </EntityType>
+        <EntityType Name="CompoundProduct">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="CompoundProductFoodInputs" Relationship="Self.FK__CompoundP__Compo__5812160E" FromRole="CompoundProduct" ToRole="CompoundProductFoodInput" />
+          <NavigationProperty Name="CompoundProductComboes" Relationship="Self.FK__CompoundP__Compo__5BE2A6F2" FromRole="CompoundProduct" ToRole="CompoundProductCombo" />
+          <NavigationProperty Name="Product" Relationship="Self.FK__CompoundProd__Id__5070F446" FromRole="CompoundProduct" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="CompoundProductCombo">
+          <Key>
+            <PropertyRef Name="CompoundProductId" />
+            <PropertyRef Name="ComboId" />
+          </Key>
+          <Property Name="CompoundProductId" Type="Int32" Nullable="false" />
+          <Property Name="ComboId" Type="Int32" Nullable="false" />
+          <Property Name="RequiredUnits" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Combo" Relationship="Self.FK__CompoundP__Combo__5CD6CB2B" FromRole="CompoundProductCombo" ToRole="Combo" />
+          <NavigationProperty Name="CompoundProduct" Relationship="Self.FK__CompoundP__Compo__5BE2A6F2" FromRole="CompoundProductCombo" ToRole="CompoundProduct" />
+        </EntityType>
+        <EntityType Name="CompoundProductFoodInput">
+          <Key>
+            <PropertyRef Name="CompoundProductId" />
+            <PropertyRef Name="FoodInputId" />
+          </Key>
+          <Property Name="CompoundProductId" Type="Int32" Nullable="false" />
+          <Property Name="FoodInputId" Type="Int32" Nullable="false" />
+          <Property Name="RequiredUnits" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CompoundProduct" Relationship="Self.FK__CompoundP__Compo__5812160E" FromRole="CompoundProductFoodInput" ToRole="CompoundProduct" />
+          <NavigationProperty Name="FoodInput" Relationship="Self.FK__CompoundP__FoodI__59063A47" FromRole="CompoundProductFoodInput" ToRole="FoodInput" />
+        </EntityType>
+        <EntityType Name="FoodInput">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="UnitTypeId" Type="Int32" Nullable="false" />
+          <Property Name="UnitValue" Type="Int32" Nullable="false" />
+          <Property Name="UnitCost" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Units" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CompoundProductFoodInputs" Relationship="Self.FK__CompoundP__FoodI__59063A47" FromRole="FoodInput" ToRole="CompoundProductFoodInput" />
+          <NavigationProperty Name="FoodInputComboes" Relationship="Self.FK__FoodInput__FoodI__5FB337D6" FromRole="FoodInput" ToRole="FoodInputCombo" />
+          <NavigationProperty Name="Product" Relationship="Self.FK__FoodInput__Id__5535A963" FromRole="FoodInput" ToRole="Product" />
+          <NavigationProperty Name="UnitType" Relationship="Self.FK__FoodInput__UnitT__5441852A" FromRole="FoodInput" ToRole="UnitType" />
+        </EntityType>
+        <EntityType Name="FoodInputCombo">
+          <Key>
+            <PropertyRef Name="FoodInputId" />
+            <PropertyRef Name="ComboId" />
+          </Key>
+          <Property Name="FoodInputId" Type="Int32" Nullable="false" />
+          <Property Name="ComboId" Type="Int32" Nullable="false" />
+          <Property Name="RequiredUnits" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Combo" Relationship="Self.FK__FoodInput__Combo__60A75C0F" FromRole="FoodInputCombo" ToRole="Combo" />
+          <NavigationProperty Name="FoodInput" Relationship="Self.FK__FoodInput__FoodI__5FB337D6" FromRole="FoodInputCombo" ToRole="FoodInput" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryTypeId" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SaleValue" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ImagePath" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="SaleDiscount" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <NavigationProperty Name="CategoryType" Relationship="Self.FK__Product__Categor__4316F928" FromRole="Product" ToRole="CategoryType" />
+          <NavigationProperty Name="Combo" Relationship="Self.FK__Combo__Id__49C3F6B7" FromRole="Product" ToRole="Combo" />
+          <NavigationProperty Name="CompoundProduct" Relationship="Self.FK__CompoundProd__Id__5070F446" FromRole="Product" ToRole="CompoundProduct" />
+          <NavigationProperty Name="FoodInput" Relationship="Self.FK__FoodInput__Id__5535A963" FromRole="Product" ToRole="FoodInput" />
+          <NavigationProperty Name="SimpleProduct" Relationship="Self.FK__SimpleProduc__Id__46E78A0C" FromRole="Product" ToRole="SimpleProduct" />
+        </EntityType>
+        <EntityType Name="SimpleProduct">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Units" Type="Int32" Nullable="false" />
+          <Property Name="UnitCost" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="Self.FK__SimpleProduc__Id__46E78A0C" FromRole="SimpleProduct" ToRole="Product" />
+          <NavigationProperty Name="SimpleProductComboes" Relationship="Self.FK__SimplePro__Simpl__4CA06362" FromRole="SimpleProduct" ToRole="SimpleProductCombo" />
+        </EntityType>
+        <EntityType Name="SimpleProductCombo">
+          <Key>
+            <PropertyRef Name="SimpleProductId" />
+            <PropertyRef Name="ComboId" />
+          </Key>
+          <Property Name="SimpleProductId" Type="Int32" Nullable="false" />
+          <Property Name="ComboId" Type="Int32" Nullable="false" />
+          <Property Name="RequiredUnits" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Combo" Relationship="Self.FK__SimplePro__Combo__4D94879B" FromRole="SimpleProductCombo" ToRole="Combo" />
+          <NavigationProperty Name="SimpleProduct" Relationship="Self.FK__SimplePro__Simpl__4CA06362" FromRole="SimpleProductCombo" ToRole="SimpleProduct" />
+        </EntityType>
+        <EntityType Name="UnitType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="FoodInputs" Relationship="Self.FK__FoodInput__UnitT__5441852A" FromRole="UnitType" ToRole="FoodInput" />
+        </EntityType>
+        <Association Name="FK__Product__Categor__4316F928">
+          <End Role="CategoryType" Type="Self.CategoryType" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoryType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="CategoryTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Combo__Id__49C3F6B7">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="Combo" Type="Self.Combo" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Combo">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CompoundP__Combo__5CD6CB2B">
+          <End Role="Combo" Type="Self.Combo" Multiplicity="1" />
+          <End Role="CompoundProductCombo" Type="Self.CompoundProductCombo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Combo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompoundProductCombo">
+              <PropertyRef Name="ComboId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FoodInput__Combo__60A75C0F">
+          <End Role="Combo" Type="Self.Combo" Multiplicity="1" />
+          <End Role="FoodInputCombo" Type="Self.FoodInputCombo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Combo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FoodInputCombo">
+              <PropertyRef Name="ComboId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SimplePro__Combo__4D94879B">
+          <End Role="Combo" Type="Self.Combo" Multiplicity="1" />
+          <End Role="SimpleProductCombo" Type="Self.SimpleProductCombo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Combo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SimpleProductCombo">
+              <PropertyRef Name="ComboId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CompoundP__Compo__5812160E">
+          <End Role="CompoundProduct" Type="Self.CompoundProduct" Multiplicity="1" />
+          <End Role="CompoundProductFoodInput" Type="Self.CompoundProductFoodInput" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompoundProduct">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompoundProductFoodInput">
+              <PropertyRef Name="CompoundProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CompoundP__Compo__5BE2A6F2">
+          <End Role="CompoundProduct" Type="Self.CompoundProduct" Multiplicity="1" />
+          <End Role="CompoundProductCombo" Type="Self.CompoundProductCombo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompoundProduct">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompoundProductCombo">
+              <PropertyRef Name="CompoundProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CompoundProd__Id__5070F446">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="CompoundProduct" Type="Self.CompoundProduct" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompoundProduct">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CompoundP__FoodI__59063A47">
+          <End Role="FoodInput" Type="Self.FoodInput" Multiplicity="1" />
+          <End Role="CompoundProductFoodInput" Type="Self.CompoundProductFoodInput" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FoodInput">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompoundProductFoodInput">
+              <PropertyRef Name="FoodInputId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FoodInput__FoodI__5FB337D6">
+          <End Role="FoodInput" Type="Self.FoodInput" Multiplicity="1" />
+          <End Role="FoodInputCombo" Type="Self.FoodInputCombo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FoodInput">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FoodInputCombo">
+              <PropertyRef Name="FoodInputId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FoodInput__Id__5535A963">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="FoodInput" Type="Self.FoodInput" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FoodInput">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FoodInput__UnitT__5441852A">
+          <End Role="UnitType" Type="Self.UnitType" Multiplicity="1" />
+          <End Role="FoodInput" Type="Self.FoodInput" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UnitType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FoodInput">
+              <PropertyRef Name="UnitTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SimpleProduc__Id__46E78A0C">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="SimpleProduct" Type="Self.SimpleProduct" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SimpleProduct">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SimplePro__Simpl__4CA06362">
+          <End Role="SimpleProduct" Type="Self.SimpleProduct" Multiplicity="1" />
+          <End Role="SimpleProductCombo" Type="Self.SimpleProductCombo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SimpleProduct">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SimpleProductCombo">
+              <PropertyRef Name="SimpleProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DatabaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CategoryTypes" EntityType="Self.CategoryType" />
+          <EntitySet Name="Comboes" EntityType="Self.Combo" />
+          <EntitySet Name="CompoundProducts" EntityType="Self.CompoundProduct" />
+          <EntitySet Name="CompoundProductComboes" EntityType="Self.CompoundProductCombo" />
+          <EntitySet Name="CompoundProductFoodInputs" EntityType="Self.CompoundProductFoodInput" />
+          <EntitySet Name="FoodInputs" EntityType="Self.FoodInput" />
+          <EntitySet Name="FoodInputComboes" EntityType="Self.FoodInputCombo" />
+          <EntitySet Name="Products" EntityType="Self.Product" />
+          <EntitySet Name="SimpleProducts" EntityType="Self.SimpleProduct" />
+          <EntitySet Name="SimpleProductComboes" EntityType="Self.SimpleProductCombo" />
+          <EntitySet Name="UnitTypes" EntityType="Self.UnitType" />
+          <AssociationSet Name="FK__Product__Categor__4316F928" Association="Self.FK__Product__Categor__4316F928">
+            <End Role="CategoryType" EntitySet="CategoryTypes" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Combo__Id__49C3F6B7" Association="Self.FK__Combo__Id__49C3F6B7">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Combo" EntitySet="Comboes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CompoundP__Combo__5CD6CB2B" Association="Self.FK__CompoundP__Combo__5CD6CB2B">
+            <End Role="Combo" EntitySet="Comboes" />
+            <End Role="CompoundProductCombo" EntitySet="CompoundProductComboes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FoodInput__Combo__60A75C0F" Association="Self.FK__FoodInput__Combo__60A75C0F">
+            <End Role="Combo" EntitySet="Comboes" />
+            <End Role="FoodInputCombo" EntitySet="FoodInputComboes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SimplePro__Combo__4D94879B" Association="Self.FK__SimplePro__Combo__4D94879B">
+            <End Role="Combo" EntitySet="Comboes" />
+            <End Role="SimpleProductCombo" EntitySet="SimpleProductComboes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CompoundP__Compo__5812160E" Association="Self.FK__CompoundP__Compo__5812160E">
+            <End Role="CompoundProduct" EntitySet="CompoundProducts" />
+            <End Role="CompoundProductFoodInput" EntitySet="CompoundProductFoodInputs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CompoundP__Compo__5BE2A6F2" Association="Self.FK__CompoundP__Compo__5BE2A6F2">
+            <End Role="CompoundProduct" EntitySet="CompoundProducts" />
+            <End Role="CompoundProductCombo" EntitySet="CompoundProductComboes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CompoundProd__Id__5070F446" Association="Self.FK__CompoundProd__Id__5070F446">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="CompoundProduct" EntitySet="CompoundProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CompoundP__FoodI__59063A47" Association="Self.FK__CompoundP__FoodI__59063A47">
+            <End Role="FoodInput" EntitySet="FoodInputs" />
+            <End Role="CompoundProductFoodInput" EntitySet="CompoundProductFoodInputs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FoodInput__FoodI__5FB337D6" Association="Self.FK__FoodInput__FoodI__5FB337D6">
+            <End Role="FoodInput" EntitySet="FoodInputs" />
+            <End Role="FoodInputCombo" EntitySet="FoodInputComboes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FoodInput__Id__5535A963" Association="Self.FK__FoodInput__Id__5535A963">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="FoodInput" EntitySet="FoodInputs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FoodInput__UnitT__5441852A" Association="Self.FK__FoodInput__UnitT__5441852A">
+            <End Role="UnitType" EntitySet="UnitTypes" />
+            <End Role="FoodInput" EntitySet="FoodInputs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SimpleProduc__Id__46E78A0C" Association="Self.FK__SimpleProduc__Id__46E78A0C">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="SimpleProduct" EntitySet="SimpleProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SimplePro__Simpl__4CA06362" Association="Self.FK__SimplePro__Simpl__4CA06362">
+            <End Role="SimpleProduct" EntitySet="SimpleProducts" />
+            <End Role="SimpleProductCombo" EntitySet="SimpleProductComboes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DatabaseModelStoreContainer" CdmEntityContainer="DatabaseEntities">
+          <EntitySetMapping Name="CategoryTypes">
+            <EntityTypeMapping TypeName="DatabaseModel.CategoryType">
+              <MappingFragment StoreEntitySet="CategoryType">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Comboes">
+            <EntityTypeMapping TypeName="DatabaseModel.Combo">
+              <MappingFragment StoreEntitySet="Combo">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompoundProducts">
+            <EntityTypeMapping TypeName="DatabaseModel.CompoundProduct">
+              <MappingFragment StoreEntitySet="CompoundProduct">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompoundProductComboes">
+            <EntityTypeMapping TypeName="DatabaseModel.CompoundProductCombo">
+              <MappingFragment StoreEntitySet="CompoundProductCombo">
+                <ScalarProperty Name="CompoundProductId" ColumnName="CompoundProductId" />
+                <ScalarProperty Name="ComboId" ColumnName="ComboId" />
+                <ScalarProperty Name="RequiredUnits" ColumnName="RequiredUnits" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompoundProductFoodInputs">
+            <EntityTypeMapping TypeName="DatabaseModel.CompoundProductFoodInput">
+              <MappingFragment StoreEntitySet="CompoundProductFoodInput">
+                <ScalarProperty Name="CompoundProductId" ColumnName="CompoundProductId" />
+                <ScalarProperty Name="FoodInputId" ColumnName="FoodInputId" />
+                <ScalarProperty Name="RequiredUnits" ColumnName="RequiredUnits" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FoodInputs">
+            <EntityTypeMapping TypeName="DatabaseModel.FoodInput">
+              <MappingFragment StoreEntitySet="FoodInput">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UnitTypeId" ColumnName="UnitTypeId" />
+                <ScalarProperty Name="UnitValue" ColumnName="UnitValue" />
+                <ScalarProperty Name="UnitCost" ColumnName="UnitCost" />
+                <ScalarProperty Name="Units" ColumnName="Units" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FoodInputComboes">
+            <EntityTypeMapping TypeName="DatabaseModel.FoodInputCombo">
+              <MappingFragment StoreEntitySet="FoodInputCombo">
+                <ScalarProperty Name="FoodInputId" ColumnName="FoodInputId" />
+                <ScalarProperty Name="ComboId" ColumnName="ComboId" />
+                <ScalarProperty Name="RequiredUnits" ColumnName="RequiredUnits" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="DatabaseModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CategoryTypeId" ColumnName="CategoryTypeId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SaleValue" ColumnName="SaleValue" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="SaleDiscount" ColumnName="SaleDiscount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SimpleProducts">
+            <EntityTypeMapping TypeName="DatabaseModel.SimpleProduct">
+              <MappingFragment StoreEntitySet="SimpleProduct">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Units" ColumnName="Units" />
+                <ScalarProperty Name="UnitCost" ColumnName="UnitCost" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SimpleProductComboes">
+            <EntityTypeMapping TypeName="DatabaseModel.SimpleProductCombo">
+              <MappingFragment StoreEntitySet="SimpleProductCombo">
+                <ScalarProperty Name="SimpleProductId" ColumnName="SimpleProductId" />
+                <ScalarProperty Name="ComboId" ColumnName="ComboId" />
+                <ScalarProperty Name="RequiredUnits" ColumnName="RequiredUnits" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UnitTypes">
+            <EntityTypeMapping TypeName="DatabaseModel.UnitType">
+              <MappingFragment StoreEntitySet="UnitType">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

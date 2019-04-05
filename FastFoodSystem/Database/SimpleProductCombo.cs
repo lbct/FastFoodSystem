@@ -12,10 +12,13 @@ namespace FastFoodSystem.Database
     using System;
     using System.Collections.Generic;
     
-    public partial class Table
+    public partial class SimpleProductCombo
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Type { get; set; }
+        public int SimpleProductId { get; set; }
+        public int ComboId { get; set; }
+        public int RequiredUnits { get; set; }
+    
+        public virtual Combo Combo { get; set; }
+        public virtual SimpleProduct SimpleProduct { get; set; }
     }
 }

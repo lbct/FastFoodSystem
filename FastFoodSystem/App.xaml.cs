@@ -13,13 +13,12 @@ namespace FastFoodSystem
     /// </summary>
     public partial class App : Application
     {
-        public static DatabaseEntities databaseEntities { get; private set; }
+        public static DatabaseEntities DatabaseEntities { get; private set; }
 
         public App()
         {
            this.InitializeComponent();
-            databaseEntities = new DatabaseEntities();
-            MessageBox.Show(databaseEntities.Database.Connection.State.ToString());
+            DatabaseEntities = new DatabaseEntities();
         }
     }
 }

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="acb3f97ce0774dc1bb5a42d0f8b1c60a" Name="Diagram1" ZoomLevel="69">
+        <EntityTypeShape EntityType="DatabaseModel.CategoryType" Width="1.5" PointX="0.75" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.Combo" Width="1.5" PointX="5.25" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.CompoundProduct" Width="1.5" PointX="5.25" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.CompoundProductCombo" Width="1.5" PointX="7.5" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.CompoundProductFoodInput" Width="1.5" PointX="10.5" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.FoodInput" Width="1.5" PointX="5.25" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.FoodInputCombo" Width="1.5" PointX="7.5" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.Product" Width="1.5" PointX="3" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.SimpleProduct" Width="1.5" PointX="5.25" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.SimpleProductCombo" Width="1.5" PointX="7.5" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.UnitType" Width="1.5" PointX="3" PointY="13" IsExpanded="true" />
+        <AssociationConnector Association="DatabaseModel.FK__Product__Categor__4316F928" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseModel.FK__Combo__Id__49C3F6B7" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseModel.FK__CompoundP__Combo__5CD6CB2B" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseModel.FK__FoodInput__Combo__60A75C0F" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseModel.FK__SimplePro__Combo__4D94879B" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseModel.FK__CompoundP__Compo__5812160E" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseModel.FK__CompoundP__Compo__5BE2A6F2" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseModel.FK__CompoundProd__Id__5070F446" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseModel.FK__CompoundP__FoodI__59063A47" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseModel.FK__FoodInput__FoodI__5FB337D6" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseModel.FK__FoodInput__Id__5535A963" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseModel.FK__FoodInput__UnitT__5441852A" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseModel.FK__SimpleProduc__Id__46E78A0C" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseModel.FK__SimplePro__Simpl__4CA06362" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
