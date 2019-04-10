@@ -2,16 +2,12 @@
                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                 xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
-                Title="MainWindow" Height="350" Width="525" Closing="Window_Closing">
+                xmlns:local="clr-namespace:FastFoodSystem.Scripts"
+                Title="MainWindow" MinHeight="600" MinWidth="800" WindowState="Maximized" Closed="Window_Closed" Closing="Window_Closing">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-        </Grid.RowDefinitions>
-        <telerik:RadGridView Name="table" AutoGenerateColumns="True"></telerik:RadGridView>
-        <StackPanel Grid.Row="1" Orientation="Horizontal">
-            <telerik:RadButton Content="Add Item" Name="add_item_button" Click="Add_item_button_Click"></telerik:RadButton>
-            <telerik:RadButton Content="Refresh Table" Name="refresh_button" Click="Refresh_button_Click"></telerik:RadButton>
-        </StackPanel>
+        <Image RenderOptions.BitmapScalingMode="Fant"  Source="Resources/Images/background_image.png" Stretch="Fill"></Image>
+        <local:PageContainer x:Name="container">
+
+        </local:PageContainer>
     </Grid>
 </Window>

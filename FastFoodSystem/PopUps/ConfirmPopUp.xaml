@@ -1,0 +1,40 @@
+﻿<local:SystemPopUpClass x:Class="FastFoodSystem.PopUps.ConfirmPopUp"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FastFoodSystem.Scripts"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+      mc:Ignorable="d" 
+      Width="400" Height="200">
+    <Border Background="WhiteSmoke" CornerRadius="10">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+                <ColumnDefinition Width="3*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Image Margin="20" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="Fant" Source="/FastFoodSystem;component/Resources/Images/AlertIcon.png"></Image>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="55"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Content="Confirme acción" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="20"></Label>
+                <ScrollViewer Margin="20, 0" Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                    <RichTextBox IsHitTestVisible="False" Background="#FFC8C8C8">
+                        <FlowDocument Background="#FFC8C8C8">
+                            <Paragraph Name="textMessage" TextAlignment="Justify" Foreground="Black">
+
+                            </Paragraph>
+                        </FlowDocument>
+                    </RichTextBox>
+                </ScrollViewer>
+                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <telerik:RadButton MaxWidth="100" Name="okButton" IsDefault="True" Height="25" Margin="0, 10, 20, 20" Content="Aceptar" Click="okButton_Click"></telerik:RadButton>
+                    <telerik:RadButton MaxWidth="100" Name="cancelButton" Height="25" Margin="0, 10, 0, 20" Content="Cancelar" Click="cancelButton_Click"></telerik:RadButton>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Border>
+</local:SystemPopUpClass>

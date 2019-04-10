@@ -94,20 +94,43 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
+    <Compile Include="Pages\LoginPage.xaml.cs">
+      <DependentUpon>LoginPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MenuPage.xaml.cs">
+      <DependentUpon>MenuPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Scripts\UserSession.cs" />
+    <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Page Include="InputBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Compile Include="PopUps\ConfirmPopUp.xaml.cs">
+      <DependentUpon>ConfirmPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUps\CorrectPopUp.xaml.cs">
+      <DependentUpon>CorrectPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUps\ErrorPopUp.xaml.cs">
+      <DependentUpon>ErrorPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUps\LoadPopUp.xaml.cs">
+      <DependentUpon>LoadPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Scripts\BackgroundProcess.cs" />
+    <Compile Include="Scripts\PageContainer.cs" />
+    <Compile Include="Scripts\SystemPageClass.cs" />
+    <Compile Include="Scripts\SystemPopUpClass.cs" />
+    <Compile Include="Scripts\UnsafeNative.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Database\CashMovement.cs">
+      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\CategoryType.cs">
       <DependentUpon>FastFoodDBModel.tt</DependentUpon>
@@ -145,7 +168,22 @@
     <Compile Include="Database\FoodInputCombo.cs">
       <DependentUpon>FastFoodDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Database\Login.cs">
+      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Database\Product.cs">
+      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Provider.cs">
+      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Sale.cs">
+      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\SaleDetail.cs">
+      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\SaleType.cs">
       <DependentUpon>FastFoodDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\SimpleProduct.cs">
@@ -157,13 +195,37 @@
     <Compile Include="Database\UnitType.cs">
       <DependentUpon>FastFoodDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="InputBox.xaml.cs">
-      <DependentUpon>InputBox.xaml</DependentUpon>
+    <Compile Include="Database\User.cs">
+      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\LoginPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\MenuPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PopUps\ConfirmPopUp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PopUps\CorrectPopUp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PopUps\ErrorPopUp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PopUps\LoadPopUp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -218,6 +280,20 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>Database.mdf</DependentUpon>
     </Content>
+    <Resource Include="Resources\Images\NewSaleIcon.png" />
+    <Resource Include="Resources\Images\NewBuyIcon.png" />
+    <Resource Include="Resources\Images\CashRegisterIcon.png" />
+    <Resource Include="Resources\Images\ProviderIcon.png" />
+    <Resource Include="Resources\Images\UserIcon.png" />
+    <Resource Include="Resources\Images\productsIcon.png" />
+    <Resource Include="Resources\Images\WalletIcon.png" />
+    <Resource Include="Resources\Images\SaleIcon.png" />
+    <Resource Include="Resources\Images\background_image.png" />
+    <Resource Include="Resources\Images\lock.png" />
+    <Resource Include="Resources\Images\user.png" />
+    <Resource Include="Resources\Images\ErrorIcon.png" />
+    <Resource Include="Resources\Images\SuccessIcon.png" />
+    <Resource Include="Resources\Images\AlertIcon.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
@@ -234,6 +310,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

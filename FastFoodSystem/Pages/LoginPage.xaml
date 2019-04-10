@@ -1,0 +1,63 @@
+﻿<local:SystemPageClass x:Class="FastFoodSystem.Pages.LoginPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FastFoodSystem.Scripts"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="90"/>
+            </Grid.RowDefinitions>
+
+            <!--Cuerpo-->
+
+            <Border Background="WhiteSmoke" Height="300" CornerRadius="10" BorderBrush="LightGray" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="20">
+                    <Grid Margin="20,0,20,20" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <telerik:RadWatermarkTextBox Grid.Column="1" MaxWidth="420" VerticalContentAlignment="Center" MinWidth="258" Name="usernameText" Margin="0,0,0,20">
+                            <telerik:RadWatermarkTextBox.WatermarkContent>
+                                <StackPanel Orientation="Horizontal">
+                                    <Viewbox Height="15">
+                                        <Image RenderOptions.BitmapScalingMode="Fant" Source="/FastFoodSystem;component/Resources/Images/user.png"></Image>
+                                    </Viewbox>
+                                    <telerik:Label Content="Nombre de usuario"></telerik:Label>
+                                </StackPanel>
+                            </telerik:RadWatermarkTextBox.WatermarkContent>
+                        </telerik:RadWatermarkTextBox>
+                        <telerik:RadPasswordBox  Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Center" MaxWidth="450"  MinWidth="258" Name="passwordText">
+                            <telerik:RadPasswordBox.WatermarkContent>
+                                <StackPanel Orientation="Horizontal">
+                                    <Viewbox Height="15">
+                                        <Image RenderOptions.BitmapScalingMode="Fant" Source="/FastFoodSystem;component/Resources/Images/lock.png"></Image>
+                                    </Viewbox>
+                                    <telerik:Label Content="Contraseña"></telerik:Label>
+                                </StackPanel>
+                            </telerik:RadPasswordBox.WatermarkContent>
+                        </telerik:RadPasswordBox>
+                    </Grid>
+                    <telerik:RadButton Margin="20,0,20,20" Name="loginButton" Content="Iniciar Sesión" HorizontalAlignment="Right" IsDefault="True" Click="loginButton_Click"/>
+                </StackPanel>
+            </Border>
+
+
+            <!--Fin Cuerpo-->
+
+            <!--Footer-->
+            <Border Grid.Row="1" Height="90" CornerRadius="0" BorderThickness="0, 1, 0, 0" BorderBrush="LightGray" Background="#E0E0E0">
+                <Grid Margin="20">
+                    <Label Content="Versión 2.0" HorizontalAlignment="Left" Margin="20,7,7,7"/>
+                    <Label Content="Sistema de ventas" HorizontalAlignment="Center" Margin="7"/>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</local:SystemPageClass>

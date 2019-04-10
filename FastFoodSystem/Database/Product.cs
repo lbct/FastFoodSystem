@@ -14,6 +14,13 @@ namespace FastFoodSystem.Database
     
     public partial class Product
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Product()
+        {
+            this.SaleDetails = new HashSet<SaleDetail>();
+            this.Providers = new HashSet<Provider>();
+        }
+    
         public int Id { get; set; }
         public int CategoryTypeId { get; set; }
         public string Description { get; set; }
@@ -25,6 +32,10 @@ namespace FastFoodSystem.Database
         public virtual Combo Combo { get; set; }
         public virtual CompoundProduct CompoundProduct { get; set; }
         public virtual FoodInput FoodInput { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SaleDetail> SaleDetails { get; set; }
         public virtual SimpleProduct SimpleProduct { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Provider> Providers { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FastFoodSystem.Scripts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,23 +11,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace FastFoodSystem
+namespace FastFoodSystem.PopUps
 {
     /// <summary>
-    /// Lógica de interacción para InputBox.xaml
+    /// Lógica de interacción para LoadPopUp.xaml
     /// </summary>
-    public partial class InputBox : Window
+    public partial class LoadPopUp : SystemPopUpClass
     {
-        public InputBox()
+        public LoadPopUp()
         {
             InitializeComponent();
-        }
-
-        private void Confirm_button_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
         }
     }
 }

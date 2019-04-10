@@ -5,6 +5,16 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="DatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CashMovement">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LoginId" Type="bigint" Nullable="false" />
+          <Property Name="Value" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="DateTime" Type="datetime" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="250" Nullable="false" />
+        </EntityType>
         <EntityType Name="CategoryType">
           <Key>
             <PropertyRef Name="Id" />
@@ -61,6 +71,15 @@
           <Property Name="ComboId" Type="int" Nullable="false" />
           <Property Name="RequiredUnits" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="Login">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="StartDateTime" Type="datetime" Nullable="false" />
+          <Property Name="EndDateTime" Type="datetime" />
+        </EntityType>
         <EntityType Name="Product">
           <Key>
             <PropertyRef Name="Id" />
@@ -71,6 +90,52 @@
           <Property Name="SaleValue" Type="decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="ImagePath" Type="varchar" MaxLength="512" />
           <Property Name="SaleDiscount" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductProviderRelation">
+          <Key>
+            <PropertyRef Name="ProviderId" />
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProviderId" Type="int" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Provider">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="250" />
+          <Property Name="EMail" Type="nvarchar" MaxLength="250" />
+          <Property Name="Description" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="Sale">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LoginId" Type="bigint" Nullable="false" />
+          <Property Name="SaleTypeId" Type="int" Nullable="false" />
+          <Property Name="DailyId" Type="int" Nullable="false" />
+          <Property Name="DateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SaleDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SaleId" Type="bigint" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="Units" Type="int" Nullable="false" />
+          <Property Name="UnitValue" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="DiscountValue" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SaleType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="250" Nullable="false" />
         </EntityType>
         <EntityType Name="SimpleProduct">
           <Key>
@@ -94,8 +159,31 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ShortName" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="Description" Type="varchar" MaxLength="250" Nullable="false" />
         </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Admin" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__CashMovem__Login__1CBC4616">
+          <End Role="Login" Type="Self.Login" Multiplicity="1" />
+          <End Role="CashMovement" Type="Self.CashMovement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Login">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CashMovement">
+              <PropertyRef Name="LoginId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Combo__Id__49C3F6B7">
           <End Role="Product" Type="Self.Product" Multiplicity="1" />
           <End Role="Combo" Type="Self.Combo" Multiplicity="0..1" />
@@ -204,7 +292,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__FoodInput__UnitT__5441852A">
+        <Association Name="FK__FoodInput__UnitT__6FE99F9F">
           <End Role="UnitType" Type="Self.UnitType" Multiplicity="1" />
           <End Role="FoodInput" Type="Self.FoodInput" Multiplicity="*" />
           <ReferentialConstraint>
@@ -213,6 +301,18 @@
             </Principal>
             <Dependent Role="FoodInput">
               <PropertyRef Name="UnitTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Login__UserId__0D7A0286">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Login" Type="Self.Login" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Login">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -225,6 +325,78 @@
             </Principal>
             <Dependent Role="Product">
               <PropertyRef Name="CategoryTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProductPr__Produ__09A971A2">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="ProductProviderRelation" Type="Self.ProductProviderRelation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductProviderRelation">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProductPr__Provi__08B54D69">
+          <End Role="Provider" Type="Self.Provider" Multiplicity="1" />
+          <End Role="ProductProviderRelation" Type="Self.ProductProviderRelation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Provider">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductProviderRelation">
+              <PropertyRef Name="ProviderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Sale__LoginId__14270015">
+          <End Role="Login" Type="Self.Login" Multiplicity="1" />
+          <End Role="Sale" Type="Self.Sale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Login">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sale">
+              <PropertyRef Name="LoginId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Sale__SaleTypeId__151B244E">
+          <End Role="SaleType" Type="Self.SaleType" Multiplicity="1" />
+          <End Role="Sale" Type="Self.Sale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SaleType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sale">
+              <PropertyRef Name="SaleTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SaleDetai__Produ__18EBB532">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="SaleDetail" Type="Self.SaleDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SaleDetail">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SaleDetai__SaleI__17F790F9">
+          <End Role="Sale" Type="Self.Sale" Multiplicity="1" />
+          <End Role="SaleDetail" Type="Self.SaleDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sale">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SaleDetail">
+              <PropertyRef Name="SaleId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -265,6 +437,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="DatabaseModelStoreContainer">
+          <EntitySet Name="CashMovement" EntityType="Self.CashMovement" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CategoryType" EntityType="Self.CategoryType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Combo" EntityType="Self.Combo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompoundProduct" EntityType="Self.CompoundProduct" Schema="dbo" store:Type="Tables" />
@@ -272,10 +445,21 @@
           <EntitySet Name="CompoundProductFoodInput" EntityType="Self.CompoundProductFoodInput" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FoodInput" EntityType="Self.FoodInput" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FoodInputCombo" EntityType="Self.FoodInputCombo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Login" EntityType="Self.Login" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductProviderRelation" EntityType="Self.ProductProviderRelation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Provider" EntityType="Self.Provider" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sale" EntityType="Self.Sale" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SaleDetail" EntityType="Self.SaleDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SaleType" EntityType="Self.SaleType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SimpleProduct" EntityType="Self.SimpleProduct" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SimpleProductCombo" EntityType="Self.SimpleProductCombo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UnitType" EntityType="Self.UnitType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__CashMovem__Login__1CBC4616" Association="Self.FK__CashMovem__Login__1CBC4616">
+            <End Role="Login" EntitySet="Login" />
+            <End Role="CashMovement" EntitySet="CashMovement" />
+          </AssociationSet>
           <AssociationSet Name="FK__Combo__Id__49C3F6B7" Association="Self.FK__Combo__Id__49C3F6B7">
             <End Role="Product" EntitySet="Product" />
             <End Role="Combo" EntitySet="Combo" />
@@ -312,13 +496,41 @@
             <End Role="Product" EntitySet="Product" />
             <End Role="FoodInput" EntitySet="FoodInput" />
           </AssociationSet>
-          <AssociationSet Name="FK__FoodInput__UnitT__5441852A" Association="Self.FK__FoodInput__UnitT__5441852A">
+          <AssociationSet Name="FK__FoodInput__UnitT__6FE99F9F" Association="Self.FK__FoodInput__UnitT__6FE99F9F">
             <End Role="UnitType" EntitySet="UnitType" />
             <End Role="FoodInput" EntitySet="FoodInput" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Login__UserId__0D7A0286" Association="Self.FK__Login__UserId__0D7A0286">
+            <End Role="User" EntitySet="User" />
+            <End Role="Login" EntitySet="Login" />
           </AssociationSet>
           <AssociationSet Name="FK__Product__Categor__4316F928" Association="Self.FK__Product__Categor__4316F928">
             <End Role="CategoryType" EntitySet="CategoryType" />
             <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProductPr__Produ__09A971A2" Association="Self.FK__ProductPr__Produ__09A971A2">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ProductProviderRelation" EntitySet="ProductProviderRelation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProductPr__Provi__08B54D69" Association="Self.FK__ProductPr__Provi__08B54D69">
+            <End Role="Provider" EntitySet="Provider" />
+            <End Role="ProductProviderRelation" EntitySet="ProductProviderRelation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Sale__LoginId__14270015" Association="Self.FK__Sale__LoginId__14270015">
+            <End Role="Login" EntitySet="Login" />
+            <End Role="Sale" EntitySet="Sale" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Sale__SaleTypeId__151B244E" Association="Self.FK__Sale__SaleTypeId__151B244E">
+            <End Role="SaleType" EntitySet="SaleType" />
+            <End Role="Sale" EntitySet="Sale" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SaleDetai__Produ__18EBB532" Association="Self.FK__SaleDetai__Produ__18EBB532">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="SaleDetail" EntitySet="SaleDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SaleDetai__SaleI__17F790F9" Association="Self.FK__SaleDetai__SaleI__17F790F9">
+            <End Role="Sale" EntitySet="Sale" />
+            <End Role="SaleDetail" EntitySet="SaleDetail" />
           </AssociationSet>
           <AssociationSet Name="FK__SimplePro__Combo__4D94879B" Association="Self.FK__SimplePro__Combo__4D94879B">
             <End Role="Combo" EntitySet="Combo" />
@@ -338,6 +550,17 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CashMovement">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LoginId" Type="Int64" Nullable="false" />
+          <Property Name="Value" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Login" Relationship="Self.FK__CashMovem__Login__1CBC4616" FromRole="CashMovement" ToRole="Login" />
+        </EntityType>
         <EntityType Name="CategoryType">
           <Key>
             <PropertyRef Name="Id" />
@@ -399,7 +622,7 @@
           <NavigationProperty Name="CompoundProductFoodInputs" Relationship="Self.FK__CompoundP__FoodI__59063A47" FromRole="FoodInput" ToRole="CompoundProductFoodInput" />
           <NavigationProperty Name="FoodInputComboes" Relationship="Self.FK__FoodInput__FoodI__5FB337D6" FromRole="FoodInput" ToRole="FoodInputCombo" />
           <NavigationProperty Name="Product" Relationship="Self.FK__FoodInput__Id__5535A963" FromRole="FoodInput" ToRole="Product" />
-          <NavigationProperty Name="UnitType" Relationship="Self.FK__FoodInput__UnitT__5441852A" FromRole="FoodInput" ToRole="UnitType" />
+          <NavigationProperty Name="UnitType" Relationship="Self.FK__FoodInput__UnitT__6FE99F9F" FromRole="FoodInput" ToRole="UnitType" />
         </EntityType>
         <EntityType Name="FoodInputCombo">
           <Key>
@@ -411,6 +634,18 @@
           <Property Name="RequiredUnits" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Combo" Relationship="Self.FK__FoodInput__Combo__60A75C0F" FromRole="FoodInputCombo" ToRole="Combo" />
           <NavigationProperty Name="FoodInput" Relationship="Self.FK__FoodInput__FoodI__5FB337D6" FromRole="FoodInputCombo" ToRole="FoodInput" />
+        </EntityType>
+        <EntityType Name="Login">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="StartDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndDateTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="CashMovements" Relationship="Self.FK__CashMovem__Login__1CBC4616" FromRole="Login" ToRole="CashMovement" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Login__UserId__0D7A0286" FromRole="Login" ToRole="User" />
+          <NavigationProperty Name="Sales" Relationship="Self.FK__Sale__LoginId__14270015" FromRole="Login" ToRole="Sale" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -426,7 +661,54 @@
           <NavigationProperty Name="Combo" Relationship="Self.FK__Combo__Id__49C3F6B7" FromRole="Product" ToRole="Combo" />
           <NavigationProperty Name="CompoundProduct" Relationship="Self.FK__CompoundProd__Id__5070F446" FromRole="Product" ToRole="CompoundProduct" />
           <NavigationProperty Name="FoodInput" Relationship="Self.FK__FoodInput__Id__5535A963" FromRole="Product" ToRole="FoodInput" />
+          <NavigationProperty Name="SaleDetails" Relationship="Self.FK__SaleDetai__Produ__18EBB532" FromRole="Product" ToRole="SaleDetail" />
           <NavigationProperty Name="SimpleProduct" Relationship="Self.FK__SimpleProduc__Id__46E78A0C" FromRole="Product" ToRole="SimpleProduct" />
+          <NavigationProperty Name="Providers" Relationship="Self.ProductProviderRelation" FromRole="Product" ToRole="Provider" />
+        </EntityType>
+        <EntityType Name="Provider">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="EMail" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Products" Relationship="Self.ProductProviderRelation" FromRole="Provider" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Sale">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LoginId" Type="Int64" Nullable="false" />
+          <Property Name="SaleTypeId" Type="Int32" Nullable="false" />
+          <Property Name="DailyId" Type="Int32" Nullable="false" />
+          <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Login" Relationship="Self.FK__Sale__LoginId__14270015" FromRole="Sale" ToRole="Login" />
+          <NavigationProperty Name="SaleType" Relationship="Self.FK__Sale__SaleTypeId__151B244E" FromRole="Sale" ToRole="SaleType" />
+          <NavigationProperty Name="SaleDetails" Relationship="Self.FK__SaleDetai__SaleI__17F790F9" FromRole="Sale" ToRole="SaleDetail" />
+        </EntityType>
+        <EntityType Name="SaleDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SaleId" Type="Int64" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="Units" Type="Int32" Nullable="false" />
+          <Property Name="UnitValue" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="DiscountValue" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="Self.FK__SaleDetai__Produ__18EBB532" FromRole="SaleDetail" ToRole="Product" />
+          <NavigationProperty Name="Sale" Relationship="Self.FK__SaleDetai__SaleI__17F790F9" FromRole="SaleDetail" ToRole="Sale" />
+        </EntityType>
+        <EntityType Name="SaleType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Sales" Relationship="Self.FK__Sale__SaleTypeId__151B244E" FromRole="SaleType" ToRole="Sale" />
         </EntityType>
         <EntityType Name="SimpleProduct">
           <Key>
@@ -454,9 +736,33 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ShortName" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="FoodInputs" Relationship="Self.FK__FoodInput__UnitT__5441852A" FromRole="UnitType" ToRole="FoodInput" />
+          <NavigationProperty Name="FoodInputs" Relationship="Self.FK__FoodInput__UnitT__6FE99F9F" FromRole="UnitType" ToRole="FoodInput" />
         </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FullName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Admin" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Logins" Relationship="Self.FK__Login__UserId__0D7A0286" FromRole="User" ToRole="Login" />
+        </EntityType>
+        <Association Name="FK__CashMovem__Login__1CBC4616">
+          <End Role="Login" Type="Self.Login" Multiplicity="1" />
+          <End Role="CashMovement" Type="Self.CashMovement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Login">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CashMovement">
+              <PropertyRef Name="LoginId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Product__Categor__4316F928">
           <End Role="CategoryType" Type="Self.CategoryType" Multiplicity="1" />
           <End Role="Product" Type="Self.Product" Multiplicity="*" />
@@ -589,7 +895,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__FoodInput__UnitT__5441852A">
+        <Association Name="FK__FoodInput__UnitT__6FE99F9F">
           <End Role="UnitType" Type="Self.UnitType" Multiplicity="1" />
           <End Role="FoodInput" Type="Self.FoodInput" Multiplicity="*" />
           <ReferentialConstraint>
@@ -598,6 +904,42 @@
             </Principal>
             <Dependent Role="FoodInput">
               <PropertyRef Name="UnitTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Login__UserId__0D7A0286">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Login" Type="Self.Login" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Login">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Sale__LoginId__14270015">
+          <End Role="Login" Type="Self.Login" Multiplicity="1" />
+          <End Role="Sale" Type="Self.Sale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Login">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sale">
+              <PropertyRef Name="LoginId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SaleDetai__Produ__18EBB532">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="SaleDetail" Type="Self.SaleDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SaleDetail">
+              <PropertyRef Name="ProductId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -613,6 +955,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Sale__SaleTypeId__151B244E">
+          <End Role="SaleType" Type="Self.SaleType" Multiplicity="1" />
+          <End Role="Sale" Type="Self.Sale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SaleType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sale">
+              <PropertyRef Name="SaleTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SaleDetai__SaleI__17F790F9">
+          <End Role="Sale" Type="Self.Sale" Multiplicity="1" />
+          <End Role="SaleDetail" Type="Self.SaleDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sale">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SaleDetail">
+              <PropertyRef Name="SaleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__SimplePro__Simpl__4CA06362">
           <End Role="SimpleProduct" Type="Self.SimpleProduct" Multiplicity="1" />
           <End Role="SimpleProductCombo" Type="Self.SimpleProductCombo" Multiplicity="*" />
@@ -625,7 +991,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="ProductProviderRelation">
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <End Role="Provider" Type="Self.Provider" Multiplicity="*" />
+        </Association>
         <EntityContainer Name="DatabaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CashMovements" EntityType="Self.CashMovement" />
           <EntitySet Name="CategoryTypes" EntityType="Self.CategoryType" />
           <EntitySet Name="Comboes" EntityType="Self.Combo" />
           <EntitySet Name="CompoundProducts" EntityType="Self.CompoundProduct" />
@@ -633,10 +1004,20 @@
           <EntitySet Name="CompoundProductFoodInputs" EntityType="Self.CompoundProductFoodInput" />
           <EntitySet Name="FoodInputs" EntityType="Self.FoodInput" />
           <EntitySet Name="FoodInputComboes" EntityType="Self.FoodInputCombo" />
+          <EntitySet Name="Logins" EntityType="Self.Login" />
           <EntitySet Name="Products" EntityType="Self.Product" />
+          <EntitySet Name="Providers" EntityType="Self.Provider" />
+          <EntitySet Name="Sales" EntityType="Self.Sale" />
+          <EntitySet Name="SaleDetails" EntityType="Self.SaleDetail" />
+          <EntitySet Name="SaleTypes" EntityType="Self.SaleType" />
           <EntitySet Name="SimpleProducts" EntityType="Self.SimpleProduct" />
           <EntitySet Name="SimpleProductComboes" EntityType="Self.SimpleProductCombo" />
           <EntitySet Name="UnitTypes" EntityType="Self.UnitType" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK__CashMovem__Login__1CBC4616" Association="Self.FK__CashMovem__Login__1CBC4616">
+            <End Role="Login" EntitySet="Logins" />
+            <End Role="CashMovement" EntitySet="CashMovements" />
+          </AssociationSet>
           <AssociationSet Name="FK__Product__Categor__4316F928" Association="Self.FK__Product__Categor__4316F928">
             <End Role="CategoryType" EntitySet="CategoryTypes" />
             <End Role="Product" EntitySet="Products" />
@@ -681,17 +1062,41 @@
             <End Role="Product" EntitySet="Products" />
             <End Role="FoodInput" EntitySet="FoodInputs" />
           </AssociationSet>
-          <AssociationSet Name="FK__FoodInput__UnitT__5441852A" Association="Self.FK__FoodInput__UnitT__5441852A">
+          <AssociationSet Name="FK__FoodInput__UnitT__6FE99F9F" Association="Self.FK__FoodInput__UnitT__6FE99F9F">
             <End Role="UnitType" EntitySet="UnitTypes" />
             <End Role="FoodInput" EntitySet="FoodInputs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Login__UserId__0D7A0286" Association="Self.FK__Login__UserId__0D7A0286">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Login" EntitySet="Logins" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Sale__LoginId__14270015" Association="Self.FK__Sale__LoginId__14270015">
+            <End Role="Login" EntitySet="Logins" />
+            <End Role="Sale" EntitySet="Sales" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SaleDetai__Produ__18EBB532" Association="Self.FK__SaleDetai__Produ__18EBB532">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="SaleDetail" EntitySet="SaleDetails" />
           </AssociationSet>
           <AssociationSet Name="FK__SimpleProduc__Id__46E78A0C" Association="Self.FK__SimpleProduc__Id__46E78A0C">
             <End Role="Product" EntitySet="Products" />
             <End Role="SimpleProduct" EntitySet="SimpleProducts" />
           </AssociationSet>
+          <AssociationSet Name="FK__Sale__SaleTypeId__151B244E" Association="Self.FK__Sale__SaleTypeId__151B244E">
+            <End Role="SaleType" EntitySet="SaleTypes" />
+            <End Role="Sale" EntitySet="Sales" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SaleDetai__SaleI__17F790F9" Association="Self.FK__SaleDetai__SaleI__17F790F9">
+            <End Role="Sale" EntitySet="Sales" />
+            <End Role="SaleDetail" EntitySet="SaleDetails" />
+          </AssociationSet>
           <AssociationSet Name="FK__SimplePro__Simpl__4CA06362" Association="Self.FK__SimplePro__Simpl__4CA06362">
             <End Role="SimpleProduct" EntitySet="SimpleProducts" />
             <End Role="SimpleProductCombo" EntitySet="SimpleProductComboes" />
+          </AssociationSet>
+          <AssociationSet Name="ProductProviderRelation" Association="Self.ProductProviderRelation">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Provider" EntitySet="Providers" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -700,6 +1105,17 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="DatabaseModelStoreContainer" CdmEntityContainer="DatabaseEntities">
+          <EntitySetMapping Name="CashMovements">
+            <EntityTypeMapping TypeName="DatabaseModel.CashMovement">
+              <MappingFragment StoreEntitySet="CashMovement">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="LoginId" ColumnName="LoginId" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="CategoryTypes">
             <EntityTypeMapping TypeName="DatabaseModel.CategoryType">
               <MappingFragment StoreEntitySet="CategoryType">
@@ -760,6 +1176,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Logins">
+            <EntityTypeMapping TypeName="DatabaseModel.Login">
+              <MappingFragment StoreEntitySet="Login">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="StartDateTime" ColumnName="StartDateTime" />
+                <ScalarProperty Name="EndDateTime" ColumnName="EndDateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="DatabaseModel.Product">
               <MappingFragment StoreEntitySet="Product">
@@ -769,6 +1195,48 @@
                 <ScalarProperty Name="SaleValue" ColumnName="SaleValue" />
                 <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
                 <ScalarProperty Name="SaleDiscount" ColumnName="SaleDiscount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Providers">
+            <EntityTypeMapping TypeName="DatabaseModel.Provider">
+              <MappingFragment StoreEntitySet="Provider">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="EMail" ColumnName="EMail" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sales">
+            <EntityTypeMapping TypeName="DatabaseModel.Sale">
+              <MappingFragment StoreEntitySet="Sale">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="LoginId" ColumnName="LoginId" />
+                <ScalarProperty Name="SaleTypeId" ColumnName="SaleTypeId" />
+                <ScalarProperty Name="DailyId" ColumnName="DailyId" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SaleDetails">
+            <EntityTypeMapping TypeName="DatabaseModel.SaleDetail">
+              <MappingFragment StoreEntitySet="SaleDetail">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SaleId" ColumnName="SaleId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Units" ColumnName="Units" />
+                <ScalarProperty Name="UnitValue" ColumnName="UnitValue" />
+                <ScalarProperty Name="DiscountValue" ColumnName="DiscountValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SaleTypes">
+            <EntityTypeMapping TypeName="DatabaseModel.SaleType">
+              <MappingFragment StoreEntitySet="SaleType">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -794,10 +1262,30 @@
             <EntityTypeMapping TypeName="DatabaseModel.UnitType">
               <MappingFragment StoreEntitySet="UnitType">
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="DatabaseModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Admin" ColumnName="Admin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="ProductProviderRelation" TypeName="DatabaseModel.ProductProviderRelation" StoreEntitySet="ProductProviderRelation">
+            <EndProperty Name="Product">
+              <ScalarProperty Name="Id" ColumnName="ProductId" />
+            </EndProperty>
+            <EndProperty Name="Provider">
+              <ScalarProperty Name="Id" ColumnName="ProviderId" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

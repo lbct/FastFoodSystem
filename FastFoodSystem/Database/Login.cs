@@ -12,19 +12,24 @@ namespace FastFoodSystem.Database
     using System;
     using System.Collections.Generic;
     
-    public partial class UnitType
+    public partial class Login
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public UnitType()
+        public Login()
         {
-            this.FoodInputs = new HashSet<FoodInput>();
+            this.CashMovements = new HashSet<CashMovement>();
+            this.Sales = new HashSet<Sale>();
         }
     
-        public int Id { get; set; }
-        public string ShortName { get; set; }
-        public string Description { get; set; }
+        public long Id { get; set; }
+        public int UserId { get; set; }
+        public System.DateTime StartDateTime { get; set; }
+        public Nullable<System.DateTime> EndDateTime { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FoodInput> FoodInputs { get; set; }
+        public virtual ICollection<CashMovement> CashMovements { get; set; }
+        public virtual User User { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Sale> Sales { get; set; }
     }
 }
