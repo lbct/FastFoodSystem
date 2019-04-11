@@ -12,17 +12,15 @@ namespace FastFoodSystem.Database
     using System;
     using System.Collections.Generic;
     
-    public partial class SaleDetail
+    public partial class PurchaseDetail
     {
         public long Id { get; set; }
-        public long SaleId { get; set; }
+        public long PurchaseId { get; set; }
         public int ProductId { get; set; }
         public int Units { get; set; }
         public decimal UnitValue { get; set; }
-        public decimal UnitCost { get; set; }
-        public decimal DiscountValue { get; set; }
     
         public virtual Product Product { get; set; }
-        public virtual Sale Sale { get; set; }
+        public virtual Purchase Purchase { get; set; }
     }
 }

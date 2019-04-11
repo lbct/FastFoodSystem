@@ -10,16 +10,16 @@ namespace FastFoodSystem.Scripts
 {
     public static class UserSession
     {
-        public static Login CurrentLogin { get; private set; }
+        public static long LoginID { get; private set; }
 
         public async static Task Logout()
         {
             await App.RunAsync(() => 
             {
-                CurrentLogin.EndDateTime = DateTime.Now;
+                var currentLog = App.Database.Logins.FirstOrDefault(log => log.Id == LoginID);
+                currentLog.EndDateTime = DateTime.Now;
                 App.Database.SaveChanges();
             });
-            CurrentLogin = null;
         }
 
         public static async Task<bool> Login(string username, string password)
@@ -44,19 +44,21 @@ namespace FastFoodSystem.Scripts
                                    
                     });
                     if (lastLogin != null && lastLogin.EndDateTime == null)
-                        CurrentLogin = lastLogin;
+                        LoginID = lastLogin.Id;
                     else
                     {
-                        CurrentLogin = new Login()
+                        var currentLogin = new Login()
                         {
                             StartDateTime = DateTime.Now,
                             UserId = user.Id
                         };
-                        login = await App.RunAsync(() => 
+                        login = await App.RunAsync(() =>
                         {
-                            App.Database.Logins.Add(CurrentLogin);
+                            App.Database.Logins.Add(currentLogin);
                             App.Database.SaveChanges();
                         });
+                        if (login)
+                            LoginID = currentLogin.Id;
                     }
                 }
             }

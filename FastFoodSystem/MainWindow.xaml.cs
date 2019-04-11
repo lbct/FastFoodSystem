@@ -83,7 +83,7 @@ namespace FastFoodSystem
                 App.OpenSystemPopUp<ConfirmPopUp>().Init("¿Cerrar sesión?", async () =>
                 {
                     await UserSession.Logout();
-                    App.OpenSystemPage<LoginPage>().Init();
+                    App.OpenSystemPage<LoginPage>();
                 });
             }
         }

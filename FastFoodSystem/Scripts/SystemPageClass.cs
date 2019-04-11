@@ -9,5 +9,6 @@ namespace FastFoodSystem.Scripts
 {
     public abstract class SystemPageClass : UserControl
     {
+        public abstract void Refresh();
     }
 }

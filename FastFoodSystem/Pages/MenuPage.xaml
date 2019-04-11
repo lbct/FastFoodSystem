@@ -21,7 +21,7 @@
             <StackPanel Margin="20">
                 <Label Content="Opciones principales" Margin="0, 0, 0, 10" FontSize="20"></Label>
                 <WrapPanel>
-                    <telerik:RadButton Name="sale_button" BorderThickness="0" Margin="5" Width="100" Height="80" Background="Transparent" Click="Sale_button_Click">
+                    <telerik:RadButton Padding="0" Name="sale_button" BorderThickness="0" Margin="5" Width="100" Height="100" Background="Transparent" Click="Sale_button_Click">
                         <StackPanel>
                             <Viewbox Height="45">
                                 <Image Opacity="1" RenderOptions.BitmapScalingMode="Fant" Source="/FastFoodSystem;component/Resources/Images/SaleIcon.png"></Image>
@@ -29,7 +29,7 @@
                             <telerik:Label Content="Ventas" HorizontalContentAlignment="Center"></telerik:Label>
                         </StackPanel>
                     </telerik:RadButton>
-                    <telerik:RadButton Name="purchase_button" Click="Purchase_button_Click" BorderThickness="0" Margin="5" Width="100" Height="80" Background="Transparent">
+                    <telerik:RadButton Padding="0" Name="purchase_button" Click="Purchase_button_Click" BorderThickness="0" Margin="5" Width="100" Height="100" Background="Transparent">
                         <StackPanel>
                             <Viewbox Height="45">
                                 <Image Opacity="1" RenderOptions.BitmapScalingMode="Fant" Source="/FastFoodSystem;component/Resources/Images/WalletIcon.png"></Image>
@@ -37,7 +37,7 @@
                             <telerik:Label Content="Compras" HorizontalContentAlignment="Center"></telerik:Label>
                         </StackPanel>
                     </telerik:RadButton>
-                    <telerik:RadButton Name="products_button" Margin="5" Width="100" Height="80" Click="products_button_Click" BorderThickness="0" Background="Transparent">
+                    <telerik:RadButton Padding="0" Name="products_button" Margin="5" Width="100" Height="100" Click="products_button_Click" BorderThickness="0" Background="Transparent">
                         <StackPanel>
                             <Viewbox Height="45">
                                 <Image Opacity="1" RenderOptions.BitmapScalingMode="Fant" Source="/FastFoodSystem;component/Resources/Images/productsIcon.png"></Image>
@@ -45,10 +45,7 @@
                             <telerik:Label Content="Inventario" HorizontalContentAlignment="Center"></telerik:Label>
                         </StackPanel>
                     </telerik:RadButton>
-                </WrapPanel>
-                <Label Margin="0, 10, 0, 10" FontSize="20" Content="Elementos del sistema"></Label>
-                <WrapPanel>
-                    <telerik:RadButton  Name="users_button" Click="Users_button_Click" BorderThickness="0" Width="100" Height="80" Margin="5" Background="Transparent">
+                    <telerik:RadButton Padding="0"  Name="users_button" Click="Users_button_Click" BorderThickness="0" Width="100" Height="100" Margin="5" Background="Transparent">
                         <StackPanel>
                             <Viewbox Height="45">
                                 <Image Opacity="1" RenderOptions.BitmapScalingMode="Fant" Source="/FastFoodSystem;component/Resources/Images/UserIcon.png"></Image>
@@ -56,7 +53,7 @@
                             <telerik:Label Content="Usuarios" HorizontalContentAlignment="Center"></telerik:Label>
                         </StackPanel>
                     </telerik:RadButton>
-                    <telerik:RadButton Name="providers_button" BorderThickness="0" Width="100" Height="80" Margin="5" Background="Transparent" Click="Providers_button_Click">
+                    <telerik:RadButton Padding="0" Name="providers_button" BorderThickness="0" Width="100" Height="100" Margin="5" Background="Transparent" Click="Providers_button_Click">
                         <StackPanel>
                             <Viewbox Height="45">
                                 <Image Opacity="1" RenderOptions.BitmapScalingMode="Fant" Source="/FastFoodSystem;component/Resources/Images/ProviderIcon.png"></Image>

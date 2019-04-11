@@ -16,11 +16,11 @@
             <Image Margin="20" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="Fant" Source="/FastFoodSystem;component/Resources/Images/AlertIcon.png"></Image>
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="50"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition></RowDefinition>
-                    <RowDefinition Height="55"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
-                <Label Content="Confirme acción" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="20"></Label>
+                <Label Content="Confirme acción" Margin="10, 10, 10, 0" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="20"></Label>
                 <ScrollViewer Margin="20, 0" Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                     <RichTextBox IsHitTestVisible="False" Background="#FFC8C8C8">
                         <FlowDocument Background="#FFC8C8C8">
@@ -31,8 +31,8 @@
                     </RichTextBox>
                 </ScrollViewer>
                 <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <telerik:RadButton MaxWidth="100" Name="okButton" IsDefault="True" Height="25" Margin="0, 10, 20, 20" Content="Aceptar" Click="okButton_Click"></telerik:RadButton>
-                    <telerik:RadButton MaxWidth="100" Name="cancelButton" Height="25" Margin="0, 10, 0, 20" Content="Cancelar" Click="cancelButton_Click"></telerik:RadButton>
+                    <telerik:RadButton MaxWidth="100" Name="okButton" IsDefault="True" Margin="0, 10, 20, 20" Content="Aceptar" Click="okButton_Click"></telerik:RadButton>
+                    <telerik:RadButton MaxWidth="100" Name="cancelButton" Margin="0, 10, 0, 20" Content="Cancelar" Click="cancelButton_Click"></telerik:RadButton>
                 </StackPanel>
             </Grid>
         </Grid>

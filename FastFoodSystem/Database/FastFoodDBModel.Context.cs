@@ -36,6 +36,8 @@ namespace FastFoodSystem.Database
         public virtual DbSet<Login> Logins { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Provider> Providers { get; set; }
+        public virtual DbSet<Purchase> Purchases { get; set; }
+        public virtual DbSet<PurchaseDetail> PurchaseDetails { get; set; }
         public virtual DbSet<Sale> Sales { get; set; }
         public virtual DbSet<SaleDetail> SaleDetails { get; set; }
         public virtual DbSet<SaleType> SaleTypes { get; set; }
@@ -43,5 +45,6 @@ namespace FastFoodSystem.Database
         public virtual DbSet<SimpleProductCombo> SimpleProductComboes { get; set; }
         public virtual DbSet<UnitType> UnitTypes { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<ProductView> ProductViews { get; set; }
     }
 }

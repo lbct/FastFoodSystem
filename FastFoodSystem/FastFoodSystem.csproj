@@ -73,12 +73,20 @@
       <HintPath>..\lib\RCWPF\2019.1.220.45.NoXaml\Telerik.Windows.Controls.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Telerik.Windows.Controls.Data, Version=2019.1.220.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2019.1.220.45.NoXaml\Telerik.Windows.Controls.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Telerik.Windows.Controls.GridView, Version=2019.1.220.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
       <HintPath>..\lib\RCWPF\2019.1.220.45.NoXaml\Telerik.Windows.Controls.GridView.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Telerik.Windows.Controls.Input, Version=2019.1.220.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
       <HintPath>..\lib\RCWPF\2019.1.220.45.NoXaml\Telerik.Windows.Controls.Input.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Navigation, Version=2019.1.220.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2019.1.220.45.NoXaml\Telerik.Windows.Controls.Navigation.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Telerik.Windows.Data, Version=2019.1.220.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
@@ -94,41 +102,6 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Pages\LoginPage.xaml.cs">
-      <DependentUpon>LoginPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\MenuPage.xaml.cs">
-      <DependentUpon>MenuPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Scripts\UserSession.cs" />
-    <Page Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="PopUps\ConfirmPopUp.xaml.cs">
-      <DependentUpon>ConfirmPopUp.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PopUps\CorrectPopUp.xaml.cs">
-      <DependentUpon>CorrectPopUp.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PopUps\ErrorPopUp.xaml.cs">
-      <DependentUpon>ErrorPopUp.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PopUps\LoadPopUp.xaml.cs">
-      <DependentUpon>LoadPopUp.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Scripts\BackgroundProcess.cs" />
-    <Compile Include="Scripts\PageContainer.cs" />
-    <Compile Include="Scripts\SystemPageClass.cs" />
-    <Compile Include="Scripts\SystemPopUpClass.cs" />
-    <Compile Include="Scripts\UnsafeNative.cs" />
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Database\CashMovement.cs">
       <DependentUpon>FastFoodDBModel.tt</DependentUpon>
     </Compile>
@@ -174,7 +147,16 @@
     <Compile Include="Database\Product.cs">
       <DependentUpon>FastFoodDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Database\ProductView.cs">
+      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Database\Provider.cs">
+      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Purchase.cs">
+      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\PurchaseDetail.cs">
       <DependentUpon>FastFoodDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\Sale.cs">
@@ -198,6 +180,44 @@
     <Compile Include="Database\User.cs">
       <DependentUpon>FastFoodDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Pages\LoginPage.xaml.cs">
+      <DependentUpon>LoginPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MenuPage.xaml.cs">
+      <DependentUpon>MenuPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ProductsPage.xaml.cs">
+      <DependentUpon>ProductsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Scripts\UserSession.cs" />
+    <Page Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="PopUps\ConfirmPopUp.xaml.cs">
+      <DependentUpon>ConfirmPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUps\CorrectPopUp.xaml.cs">
+      <DependentUpon>CorrectPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUps\ErrorPopUp.xaml.cs">
+      <DependentUpon>ErrorPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUps\LoadPopUp.xaml.cs">
+      <DependentUpon>LoadPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Scripts\BackgroundProcess.cs" />
+    <Compile Include="Scripts\PageContainer.cs" />
+    <Compile Include="Scripts\SystemPageClass.cs" />
+    <Compile Include="Scripts\SystemPopUpClass.cs" />
+    <Compile Include="Scripts\UnsafeNative.cs" />
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -207,6 +227,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\MenuPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\ProductsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -223,6 +247,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="PopUps\LoadPopUp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Estilos.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -280,6 +308,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>Database.mdf</DependentUpon>
     </Content>
+    <Resource Include="Resources\Images\excel.png" />
     <Resource Include="Resources\Images\NewSaleIcon.png" />
     <Resource Include="Resources\Images\NewBuyIcon.png" />
     <Resource Include="Resources\Images\CashRegisterIcon.png" />

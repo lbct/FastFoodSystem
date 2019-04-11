@@ -117,6 +117,7 @@ namespace FastFoodSystem
         {
             var page = GetSystemPage<T>();
             MainWin.container.SetPage(page);
+            page.Refresh();
             return page;
         }
 

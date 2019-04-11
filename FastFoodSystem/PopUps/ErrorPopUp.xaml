@@ -18,9 +18,9 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50"></RowDefinition>
                     <RowDefinition></RowDefinition>
-                    <RowDefinition Height="55"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
-                <Label Content="Error" Foreground="Black"  VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="20"></Label>
+                <Label Content="Error" Foreground="Black" Margin="10, 10, 10, 0" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="20"></Label>
                 <ScrollViewer Margin="20, 0" Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                     <RichTextBox IsHitTestVisible="False" Background="#FFC8C8C8">
                         <FlowDocument Background="#FFC8C8C8">

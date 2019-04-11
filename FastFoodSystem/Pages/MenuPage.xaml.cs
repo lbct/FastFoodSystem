@@ -28,8 +28,13 @@ namespace FastFoodSystem.Pages
             InitializeComponent();
         }
 
+        public override void Refresh()
+        {
+        }
+
         private void products_button_Click(object sender, RoutedEventArgs e)
         {
+            App.OpenSystemPage<ProductsPage>();
         }
 
         private void Providers_button_Click(object sender, RoutedEventArgs e)

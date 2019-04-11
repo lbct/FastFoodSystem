@@ -32,7 +32,7 @@ namespace FastFoodSystem.Pages
             }), DispatcherPriority.ApplicationIdle);
         }
 
-        public void Init()
+        public override void Refresh()
         {
             usernameText.Text = "";
             passwordText.Password = "";
