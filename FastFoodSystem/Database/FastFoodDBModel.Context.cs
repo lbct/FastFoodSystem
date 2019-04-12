@@ -12,7 +12,9 @@ namespace FastFoodSystem.Database
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    
+    using System.Data.SqlClient;
+    using System.Linq;
+
     public partial class DatabaseEntities : DbContext
     {
         public DatabaseEntities()
@@ -46,5 +48,29 @@ namespace FastFoodSystem.Database
         public virtual DbSet<UnitType> UnitTypes { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<ProductView> ProductViews { get; set; }
+
+        public decimal GetProductCost(int productId)
+        {
+            return this.Database.SqlQuery<decimal>(
+                "SELECT dbo.GetProductCost(@someParameter)",
+                new SqlParameter("someParameter", productId)
+                ).First();
+        }
+
+        public int GetProductUnits(int productId)
+        {
+            return this.Database.SqlQuery<int>(
+                "SELECT dbo.GetProductUnits(@someParameter)",
+                new SqlParameter("someParameter", productId)
+                ).First();
+        }
+
+        public string GetProductType(int productId)
+        {
+            return this.Database.SqlQuery<string>(
+                "SELECT dbo.GetProductType(@someParameter)",
+                new SqlParameter("someParameter", productId)
+                ).First();
+        }
     }
 }

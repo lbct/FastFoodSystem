@@ -56,6 +56,14 @@ namespace FastFoodSystem.Scripts
                 second.Visibility = System.Windows.Visibility.Visible;
         }
 
+        public bool IsPopUpOpen
+        {
+            get
+            {
+                return second.Visibility == System.Windows.Visibility.Visible;
+            }
+        }
+
         public void HidePopUp()
         {
             if (currentPage != null)

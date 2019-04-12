@@ -1,0 +1,77 @@
+﻿<local:SystemPopUpClass x:Class="FastFoodSystem.PopUps.NewFoodInputPopUp"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:local="clr-namespace:FastFoodSystem.Scripts"
+             xmlns:controls="clr-namespace:FastFoodSystem.Controls"
+             mc:Ignorable="d" 
+             Height="500" Width="650">
+    <Border Background="WhiteSmoke" CornerRadius="10" BorderThickness="5" BorderBrush="#ffab40">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Label Name="title" Content="Nuevo Insumo" FontSize="20" Margin="10, 10, 10, 0" FontWeight="Bold" HorizontalAlignment="Center"></Label>
+            <ScrollViewer Grid.Row="1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Margin="20, 20, 10, 20">
+                        <Label Content="Imagen:"></Label>
+                        <controls:EditableImage x:Name="image" Height="200" Margin="0"></controls:EditableImage>
+                        <Label Margin="0, 20, 0, 0" Content="Descripción:"></Label>
+                        <telerik:RadWatermarkTextBox Name="description_text"></telerik:RadWatermarkTextBox>
+                        <Label Content="Categoría:" Margin="0, 20, 0, 0"></Label>
+                        <telerik:RadAutoCompleteBox TextSearchMode="Contains" TextSearchPath="Description" SelectionMode="Single" Name="category_search_bar"></telerik:RadAutoCompleteBox>
+                        <Label Content="Descuento en Venta:" Margin="0, 20, 0, 0"></Label>
+                        <telerik:RadNumericUpDown Name="discount_value" CustomUnit="%" NumberDecimalDigits="0" HideTrailingZeros="True" Minimum="0" Maximum="100" Value="0"></telerik:RadNumericUpDown>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Margin="10, 20, 20, 20">
+                        <Label Content="Unidad de Medida:"></Label>
+                        <telerik:RadComboBox TextSearchMode="Contains" DisplayMemberPath="Description" Name="unit_type_combo_box" SelectionChanged="Unit_type_combo_box_SelectionChanged"></telerik:RadComboBox>
+                        <Label Content="Valor Unitario:" Margin="0, 20, 0, 0"></Label>
+                        <telerik:RadNumericUpDown Name="unit_value" Value="1" Minimum="1" NumberDecimalDigits="0" HideTrailingZeros="True" CustomUnit="Unid" ValueChanged="Unit_value_ValueChanged"></telerik:RadNumericUpDown>
+                        <Label Content="Costo por Valor Unitario:" Margin="0, 20, 0, 0"></Label>
+                        <telerik:RadNumericUpDown Name="unit_cost_value" CustomUnit="Bs" NumberDecimalDigits="2" HideTrailingZeros="True" Minimum="0" Value="0"></telerik:RadNumericUpDown>
+                        <Label Content="Precio de Venta Unitario:" Margin="0, 20, 0, 0"></Label>
+                        <telerik:RadNumericUpDown Name="sale_value" CustomUnit="Bs" NumberDecimalDigits="2" HideTrailingZeros="True" Minimum="0" Value="0"></telerik:RadNumericUpDown>
+                        <Label Content="Unidades Actuales:" Margin="0, 20, 0, 0"></Label>
+                        <telerik:RadNumericUpDown Name="total_units_value" Value="1" Minimum="1" NumberDecimalDigits="0" HideTrailingZeros="True" CustomUnit="Unid" ValueChanged="Total_units_value_ValueChanged"></telerik:RadNumericUpDown>
+                    </StackPanel>
+                </Grid>
+            </ScrollViewer>
+            <StackPanel Grid.Row="2" Margin="20" Orientation="Horizontal" HorizontalAlignment="Center">
+                <telerik:RadButton Margin="10" Name="save_button" Click="Save_button_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Viewbox Height="15" Margin="0, 0, 5, 0">
+                            <Path Fill="Black" Style="{StaticResource iconoChek}"></Path>
+                        </Viewbox>
+                        <TextBlock Text="Guardar" VerticalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </telerik:RadButton>
+                <telerik:RadButton Margin="10" Name="cancel_button" Click="Cancel_button_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Viewbox Height="15" Margin="0, 0, 5, 0">
+                            <Path Fill="Black" Style="{StaticResource iconoCerrar}"></Path>
+                        </Viewbox>
+                        <TextBlock Text="Cancelar" VerticalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </telerik:RadButton>
+                <telerik:RadButton Visibility="Collapsed" Margin="10" Name="delete_button" Click="Delete_button_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Viewbox Height="15" Margin="0, 0, 5, 0">
+                            <Path Fill="Black" Style="{StaticResource iconoEliminar}"></Path>
+                        </Viewbox>
+                        <TextBlock Text="Eliminar" VerticalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </telerik:RadButton>
+            </StackPanel>
+        </Grid>
+    </Border>
+</local:SystemPopUpClass>

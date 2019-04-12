@@ -90,6 +90,7 @@
           <Property Name="SaleValue" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="ImagePath" Type="varchar" MaxLength="512" />
           <Property Name="SaleDiscount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Hide" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="ProductProviderRelation">
           <Key>
@@ -511,15 +512,6 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="GetProductCost" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
-          <Parameter Name="ProductId" Type="int" Mode="In" />
-        </Function>
-        <Function Name="GetProductType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="nvarchar">
-          <Parameter Name="ProductId" Type="int" Mode="In" />
-        </Function>
-        <Function Name="GetProductUnits" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
-          <Parameter Name="ProductId" Type="int" Mode="In" />
-        </Function>
         <EntityContainer Name="DatabaseModelStoreContainer">
           <EntitySet Name="CashMovement" EntityType="Self.CashMovement" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CategoryType" EntityType="Self.CategoryType" Schema="dbo" store:Type="Tables" />
@@ -769,6 +761,7 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
           <Property Name="SaleValue" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="ImagePath" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
           <Property Name="SaleDiscount" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Hide" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="CategoryType" Relationship="Self.FK__Product__Categor__57DD0BE4" FromRole="Product" ToRole="CategoryType" />
           <NavigationProperty Name="Combo" Relationship="Self.FK__Combo__Id__55009F39" FromRole="Product" ToRole="Combo" />
           <NavigationProperty Name="CompoundProduct" Relationship="Self.FK__CompoundProd__Id__55F4C372" FromRole="Product" ToRole="CompoundProduct" />
@@ -1400,6 +1393,7 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
                 <ScalarProperty Name="SaleValue" ColumnName="SaleValue" />
                 <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
                 <ScalarProperty Name="SaleDiscount" ColumnName="SaleDiscount" />
+                <ScalarProperty Name="Hide" ColumnName="Hide" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

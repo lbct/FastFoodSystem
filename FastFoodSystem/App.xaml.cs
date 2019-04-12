@@ -142,9 +142,25 @@ namespace FastFoodSystem
             return page;
         }
 
+        public static void OpenSystemPopUp(SystemPopUpClass pop)
+        {
+            MainWin.container.SetPopUp(pop);
+            MainWin.container.ShowPopUp();
+        }
+
         public static SystemPageClass GetCurrentPage()
         {
             return MainWin.container.GetPage<SystemPageClass>();
+        }
+
+        public static SystemPopUpClass GetCurrentPopUp()
+        {
+            return MainWin.container.GetPopUp<SystemPopUpClass>();
+        }
+
+        public static bool IsPopUpOpen()
+        {
+            return MainWin.container.IsPopUpOpen;
         }
 
         public static T GetSystemPopUp<T>() where T : SystemPopUpClass

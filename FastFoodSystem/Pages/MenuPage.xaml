@@ -17,7 +17,7 @@
         <Border Background="#E0E0E0">
             <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="Menú principal" FontSize="15" Foreground="Black"></Label>
         </Border>
-        <Border Width="400" Height="350" Background="WhiteSmoke" Grid.Row="1" BorderThickness="1" BorderBrush="LightGray" CornerRadius="10">
+        <Border Width="400" Height="350" Background="WhiteSmoke" Grid.Row="1" BorderThickness="5" BorderBrush="#ffab40" CornerRadius="10">
             <StackPanel Margin="20">
                 <Label Content="Opciones principales" Margin="0, 0, 0, 10" FontSize="20"></Label>
                 <WrapPanel>

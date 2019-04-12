@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="98aec93b8a164b90b83bf6fde0ba01ef" Name="Diagram1">
+      <Diagram DiagramId="c3c6c174ea714b61a97fbf612a4f2376" Name="Diagram1">
         <EntityTypeShape EntityType="DatabaseModel.CashMovement" Width="1.5" PointX="8" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="DatabaseModel.CategoryType" Width="1.5" PointX="0.75" PointY="14.25" IsExpanded="true" />
         <EntityTypeShape EntityType="DatabaseModel.Combo" Width="1.5" PointX="5.25" PointY="10" IsExpanded="true" />
@@ -14,7 +14,7 @@
         <EntityTypeShape EntityType="DatabaseModel.FoodInput" Width="1.5" PointX="10.25" PointY="13.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DatabaseModel.FoodInputCombo" Width="1.5" PointX="7.5" PointY="8" IsExpanded="true" />
         <EntityTypeShape EntityType="DatabaseModel.Login" Width="1.5" PointX="5.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Product" Width="1.5" PointX="3" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.Product" Width="1.5" PointX="3" PointY="13.125" IsExpanded="true" />
         <EntityTypeShape EntityType="DatabaseModel.Provider" Width="1.5" PointX="5.25" PointY="18.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DatabaseModel.Purchase" Width="1.5" PointX="8" PointY="4.125" IsExpanded="true" />
         <EntityTypeShape EntityType="DatabaseModel.PurchaseDetail" Width="1.5" PointX="10.25" PointY="9.875" IsExpanded="true" />

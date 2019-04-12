@@ -50,29 +50,44 @@ namespace FastFoodSystem.Pages
             (sender as Button).Click += new RoutedEventHandler(EditData_Click);
         }
 
-        private void EditData_Click(object sender, RoutedEventArgs e)
+        private async void EditData_Click(object sender, RoutedEventArgs e)
         {
-            
+            App.ShowLoad();
+            var data = ((FrameworkElement)sender).DataContext as ProductView;
+            if((await App.RunAsync(() => App.Database.SimpleProducts.FirstOrDefault(sp => sp.Id == data.Id))) != null)
+            {
+                await App.GetSystemPopUp<NewSimpleProductPopUp>().Init(data.Id);
+                App.OpenSystemPopUp<NewSimpleProductPopUp>();
+            }
+            else if((await App.RunAsync(() => App.Database.FoodInputs.FirstOrDefault(fi => fi.Id == data.Id))) != null)
+            {
+                await App.GetSystemPopUp<NewFoodInputPopUp>().Init(data.Id);
+                App.OpenSystemPopUp<NewFoodInputPopUp>();
+            }
         }
 
         private void New_compound_button_Click(object sender, Telerik.Windows.RadRoutedEventArgs e)
         {
-
+            App.OpenSystemPopUp<NewCompoundProductPopUp>().Init();
         }
 
-        private void New_simple_button_Click(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        private async void New_simple_button_Click(object sender, Telerik.Windows.RadRoutedEventArgs e)
         {
-
+            App.ShowLoad();
+            await App.GetSystemPopUp<NewSimpleProductPopUp>().Init();
+            App.OpenSystemPopUp<NewSimpleProductPopUp>();
         }
 
-        private void New_input_button_Click(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        private async void New_input_button_Click(object sender, Telerik.Windows.RadRoutedEventArgs e)
         {
-
+            App.ShowLoad();
+            await App.GetSystemPopUp<NewFoodInputPopUp>().Init();
+            App.OpenSystemPopUp<NewFoodInputPopUp>();
         }
 
         private void New_combo_button_Click(object sender, Telerik.Windows.RadRoutedEventArgs e)
         {
-
+            App.OpenSystemPopUp<NewComboPopUp>().Init();
         }
     }
 }

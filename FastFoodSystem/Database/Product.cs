@@ -28,6 +28,7 @@ namespace FastFoodSystem.Database
         public decimal SaleValue { get; set; }
         public string ImagePath { get; set; }
         public decimal SaleDiscount { get; set; }
+        public bool Hide { get; set; }
     
         public virtual CategoryType CategoryType { get; set; }
         public virtual Combo Combo { get; set; }

@@ -1,0 +1,19 @@
+﻿<Window x:Class="FastFoodSystem.PopUps.WebCamPopUp"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+      xmlns:cam="clr-namespace:WebEye.Controls.Wpf;assembly=WebEye.Controls.Wpf.WebCameraControl"
+      Width="640" Height="480"
+      Title="WebCamPopUp" Background="Transparent" ResizeMode="NoResize" WindowStyle="None" Loaded="Window_Loaded" WindowStartupLocation="CenterOwner">
+    <Border Background="WhiteSmoke" CornerRadius="10" BorderThickness="5" BorderBrush="#ffab40">
+        <DockPanel Margin="20">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center">
+                <telerik:RadButton Content="Tomar una foto" Margin="10" Name="take_picture_button" Width="100" Click="take_picture_button_Click" IsEnabled="{Binding Path=IsCapturing, ElementName=camera}"></telerik:RadButton>
+                <telerik:RadButton Content="Cancelar" Margin="10" Width="100" Name="cancel_button" Click="cancel_button_Click"></telerik:RadButton>
+            </StackPanel>
+            <cam:WebCameraControl Name="camera"></cam:WebCameraControl>
+        </DockPanel>
+    </Border>
+</Window>

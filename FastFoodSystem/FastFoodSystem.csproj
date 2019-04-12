@@ -56,9 +56,13 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
@@ -97,11 +101,23 @@
       <HintPath>..\lib\RCWPF\2019.1.220.45.NoXaml\Telerik.Windows.Themes.Material.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="WebEye.Controls.Wpf.WebCameraControl">
+      <HintPath>..\..\..\..\..\Desktop\WebCameraControl\bin\Debug\WebEye.Controls.Wpf.WebCameraControl.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\EditableImage.xaml.cs">
+      <DependentUpon>EditableImage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ProductLabel.xaml.cs">
+      <DependentUpon>ProductLabel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\VisualProduct.xaml.cs">
+      <DependentUpon>VisualProduct.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Database\CashMovement.cs">
       <DependentUpon>FastFoodDBModel.tt</DependentUpon>
     </Compile>
@@ -189,6 +205,28 @@
     <Compile Include="Pages\ProductsPage.xaml.cs">
       <DependentUpon>ProductsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PopUps\NewComboPopUp.xaml.cs">
+      <DependentUpon>NewComboPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUps\NewCompoundProductPopUp.xaml.cs">
+      <DependentUpon>NewCompoundProductPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUps\NewFoodInputPopUp.xaml.cs">
+      <DependentUpon>NewFoodInputPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUps\NewSimpleProductPopUp.xaml.cs">
+      <DependentUpon>NewSimpleProductPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUps\ProductPickerPopUp.xaml.cs">
+      <DependentUpon>ProductPickerPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUps\SecurityPopUp.xaml.cs">
+      <DependentUpon>SecurityPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUps\WebCamPopUp.xaml.cs">
+      <DependentUpon>WebCamPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Scripts\ImageFunctions.cs" />
     <Compile Include="Scripts\UserSession.cs" />
     <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -211,6 +249,18 @@
     <Compile Include="Scripts\SystemPageClass.cs" />
     <Compile Include="Scripts\SystemPopUpClass.cs" />
     <Compile Include="Scripts\UnsafeNative.cs" />
+    <Page Include="Controls\EditableImage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ProductLabel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\VisualProduct.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -247,6 +297,34 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="PopUps\LoadPopUp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PopUps\NewComboPopUp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PopUps\NewCompoundProductPopUp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PopUps\NewFoodInputPopUp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PopUps\NewSimpleProductPopUp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PopUps\ProductPickerPopUp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PopUps\SecurityPopUp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PopUps\WebCamPopUp.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -308,6 +386,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>Database.mdf</DependentUpon>
     </Content>
+    <Resource Include="Resources\Images\NoImage.png" />
     <Resource Include="Resources\Images\excel.png" />
     <Resource Include="Resources\Images\NewSaleIcon.png" />
     <Resource Include="Resources\Images\NewBuyIcon.png" />
