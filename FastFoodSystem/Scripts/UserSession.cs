@@ -11,6 +11,22 @@ namespace FastFoodSystem.Scripts
     public static class UserSession
     {
         public static long LoginID { get; private set; }
+        private static int dailyId = 0;
+        private static int dailyOrderId;
+        public static int DailyId
+        {
+            get
+            {
+                return ++dailyId;
+            }
+        }
+        public static int DailyOrderId
+        {
+            get
+            {
+                return ++dailyOrderId;
+            }
+        }
 
         public async static Task Logout()
         {
@@ -20,10 +36,15 @@ namespace FastFoodSystem.Scripts
                 currentLog.EndDateTime = DateTime.Now;
                 App.Database.SaveChanges();
             });
+            dailyId = 0;
         }
 
         public static async Task<bool> Login(string username, string password)
         {
+            dailyOrderId = await App.RunAsync(() => 
+            {
+                return App.Database.Orders.Count() <= 0 ? 0 : App.Database.Orders.Max(o => o.DailyId);
+            });
             bool login = false;
             using (MD5 md5Hash = MD5.Create())
             {

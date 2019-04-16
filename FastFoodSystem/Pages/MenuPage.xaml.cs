@@ -47,6 +47,7 @@ namespace FastFoodSystem.Pages
 
         private void New_sale_button_Click(object sender, RoutedEventArgs e)
         {
+            App.OpenSystemPage<NewSalePage>();
         }
 
         private void Sale_button_Click(object sender, RoutedEventArgs e)

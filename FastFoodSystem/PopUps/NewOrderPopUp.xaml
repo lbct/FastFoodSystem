@@ -1,0 +1,38 @@
+﻿<local:SystemPopUpClass x:Class="FastFoodSystem.PopUps.NewOrderPopUp"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FastFoodSystem.Scripts"
+      xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+      mc:Ignorable="d" 
+      Width="400" Height="260"
+      >
+    <Border Background="WhiteSmoke" CornerRadius="10" BorderThickness="5" BorderBrush="#ee9f23">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+                <ColumnDefinition Width="3*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Image Margin="20" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="Fant" Source="/FastFoodSystem;component/Resources/Images/CashRegisterIcon.png"></Image>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Content="Nuevo pedido" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="20"></Label>
+                <StackPanel Grid.Row="1" VerticalAlignment="Top"  Margin="20, 0">
+                    <Label Content="A Nombre De:"></Label>
+                    <telerik:RadWatermarkTextBox Name="name_text"></telerik:RadWatermarkTextBox>
+                    <Label Content="Observación:"></Label>
+                    <telerik:RadWatermarkTextBox Name="observation_text"></telerik:RadWatermarkTextBox>
+                </StackPanel>
+                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <telerik:RadButton MaxWidth="100" Name="save_button" IsDefault="True" Margin="0, 10, 20, 20" Content="Guardar" Click="Save_button_Click"></telerik:RadButton>
+                    <telerik:RadButton MaxWidth="100" Name="cancelButton" Margin="0, 10, 0, 20" Content="Cancelar" Click="CancelButton_Click"></telerik:RadButton>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Border>
+</local:SystemPopUpClass>

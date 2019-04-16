@@ -6,9 +6,9 @@
       xmlns:local="clr-namespace:FastFoodSystem.Scripts"
       xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
       mc:Ignorable="d" 
-      Width="400" Height="210"
+      Width="400" Height="215"
       >
-    <Border Background="WhiteSmoke">
+    <Border Background="WhiteSmoke" CornerRadius="10" BorderThickness="5" BorderBrush="#ee9f23">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*"></ColumnDefinition>

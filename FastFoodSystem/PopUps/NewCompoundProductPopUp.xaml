@@ -26,6 +26,15 @@
                         <StackPanel Margin="20, 20, 10, 20">
                             <Label Content="Imagen:"></Label>
                             <controls:EditableImage x:Name="image" Height="200" Margin="0"></controls:EditableImage>
+                            <Label Content="Ocultar en Ventas" Margin="0, 20, 0, 0"></Label>
+                            <telerik:RadToggleButton IsChecked="False" Name="hide_in_sales_button" Click="Hide_in_sales_button_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <Viewbox Height="20">
+                                        <Path Height="10" Style="{StaticResource iconoVer}"></Path>
+                                    </Viewbox>
+                                    <Label Margin="10, 0, 0, 0" Name="hide_in_sale_button_label" Content="Ocultar - Desactivado"></Label>
+                                </StackPanel>
+                            </telerik:RadToggleButton>
                         </StackPanel>
                         <StackPanel Grid.Column="1" Margin="10, 20, 20, 20">
                             <Label Margin="0, 20, 0, 0" Content="Descripción:"></Label>

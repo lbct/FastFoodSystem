@@ -31,7 +31,10 @@ namespace FastFoodSystem.Pages
         public override async void Refresh()
         {
             App.ShowLoad();
-            productsTable.ItemsSource = await App.RunAsync(() => App.Database.ProductViews.ToArray());
+            productsTable.ItemsSource = await App.RunAsync(() => 
+            {
+                return App.Database.GetProductView();
+            });
             App.CloseSystemPopUp();
         }
 
@@ -64,11 +67,23 @@ namespace FastFoodSystem.Pages
                 await App.GetSystemPopUp<NewFoodInputPopUp>().Init(data.Id);
                 App.OpenSystemPopUp<NewFoodInputPopUp>();
             }
+            else if ((await App.RunAsync(() => App.Database.CompoundProducts.FirstOrDefault(fi => fi.Id == data.Id))) != null)
+            {
+                await App.GetSystemPopUp<NewCompoundProductPopUp>().Init(data.Id);
+                App.OpenSystemPopUp<NewCompoundProductPopUp>();
+            }
+            else
+            {
+                await App.GetSystemPopUp<NewComboPopUp>().Init(data.Id);
+                App.OpenSystemPopUp<NewComboPopUp>();
+            }
         }
 
-        private void New_compound_button_Click(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        private async void New_compound_button_Click(object sender, Telerik.Windows.RadRoutedEventArgs e)
         {
-            App.OpenSystemPopUp<NewCompoundProductPopUp>().Init();
+            App.ShowLoad();
+            await App.GetSystemPopUp<NewCompoundProductPopUp>().Init();
+            App.OpenSystemPopUp<NewCompoundProductPopUp>();
         }
 
         private async void New_simple_button_Click(object sender, Telerik.Windows.RadRoutedEventArgs e)
@@ -85,9 +100,11 @@ namespace FastFoodSystem.Pages
             App.OpenSystemPopUp<NewFoodInputPopUp>();
         }
 
-        private void New_combo_button_Click(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        private async void New_combo_button_Click(object sender, Telerik.Windows.RadRoutedEventArgs e)
         {
-            App.OpenSystemPopUp<NewComboPopUp>().Init();
+            App.ShowLoad();
+            await App.GetSystemPopUp<NewComboPopUp>().Init();
+            App.OpenSystemPopUp<NewComboPopUp>();
         }
     }
 }

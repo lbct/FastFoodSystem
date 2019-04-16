@@ -4,9 +4,10 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="c3c6c174ea714b61a97fbf612a4f2376" Name="Diagram1">
+      <Diagram DiagramId="7ae3bfbb467c496b9cede01042446a3b" Name="Diagram1">
         <EntityTypeShape EntityType="DatabaseModel.CashMovement" Width="1.5" PointX="8" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="DatabaseModel.CategoryType" Width="1.5" PointX="0.75" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.Client" Width="1.5" PointX="5.75" PointY="32" IsExpanded="true" />
         <EntityTypeShape EntityType="DatabaseModel.Combo" Width="1.5" PointX="5.25" PointY="10" IsExpanded="true" />
         <EntityTypeShape EntityType="DatabaseModel.CompoundProduct" Width="1.5" PointX="5.25" PointY="12.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DatabaseModel.CompoundProductCombo" Width="1.5" PointX="7.5" PointY="11.25" IsExpanded="true" />
@@ -14,13 +15,14 @@
         <EntityTypeShape EntityType="DatabaseModel.FoodInput" Width="1.5" PointX="10.25" PointY="13.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DatabaseModel.FoodInputCombo" Width="1.5" PointX="7.5" PointY="8" IsExpanded="true" />
         <EntityTypeShape EntityType="DatabaseModel.Login" Width="1.5" PointX="5.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Product" Width="1.5" PointX="3" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.Order" Width="1.5" PointX="10.25" PointY="32.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.Product" Width="1.5" PointX="3" PointY="13" IsExpanded="true" />
         <EntityTypeShape EntityType="DatabaseModel.Provider" Width="1.5" PointX="5.25" PointY="18.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DatabaseModel.Purchase" Width="1.5" PointX="8" PointY="4.125" IsExpanded="true" />
         <EntityTypeShape EntityType="DatabaseModel.PurchaseDetail" Width="1.5" PointX="10.25" PointY="9.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Sale" Width="1.5" PointX="8" PointY="24.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.Sale" Width="1.5" PointX="8" PointY="32.5" IsExpanded="true" />
         <EntityTypeShape EntityType="DatabaseModel.SaleDetail" Width="1.5" PointX="10.25" PointY="17.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.SaleType" Width="1.5" PointX="5.75" PointY="25.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.SaleType" Width="1.5" PointX="5.75" PointY="34.5" IsExpanded="true" />
         <EntityTypeShape EntityType="DatabaseModel.SimpleProduct" Width="1.5" PointX="5.25" PointY="28.25" IsExpanded="true" />
         <EntityTypeShape EntityType="DatabaseModel.SimpleProductCombo" Width="1.5" PointX="7.5" PointY="19.125" IsExpanded="true" />
         <EntityTypeShape EntityType="DatabaseModel.UnitType" Width="1.5" PointX="8" PointY="22.25" IsExpanded="true" />
@@ -28,6 +30,7 @@
         <EntityTypeShape EntityType="DatabaseModel.ProductView" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <AssociationConnector Association="DatabaseModel.FK__CashMovem__Login__4D5F7D71" ManuallyRouted="false" />
         <AssociationConnector Association="DatabaseModel.FK__Product__Categor__57DD0BE4" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseModel.FK__Sale__ClientId__2334397B" ManuallyRouted="false" />
         <AssociationConnector Association="DatabaseModel.FK__Combo__Id__55009F39" ManuallyRouted="false" />
         <AssociationConnector Association="DatabaseModel.FK__CompoundP__Combo__5CD6CB2B" ManuallyRouted="false" />
         <AssociationConnector Association="DatabaseModel.FK__FoodInput__Combo__60A75C0F" ManuallyRouted="false" />
@@ -41,13 +44,14 @@
         <AssociationConnector Association="DatabaseModel.FK__FoodInput__UnitT__47A6A41B" ManuallyRouted="false" />
         <AssociationConnector Association="DatabaseModel.FK__Login__UserId__0D7A0286" ManuallyRouted="false" />
         <AssociationConnector Association="DatabaseModel.FK__Purchase__LoginI__2A164134" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.FK__Sale__LoginId__14270015" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseModel.FK__Sale__LoginId__2057CCD0" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseModel.FK__Order__SaleId__41B8C09B" ManuallyRouted="false" />
         <AssociationConnector Association="DatabaseModel.FK__PurchaseD__Produ__5CA1C101" ManuallyRouted="false" />
         <AssociationConnector Association="DatabaseModel.FK__SaleDetai__Produ__671F4F74" ManuallyRouted="false" />
         <AssociationConnector Association="DatabaseModel.FK__SimpleProduc__Id__56E8E7AB" ManuallyRouted="false" />
         <AssociationConnector Association="DatabaseModel.FK__PurchaseD__Purch__5BAD9CC8" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.FK__Sale__SaleTypeId__151B244E" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.FK__SaleDetai__SaleI__662B2B3B" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseModel.FK__Sale__SaleTypeId__214BF109" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseModel.FK__SaleDetai__SaleI__22401542" ManuallyRouted="false" />
         <AssociationConnector Association="DatabaseModel.FK__SimplePro__Simpl__42E1EEFE" ManuallyRouted="false" />
         <AssociationConnector Association="DatabaseModel.ProductProviderRelation" ManuallyRouted="false" />
       </Diagram>

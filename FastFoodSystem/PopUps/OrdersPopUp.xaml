@@ -1,0 +1,97 @@
+﻿<local:SystemPopUpClass x:Class="FastFoodSystem.PopUps.OrdersPopUp"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FastFoodSystem.Scripts"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             mc:Ignorable="d" 
+             Height="500" Width="700">
+    <Border Background="WhiteSmoke" CornerRadius="10" BorderThickness="5" BorderBrush="#ffab40">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Label Name="title" Content="Pedidos" FontSize="20" Margin="20" FontWeight="Bold" HorizontalAlignment="Center"></Label>
+            <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled">
+                <telerik:RadGridView
+                            Background="WhiteSmoke"
+                             GroupRenderMode="Flat"
+                             x:Name="orders_table"
+                             Grid.Column="1"                                                                      
+							 Grid.Row="0"							
+							 CanUserFreezeColumns="False"
+							 RowIndicatorVisibility="Collapsed"
+							 IsReadOnly="True"								
+							 AutoGenerateColumns="False"
+                             ShowColumnFooters="False"
+							 >
+                    <telerik:RadGridView.Columns>
+                        <telerik:GridViewDataColumn                         
+                                            Name="editColumn"
+                                            Header="Entregar"                                   
+                                            Width="auto"
+                                            IsResizable="False"
+                                            IsReorderable="False"
+                                            >
+                            <telerik:GridViewDataColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Name="commit_order_button" BorderThickness="0" Background="Transparent" Padding="0" Initialized="Commit_order_button_Initialized">
+                                        <Viewbox Height="15">
+                                            <Path Style="{StaticResource iconoChek}" Fill="Black"/>
+                                        </Viewbox>
+                                    </Button>
+                                </DataTemplate>
+                            </telerik:GridViewDataColumn.CellTemplate>
+                        </telerik:GridViewDataColumn>
+                        <telerik:GridViewDataColumn                         
+                                            Name="deleteColumn"
+                                            Header="Eliminar"                                   
+                                            Width="auto"
+                                            IsResizable="False"
+                                            IsReorderable="False"
+                                            >
+                            <telerik:GridViewDataColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Name="delete_order_button" BorderThickness="0" Background="Transparent" Padding="0" Initialized="Delete_order_button_Initialized">
+                                        <Viewbox Height="15">
+                                            <Path Style="{StaticResource iconoEliminar}"/>
+                                        </Viewbox>
+                                    </Button>
+                                </DataTemplate>
+                            </telerik:GridViewDataColumn.CellTemplate>
+                        </telerik:GridViewDataColumn>
+                        <telerik:GridViewDataColumn
+                                            Header="Número de Pedido"
+                                            DataMemberBinding="{Binding DailyId, StringFormat={}{0:00000}}"
+                                            Width="*">
+                            <telerik:GridViewDataColumn.AggregateFunctions>
+                                <telerik:CountFunction Caption="Recuento: "></telerik:CountFunction>
+                            </telerik:GridViewDataColumn.AggregateFunctions>
+                        </telerik:GridViewDataColumn>
+                        <telerik:GridViewDataColumn
+                                            Header="Nombre"
+                                            DataMemberBinding="{Binding OrderName}"
+                                            Width="*">
+                        </telerik:GridViewDataColumn>
+                        <telerik:GridViewDataColumn
+                                            Header="Observación"
+                                            DataMemberBinding="{Binding Observation}"
+                                            Width="*">
+                        </telerik:GridViewDataColumn>
+                    </telerik:RadGridView.Columns>
+                </telerik:RadGridView>
+            </ScrollViewer>
+            <telerik:RadButton Margin="20" Width="200" Grid.Row="2" Name="cancel_button" Click="Cancel_button_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Viewbox Height="15" Margin="0, 0, 5, 0">
+                        <Path Fill="Black" Style="{StaticResource iconoCerrar}"></Path>
+                    </Viewbox>
+                    <TextBlock Text="Cerrar" VerticalAlignment="Center"></TextBlock>
+                </StackPanel>
+            </telerik:RadButton>
+        </Grid>
+    </Border>
+</local:SystemPopUpClass>

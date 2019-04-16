@@ -12,28 +12,19 @@ namespace FastFoodSystem.Database
     using System;
     using System.Collections.Generic;
     
-    public partial class Sale
+    public partial class Client
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Sale()
+        public Client()
         {
-            this.Orders = new HashSet<Order>();
-            this.SaleDetails = new HashSet<SaleDetail>();
+            this.Sales = new HashSet<Sale>();
         }
     
-        public long Id { get; set; }
-        public long LoginId { get; set; }
-        public int SaleTypeId { get; set; }
-        public int ClientId { get; set; }
-        public int DailyId { get; set; }
-        public System.DateTime DateTime { get; set; }
+        public int Id { get; set; }
+        public string Nit { get; set; }
+        public string Name { get; set; }
     
-        public virtual Client Client { get; set; }
-        public virtual Login Login { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order> Orders { get; set; }
-        public virtual SaleType SaleType { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SaleDetail> SaleDetails { get; set; }
+        public virtual ICollection<Sale> Sales { get; set; }
     }
 }

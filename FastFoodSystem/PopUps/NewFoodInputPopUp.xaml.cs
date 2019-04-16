@@ -45,6 +45,7 @@ namespace FastFoodSystem.PopUps
             unit_value.Value = 1;
             unit_cost_value.Value = 0;
             total_units_value.Value = 0;
+            hide_in_sales_button.IsChecked = false;
 
             unit_type_combo_box.ItemsSource = await App.RunAsync(() => App.Database.UnitTypes.ToArray());
             category_search_bar.ItemsSource = await App.RunAsync(() => App.Database.CategoryTypes.ToArray());
@@ -58,6 +59,7 @@ namespace FastFoodSystem.PopUps
                 var product = await App.RunAsync(() => App.Database.Products.FirstOrDefault(p => p.Id == product_id.Value));
                 var foodInput = await App.RunAsync(() => App.Database.FoodInputs.FirstOrDefault(p => p.Id == product_id.Value));
 
+                hide_in_sales_button.IsChecked = product.HideForSales;
                 unit_type_combo_box.SelectedItem = await App.RunAsync(() => App.Database.UnitTypes.FirstOrDefault(ut => ut.Id == foodInput.UnitTypeId));
                 category_search_bar.SelectedItem = await App.RunAsync(() => App.Database.CategoryTypes.FirstOrDefault(ct => ct.Id == product.CategoryTypeId));
                 if (File.Exists(product.ImagePath))
@@ -73,6 +75,10 @@ namespace FastFoodSystem.PopUps
                 total_units_value.Value = foodInput.Units;
                 title.Content = string.Format("Producto .- {0:0000}", product.Id);
             }
+            if (hide_in_sales_button.IsChecked == true)
+                hide_in_sale_button_label.Content = "Ocultar - Activado";
+            else
+                hide_in_sale_button_label.Content = "Ocultar - Desactivado";
         }
 
         private void UpdateCustomUnits()
@@ -227,6 +233,7 @@ namespace FastFoodSystem.PopUps
                 product.Description = description;
                 product.SaleValue = saleValue;
                 product.SaleDiscount = discount;
+                product.HideForSales = hide_in_sales_button.IsChecked == true;
 
                 await App.RunAsync(() =>
                 {
@@ -275,6 +282,14 @@ namespace FastFoodSystem.PopUps
         private void Total_units_value_ValueChanged(object sender, Telerik.Windows.Controls.RadRangeBaseValueChangedEventArgs e)
         {
             UpdateCustomUnits();
+        }
+
+        private void Hide_in_sales_button_Click(object sender, RoutedEventArgs e)
+        {
+            if (hide_in_sales_button.IsChecked == true)
+                hide_in_sale_button_label.Content = "Ocultar - Activado";
+            else
+                hide_in_sale_button_label.Content = "Ocultar - Desactivado";
         }
     }
 }

@@ -22,6 +22,14 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Description" Type="varchar" MaxLength="250" Nullable="false" />
         </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nit" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
+        </EntityType>
         <EntityType Name="Combo">
           <Key>
             <PropertyRef Name="Id" />
@@ -80,6 +88,17 @@
           <Property Name="StartDateTime" Type="datetime" Nullable="false" />
           <Property Name="EndDateTime" Type="datetime" />
         </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SaleId" Type="bigint" Nullable="false" />
+          <Property Name="DailyId" Type="int" Nullable="false" />
+          <Property Name="OrderName" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Observation" Type="nvarchar" MaxLength="250" />
+          <Property Name="Committed" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Product">
           <Key>
             <PropertyRef Name="Id" />
@@ -91,6 +110,7 @@
           <Property Name="ImagePath" Type="varchar" MaxLength="512" />
           <Property Name="SaleDiscount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Hide" Type="bit" Nullable="false" />
+          <Property Name="HideForSales" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="ProductProviderRelation">
           <Key>
@@ -135,6 +155,7 @@
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="LoginId" Type="bigint" Nullable="false" />
           <Property Name="SaleTypeId" Type="int" Nullable="false" />
+          <Property Name="ClientId" Type="int" Nullable="false" />
           <Property Name="DailyId" Type="int" Nullable="false" />
           <Property Name="DateTime" Type="datetime" Nullable="false" />
         </EntityType>
@@ -356,6 +377,18 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Order__SaleId__41B8C09B">
+          <End Role="Sale" Type="Self.Sale" Multiplicity="1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sale">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="SaleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Product__Categor__57DD0BE4">
           <End Role="CategoryType" Type="Self.CategoryType" Multiplicity="1" />
           <End Role="Product" Type="Self.Product" Multiplicity="*" />
@@ -428,7 +461,19 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Sale__LoginId__14270015">
+        <Association Name="FK__Sale__ClientId__2334397B">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Sale" Type="Self.Sale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sale">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Sale__LoginId__2057CCD0">
           <End Role="Login" Type="Self.Login" Multiplicity="1" />
           <End Role="Sale" Type="Self.Sale" Multiplicity="*" />
           <ReferentialConstraint>
@@ -440,7 +485,7 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Sale__SaleTypeId__151B244E">
+        <Association Name="FK__Sale__SaleTypeId__214BF109">
           <End Role="SaleType" Type="Self.SaleType" Multiplicity="1" />
           <End Role="Sale" Type="Self.Sale" Multiplicity="*" />
           <ReferentialConstraint>
@@ -464,7 +509,7 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SaleDetai__SaleI__662B2B3B">
+        <Association Name="FK__SaleDetai__SaleI__22401542">
           <End Role="Sale" Type="Self.Sale" Multiplicity="1" />
           <End Role="SaleDetail" Type="Self.SaleDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -515,6 +560,7 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
         <EntityContainer Name="DatabaseModelStoreContainer">
           <EntitySet Name="CashMovement" EntityType="Self.CashMovement" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CategoryType" EntityType="Self.CategoryType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Combo" EntityType="Self.Combo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompoundProduct" EntityType="Self.CompoundProduct" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompoundProductCombo" EntityType="Self.CompoundProductCombo" Schema="dbo" store:Type="Tables" />
@@ -522,6 +568,7 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
           <EntitySet Name="FoodInput" EntityType="Self.FoodInput" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FoodInputCombo" EntityType="Self.FoodInputCombo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Login" EntityType="Self.Login" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductProviderRelation" EntityType="Self.ProductProviderRelation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Provider" EntityType="Self.Provider" Schema="dbo" store:Type="Tables" />
@@ -595,6 +642,10 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
             <End Role="User" EntitySet="User" />
             <End Role="Login" EntitySet="Login" />
           </AssociationSet>
+          <AssociationSet Name="FK__Order__SaleId__41B8C09B" Association="Self.FK__Order__SaleId__41B8C09B">
+            <End Role="Sale" EntitySet="Sale" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
           <AssociationSet Name="FK__Product__Categor__57DD0BE4" Association="Self.FK__Product__Categor__57DD0BE4">
             <End Role="CategoryType" EntitySet="CategoryType" />
             <End Role="Product" EntitySet="Product" />
@@ -619,11 +670,15 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
             <End Role="Purchase" EntitySet="Purchase" />
             <End Role="PurchaseDetail" EntitySet="PurchaseDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK__Sale__LoginId__14270015" Association="Self.FK__Sale__LoginId__14270015">
+          <AssociationSet Name="FK__Sale__ClientId__2334397B" Association="Self.FK__Sale__ClientId__2334397B">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Sale" EntitySet="Sale" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Sale__LoginId__2057CCD0" Association="Self.FK__Sale__LoginId__2057CCD0">
             <End Role="Login" EntitySet="Login" />
             <End Role="Sale" EntitySet="Sale" />
           </AssociationSet>
-          <AssociationSet Name="FK__Sale__SaleTypeId__151B244E" Association="Self.FK__Sale__SaleTypeId__151B244E">
+          <AssociationSet Name="FK__Sale__SaleTypeId__214BF109" Association="Self.FK__Sale__SaleTypeId__214BF109">
             <End Role="SaleType" EntitySet="SaleType" />
             <End Role="Sale" EntitySet="Sale" />
           </AssociationSet>
@@ -631,7 +686,7 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
             <End Role="Product" EntitySet="Product" />
             <End Role="SaleDetail" EntitySet="SaleDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK__SaleDetai__SaleI__662B2B3B" Association="Self.FK__SaleDetai__SaleI__662B2B3B">
+          <AssociationSet Name="FK__SaleDetai__SaleI__22401542" Association="Self.FK__SaleDetai__SaleI__22401542">
             <End Role="Sale" EntitySet="Sale" />
             <End Role="SaleDetail" EntitySet="SaleDetail" />
           </AssociationSet>
@@ -671,6 +726,15 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Products" Relationship="Self.FK__Product__Categor__57DD0BE4" FromRole="CategoryType" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nit" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Sales" Relationship="Self.FK__Sale__ClientId__2334397B" FromRole="Client" ToRole="Sale" />
         </EntityType>
         <EntityType Name="Combo">
           <Key>
@@ -749,7 +813,19 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
           <NavigationProperty Name="CashMovements" Relationship="Self.FK__CashMovem__Login__4D5F7D71" FromRole="Login" ToRole="CashMovement" />
           <NavigationProperty Name="User" Relationship="Self.FK__Login__UserId__0D7A0286" FromRole="Login" ToRole="User" />
           <NavigationProperty Name="Purchases" Relationship="Self.FK__Purchase__LoginI__2A164134" FromRole="Login" ToRole="Purchase" />
-          <NavigationProperty Name="Sales" Relationship="Self.FK__Sale__LoginId__14270015" FromRole="Login" ToRole="Sale" />
+          <NavigationProperty Name="Sales" Relationship="Self.FK__Sale__LoginId__2057CCD0" FromRole="Login" ToRole="Sale" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SaleId" Type="Int64" Nullable="false" />
+          <Property Name="DailyId" Type="Int32" Nullable="false" />
+          <Property Name="OrderName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Observation" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Committed" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Sale" Relationship="Self.FK__Order__SaleId__41B8C09B" FromRole="Order" ToRole="Sale" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -762,6 +838,7 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
           <Property Name="ImagePath" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
           <Property Name="SaleDiscount" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Hide" Type="Boolean" Nullable="false" />
+          <Property Name="HideForSales" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="CategoryType" Relationship="Self.FK__Product__Categor__57DD0BE4" FromRole="Product" ToRole="CategoryType" />
           <NavigationProperty Name="Combo" Relationship="Self.FK__Combo__Id__55009F39" FromRole="Product" ToRole="Combo" />
           <NavigationProperty Name="CompoundProduct" Relationship="Self.FK__CompoundProd__Id__55F4C372" FromRole="Product" ToRole="CompoundProduct" />
@@ -811,11 +888,14 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="LoginId" Type="Int64" Nullable="false" />
           <Property Name="SaleTypeId" Type="Int32" Nullable="false" />
+          <Property Name="ClientId" Type="Int32" Nullable="false" />
           <Property Name="DailyId" Type="Int32" Nullable="false" />
           <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Login" Relationship="Self.FK__Sale__LoginId__14270015" FromRole="Sale" ToRole="Login" />
-          <NavigationProperty Name="SaleType" Relationship="Self.FK__Sale__SaleTypeId__151B244E" FromRole="Sale" ToRole="SaleType" />
-          <NavigationProperty Name="SaleDetails" Relationship="Self.FK__SaleDetai__SaleI__662B2B3B" FromRole="Sale" ToRole="SaleDetail" />
+          <NavigationProperty Name="Client" Relationship="Self.FK__Sale__ClientId__2334397B" FromRole="Sale" ToRole="Client" />
+          <NavigationProperty Name="Login" Relationship="Self.FK__Sale__LoginId__2057CCD0" FromRole="Sale" ToRole="Login" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK__Order__SaleId__41B8C09B" FromRole="Sale" ToRole="Order" />
+          <NavigationProperty Name="SaleType" Relationship="Self.FK__Sale__SaleTypeId__214BF109" FromRole="Sale" ToRole="SaleType" />
+          <NavigationProperty Name="SaleDetails" Relationship="Self.FK__SaleDetai__SaleI__22401542" FromRole="Sale" ToRole="SaleDetail" />
         </EntityType>
         <EntityType Name="SaleDetail">
           <Key>
@@ -829,7 +909,7 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
           <Property Name="UnitCost" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="DiscountValue" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <NavigationProperty Name="Product" Relationship="Self.FK__SaleDetai__Produ__671F4F74" FromRole="SaleDetail" ToRole="Product" />
-          <NavigationProperty Name="Sale" Relationship="Self.FK__SaleDetai__SaleI__662B2B3B" FromRole="SaleDetail" ToRole="Sale" />
+          <NavigationProperty Name="Sale" Relationship="Self.FK__SaleDetai__SaleI__22401542" FromRole="SaleDetail" ToRole="Sale" />
         </EntityType>
         <EntityType Name="SaleType">
           <Key>
@@ -837,7 +917,7 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Sales" Relationship="Self.FK__Sale__SaleTypeId__151B244E" FromRole="SaleType" ToRole="Sale" />
+          <NavigationProperty Name="Sales" Relationship="Self.FK__Sale__SaleTypeId__214BF109" FromRole="SaleType" ToRole="Sale" />
         </EntityType>
         <EntityType Name="SimpleProduct">
           <Key>
@@ -919,6 +999,18 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
             </Principal>
             <Dependent Role="Product">
               <PropertyRef Name="CategoryTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Sale__ClientId__2334397B">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Sale" Type="Self.Sale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sale">
+              <PropertyRef Name="ClientId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1078,7 +1170,7 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Sale__LoginId__14270015">
+        <Association Name="FK__Sale__LoginId__2057CCD0">
           <End Role="Login" Type="Self.Login" Multiplicity="1" />
           <End Role="Sale" Type="Self.Sale" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1087,6 +1179,18 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
             </Principal>
             <Dependent Role="Sale">
               <PropertyRef Name="LoginId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Order__SaleId__41B8C09B">
+          <End Role="Sale" Type="Self.Sale" Multiplicity="1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sale">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="SaleId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1138,7 +1242,7 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Sale__SaleTypeId__151B244E">
+        <Association Name="FK__Sale__SaleTypeId__214BF109">
           <End Role="SaleType" Type="Self.SaleType" Multiplicity="1" />
           <End Role="Sale" Type="Self.Sale" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1150,7 +1254,7 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SaleDetai__SaleI__662B2B3B">
+        <Association Name="FK__SaleDetai__SaleI__22401542">
           <End Role="Sale" Type="Self.Sale" Multiplicity="1" />
           <End Role="SaleDetail" Type="Self.SaleDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1181,6 +1285,7 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
         <EntityContainer Name="DatabaseEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="CashMovements" EntityType="Self.CashMovement" />
           <EntitySet Name="CategoryTypes" EntityType="Self.CategoryType" />
+          <EntitySet Name="Clients" EntityType="Self.Client" />
           <EntitySet Name="Comboes" EntityType="Self.Combo" />
           <EntitySet Name="CompoundProducts" EntityType="Self.CompoundProduct" />
           <EntitySet Name="CompoundProductComboes" EntityType="Self.CompoundProductCombo" />
@@ -1188,6 +1293,7 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
           <EntitySet Name="FoodInputs" EntityType="Self.FoodInput" />
           <EntitySet Name="FoodInputComboes" EntityType="Self.FoodInputCombo" />
           <EntitySet Name="Logins" EntityType="Self.Login" />
+          <EntitySet Name="Orders" EntityType="Self.Order" />
           <EntitySet Name="Products" EntityType="Self.Product" />
           <EntitySet Name="Providers" EntityType="Self.Provider" />
           <EntitySet Name="Purchases" EntityType="Self.Purchase" />
@@ -1207,6 +1313,10 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
           <AssociationSet Name="FK__Product__Categor__57DD0BE4" Association="Self.FK__Product__Categor__57DD0BE4">
             <End Role="CategoryType" EntitySet="CategoryTypes" />
             <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Sale__ClientId__2334397B" Association="Self.FK__Sale__ClientId__2334397B">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="Sale" EntitySet="Sales" />
           </AssociationSet>
           <AssociationSet Name="FK__Combo__Id__55009F39" Association="Self.FK__Combo__Id__55009F39">
             <End Role="Product" EntitySet="Products" />
@@ -1260,9 +1370,13 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
             <End Role="Login" EntitySet="Logins" />
             <End Role="Purchase" EntitySet="Purchases" />
           </AssociationSet>
-          <AssociationSet Name="FK__Sale__LoginId__14270015" Association="Self.FK__Sale__LoginId__14270015">
+          <AssociationSet Name="FK__Sale__LoginId__2057CCD0" Association="Self.FK__Sale__LoginId__2057CCD0">
             <End Role="Login" EntitySet="Logins" />
             <End Role="Sale" EntitySet="Sales" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Order__SaleId__41B8C09B" Association="Self.FK__Order__SaleId__41B8C09B">
+            <End Role="Sale" EntitySet="Sales" />
+            <End Role="Order" EntitySet="Orders" />
           </AssociationSet>
           <AssociationSet Name="FK__PurchaseD__Produ__5CA1C101" Association="Self.FK__PurchaseD__Produ__5CA1C101">
             <End Role="Product" EntitySet="Products" />
@@ -1280,11 +1394,11 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
             <End Role="Purchase" EntitySet="Purchases" />
             <End Role="PurchaseDetail" EntitySet="PurchaseDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__Sale__SaleTypeId__151B244E" Association="Self.FK__Sale__SaleTypeId__151B244E">
+          <AssociationSet Name="FK__Sale__SaleTypeId__214BF109" Association="Self.FK__Sale__SaleTypeId__214BF109">
             <End Role="SaleType" EntitySet="SaleTypes" />
             <End Role="Sale" EntitySet="Sales" />
           </AssociationSet>
-          <AssociationSet Name="FK__SaleDetai__SaleI__662B2B3B" Association="Self.FK__SaleDetai__SaleI__662B2B3B">
+          <AssociationSet Name="FK__SaleDetai__SaleI__22401542" Association="Self.FK__SaleDetai__SaleI__22401542">
             <End Role="Sale" EntitySet="Sales" />
             <End Role="SaleDetail" EntitySet="SaleDetails" />
           </AssociationSet>
@@ -1319,6 +1433,15 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
               <MappingFragment StoreEntitySet="CategoryType">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="DatabaseModel.Client">
+              <MappingFragment StoreEntitySet="Client">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nit" ColumnName="Nit" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1384,6 +1507,18 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="DatabaseModel.Order">
+              <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SaleId" ColumnName="SaleId" />
+                <ScalarProperty Name="DailyId" ColumnName="DailyId" />
+                <ScalarProperty Name="OrderName" ColumnName="OrderName" />
+                <ScalarProperty Name="Observation" ColumnName="Observation" />
+                <ScalarProperty Name="Committed" ColumnName="Committed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="DatabaseModel.Product">
               <MappingFragment StoreEntitySet="Product">
@@ -1394,6 +1529,7 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
                 <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
                 <ScalarProperty Name="SaleDiscount" ColumnName="SaleDiscount" />
                 <ScalarProperty Name="Hide" ColumnName="Hide" />
+                <ScalarProperty Name="HideForSales" ColumnName="HideForSales" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1434,6 +1570,7 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="LoginId" ColumnName="LoginId" />
                 <ScalarProperty Name="SaleTypeId" ColumnName="SaleTypeId" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
                 <ScalarProperty Name="DailyId" ColumnName="DailyId" />
                 <ScalarProperty Name="DateTime" ColumnName="DateTime" />
               </MappingFragment>

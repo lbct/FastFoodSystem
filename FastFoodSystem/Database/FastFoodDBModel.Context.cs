@@ -29,6 +29,7 @@ namespace FastFoodSystem.Database
     
         public virtual DbSet<CashMovement> CashMovements { get; set; }
         public virtual DbSet<CategoryType> CategoryTypes { get; set; }
+        public virtual DbSet<Client> Clients { get; set; }
         public virtual DbSet<Combo> Comboes { get; set; }
         public virtual DbSet<CompoundProduct> CompoundProducts { get; set; }
         public virtual DbSet<CompoundProductCombo> CompoundProductComboes { get; set; }
@@ -36,6 +37,7 @@ namespace FastFoodSystem.Database
         public virtual DbSet<FoodInput> FoodInputs { get; set; }
         public virtual DbSet<FoodInputCombo> FoodInputComboes { get; set; }
         public virtual DbSet<Login> Logins { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Provider> Providers { get; set; }
         public virtual DbSet<Purchase> Purchases { get; set; }
@@ -48,6 +50,11 @@ namespace FastFoodSystem.Database
         public virtual DbSet<UnitType> UnitTypes { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<ProductView> ProductViews { get; set; }
+
+        public ProductView[] GetProductView()
+        {
+            return this.Database.SqlQuery<ProductView>("SELECT * from dbo.ProductView").ToArray();
+        }
 
         public decimal GetProductCost(int productId)
         {

@@ -45,6 +45,7 @@ namespace FastFoodSystem.PopUps
             total_units_value.Value = 0;
             title.Content = "Nuevo Producto Simple";
             delete_button.Visibility = Visibility.Collapsed;
+            hide_in_sales_button.IsChecked = false;
 
             category_search_bar.ItemsSource = await App.RunAsync(() => App.Database.CategoryTypes.ToArray());
             if(product_id != null)
@@ -52,6 +53,7 @@ namespace FastFoodSystem.PopUps
                 delete_button.Visibility = Visibility.Visible;
                 var product = await App.RunAsync(() => App.Database.Products.FirstOrDefault(p => p.Id == product_id.Value));
                 var simpleProduct = await App.RunAsync(() => App.Database.SimpleProducts.FirstOrDefault(p => p.Id == product_id.Value));
+                hide_in_sales_button.IsChecked = product.HideForSales;
                 category_search_bar.SelectedItem = await App.RunAsync(() => App.Database.CategoryTypes.FirstOrDefault(ct => ct.Id == product.CategoryTypeId));
                 if (File.Exists(product.ImagePath))
                 {
@@ -65,6 +67,10 @@ namespace FastFoodSystem.PopUps
                 total_units_value.Value = simpleProduct.Units;
                 title.Content = string.Format("Producto .- {0:0000}", product.Id);
             }
+            if (hide_in_sales_button.IsChecked == true)
+                hide_in_sale_button_label.Content = "Ocultar - Activado";
+            else
+                hide_in_sale_button_label.Content = "Ocultar - Desactivado";
         }
 
         private void Cancel_button_Click(object sender, RoutedEventArgs e)
@@ -122,6 +128,7 @@ namespace FastFoodSystem.PopUps
                 product.Description = description;
                 product.SaleValue = saleValue;
                 product.SaleDiscount = discount;
+                product.HideForSales = hide_in_sales_button.IsChecked == true;
 
                 await App.RunAsync(() =>
                 {
@@ -214,6 +221,14 @@ namespace FastFoodSystem.PopUps
                 });
                 App.OpenSystemPopUp<SecurityPopUp>();
             }
+        }
+
+        private void Hide_in_sales_button_Click(object sender, RoutedEventArgs e)
+        {
+            if (hide_in_sales_button.IsChecked == true)
+                hide_in_sale_button_label.Content = "Ocultar - Activado";
+            else
+                hide_in_sale_button_label.Content = "Ocultar - Desactivado";
         }
     }
 }

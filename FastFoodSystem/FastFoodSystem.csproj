@@ -115,6 +115,9 @@
     <Compile Include="Controls\ProductLabel.xaml.cs">
       <DependentUpon>ProductLabel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SaleDetailItem.xaml.cs">
+      <DependentUpon>SaleDetailItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\VisualProduct.xaml.cs">
       <DependentUpon>VisualProduct.xaml</DependentUpon>
     </Compile>
@@ -122,6 +125,9 @@
       <DependentUpon>FastFoodDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\CategoryType.cs">
+      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Client.cs">
       <DependentUpon>FastFoodDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\Combo.cs">
@@ -158,6 +164,9 @@
       <DependentUpon>FastFoodDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\Login.cs">
+      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Order.cs">
       <DependentUpon>FastFoodDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\Product.cs">
@@ -202,6 +211,9 @@
     <Compile Include="Pages\MenuPage.xaml.cs">
       <DependentUpon>MenuPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\NewSalePage.xaml.cs">
+      <DependentUpon>NewSalePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\ProductsPage.xaml.cs">
       <DependentUpon>ProductsPage.xaml</DependentUpon>
     </Compile>
@@ -214,11 +226,20 @@
     <Compile Include="PopUps\NewFoodInputPopUp.xaml.cs">
       <DependentUpon>NewFoodInputPopUp.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PopUps\NewOrderPopUp.xaml.cs">
+      <DependentUpon>NewOrderPopUp.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PopUps\NewSimpleProductPopUp.xaml.cs">
       <DependentUpon>NewSimpleProductPopUp.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PopUps\OrdersPopUp.xaml.cs">
+      <DependentUpon>OrdersPopUp.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PopUps\ProductPickerPopUp.xaml.cs">
       <DependentUpon>ProductPickerPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUps\RegisterSalePopUp.xaml.cs">
+      <DependentUpon>RegisterSalePopUp.xaml</DependentUpon>
     </Compile>
     <Compile Include="PopUps\SecurityPopUp.xaml.cs">
       <DependentUpon>SecurityPopUp.xaml</DependentUpon>
@@ -257,6 +278,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\SaleDetailItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\VisualProduct.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -279,6 +304,10 @@
     <Page Include="Pages\MenuPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\NewSalePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\ProductsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -312,11 +341,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="PopUps\NewOrderPopUp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PopUps\NewSimpleProductPopUp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="PopUps\OrdersPopUp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PopUps\ProductPickerPopUp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PopUps\RegisterSalePopUp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -383,9 +424,10 @@
       <LastGenOutput>FastFoodDBModel.cs</LastGenOutput>
     </Content>
     <Content Include="Database_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>Database.mdf</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\Images\MinusIcon.png" />
     <Resource Include="Resources\Images\NoImage.png" />
     <Resource Include="Resources\Images\excel.png" />
     <Resource Include="Resources\Images\NewSaleIcon.png" />

@@ -7,7 +7,7 @@
              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
              mc:Ignorable="d" 
              Height="200" Width="200">
-    <telerik:RadButton Name="button">
+    <telerik:RadButton Name="button" Padding="0" BorderBrush="Transparent" BorderThickness="1">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>

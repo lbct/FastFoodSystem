@@ -43,7 +43,7 @@ namespace FastFoodSystem.PopUps
                 var login = App.Database.Logins.FirstOrDefault(log => log.Id == UserSession.LoginID);
                 return App.Database.Users.FirstOrDefault(u => u.Id == login.UserId);
             });
-
+            user_name_text.Content = currentUser.FullName;
             if (!currentUser.Admin)
             {
                 App.CloseSystemPopUp();
