@@ -27,6 +27,7 @@ namespace FastFoodSystem.Database
         public int ClientId { get; set; }
         public int DailyId { get; set; }
         public System.DateTime DateTime { get; set; }
+        public bool Hide { get; set; }
     
         public virtual Client Client { get; set; }
         public virtual Login Login { get; set; }

@@ -19,6 +19,7 @@ namespace FastFoodSystem.Database
         public decimal Value { get; set; }
         public System.DateTime DateTime { get; set; }
         public string Description { get; set; }
+        public bool Hide { get; set; }
     
         public virtual Login Login { get; set; }
     }

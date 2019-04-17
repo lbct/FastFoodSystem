@@ -12,8 +12,9 @@ namespace FastFoodSystem.Database
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    using System.Data.SqlClient;
+    using System.Data.Entity.Core.Objects;
     using System.Linq;
+    using System.Data.SqlClient;
 
     public partial class DatabaseEntities : DbContext
     {
@@ -50,6 +51,64 @@ namespace FastFoodSystem.Database
         public virtual DbSet<UnitType> UnitTypes { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<ProductView> ProductViews { get; set; }
+    
+        [DbFunction("DatabaseEntities", "GetCashMovement")]
+        public virtual IQueryable<GetCashMovement_Result> GetCashMovement(Nullable<long> login_id)
+        {
+            var login_idParameter = login_id.HasValue ?
+                new ObjectParameter("login_id", login_id) :
+                new ObjectParameter("login_id", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetCashMovement_Result>("[DatabaseEntities].[GetCashMovement](@login_id)", login_idParameter);
+        }
+    
+        [DbFunction("DatabaseEntities", "GetPurchaseDetail")]
+        public virtual IQueryable<GetPurchaseDetail_Result> GetPurchaseDetail(Nullable<System.DateTime> start_date, Nullable<System.DateTime> end_date)
+        {
+            var start_dateParameter = start_date.HasValue ?
+                new ObjectParameter("start_date", start_date) :
+                new ObjectParameter("start_date", typeof(System.DateTime));
+    
+            var end_dateParameter = end_date.HasValue ?
+                new ObjectParameter("end_date", end_date) :
+                new ObjectParameter("end_date", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetPurchaseDetail_Result>("[DatabaseEntities].[GetPurchaseDetail](@start_date, @end_date)", start_dateParameter, end_dateParameter);
+        }
+    
+        [DbFunction("DatabaseEntities", "GetPurchaseDetailByLogin")]
+        public virtual IQueryable<GetPurchaseDetailByLogin_Result> GetPurchaseDetailByLogin(Nullable<long> login_id)
+        {
+            var login_idParameter = login_id.HasValue ?
+                new ObjectParameter("login_id", login_id) :
+                new ObjectParameter("login_id", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetPurchaseDetailByLogin_Result>("[DatabaseEntities].[GetPurchaseDetailByLogin](@login_id)", login_idParameter);
+        }
+    
+        [DbFunction("DatabaseEntities", "GetSaleDetail")]
+        public virtual IQueryable<GetSaleDetail_Result> GetSaleDetail(Nullable<System.DateTime> start_date, Nullable<System.DateTime> end_date)
+        {
+            var start_dateParameter = start_date.HasValue ?
+                new ObjectParameter("start_date", start_date) :
+                new ObjectParameter("start_date", typeof(System.DateTime));
+    
+            var end_dateParameter = end_date.HasValue ?
+                new ObjectParameter("end_date", end_date) :
+                new ObjectParameter("end_date", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetSaleDetail_Result>("[DatabaseEntities].[GetSaleDetail](@start_date, @end_date)", start_dateParameter, end_dateParameter);
+        }
+    
+        [DbFunction("DatabaseEntities", "GetSaleDetailByLogin")]
+        public virtual IQueryable<GetSaleDetailByLogin_Result> GetSaleDetailByLogin(Nullable<long> login_id)
+        {
+            var login_idParameter = login_id.HasValue ?
+                new ObjectParameter("login_id", login_id) :
+                new ObjectParameter("login_id", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetSaleDetailByLogin_Result>("[DatabaseEntities].[GetSaleDetailByLogin](@login_id)", login_idParameter);
+        }
 
         public ProductView[] GetProductView()
         {

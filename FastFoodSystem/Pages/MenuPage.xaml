@@ -10,12 +10,12 @@
       >
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <Border Background="#E0E0E0">
-            <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="Menú principal" FontSize="15" Foreground="Black"></Label>
+            <telerik:Label FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Menú principal" FontSize="20" Foreground="Black"></telerik:Label>
         </Border>
         <Border Width="400" Height="350" Background="WhiteSmoke" Grid.Row="1" BorderThickness="5" BorderBrush="#ffab40" CornerRadius="10">
             <StackPanel Margin="20">

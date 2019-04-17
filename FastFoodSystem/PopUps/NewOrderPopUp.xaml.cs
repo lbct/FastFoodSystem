@@ -38,7 +38,7 @@ namespace FastFoodSystem.PopUps
             observation_text.Text = "";
         }
 
-        private async void Save_button_Click(object sender, RoutedEventArgs e)
+        private void Save_button_Click(object sender, RoutedEventArgs e)
         {
             App.ShowLoad();
             try

@@ -37,12 +37,18 @@ namespace FastFoodSystem.Pages
             App.OpenSystemPage<ProductsPage>();
         }
 
-        private void Providers_button_Click(object sender, RoutedEventArgs e)
+        private async void Providers_button_Click(object sender, RoutedEventArgs e)
         {
+            App.ShowLoad();
+            await App.GetSystemPopUp<ProvidersPopUp>().Init();
+            App.OpenSystemPopUp<ProvidersPopUp>();
         }
 
-        private void Users_button_Click(object sender, RoutedEventArgs e)
+        private async void Users_button_Click(object sender, RoutedEventArgs e)
         {
+            App.ShowLoad();
+            await App.GetSystemPopUp<UsersPopUp>().Init();
+            App.OpenSystemPopUp<UsersPopUp>();
         }
 
         private void New_sale_button_Click(object sender, RoutedEventArgs e)
@@ -52,18 +58,24 @@ namespace FastFoodSystem.Pages
 
         private void Sale_button_Click(object sender, RoutedEventArgs e)
         {
+            App.OpenSystemPage<SalePage>();
         }
 
         private void New_purchase_button_Click(object sender, RoutedEventArgs e)
         {
+            App.OpenSystemPage<NewPurchasePage>();
         }
 
         private void Purchase_button_Click(object sender, RoutedEventArgs e)
         {
+            App.OpenSystemPage<PurchasePage>();
         }
 
-        private void In_box_button_Click(object sender, RoutedEventArgs e)
+        private async void In_box_button_Click(object sender, RoutedEventArgs e)
         {
+            App.ShowLoad();
+            await App.GetSystemPopUp<InBoxPopUp>().Init();
+            App.OpenSystemPopUp<InBoxPopUp>();
         }
     }
 }

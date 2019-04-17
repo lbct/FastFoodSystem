@@ -115,6 +115,9 @@
     <Compile Include="Controls\ProductLabel.xaml.cs">
       <DependentUpon>ProductLabel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\PurchaseDetailItem.xaml.cs">
+      <DependentUpon>PurchaseDetailItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SaleDetailItem.xaml.cs">
       <DependentUpon>SaleDetailItem.xaml</DependentUpon>
     </Compile>
@@ -161,6 +164,21 @@
       <DependentUpon>FastFoodDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\FoodInputCombo.cs">
+      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\GetCashMovement_Result.cs">
+      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\GetPurchaseDetailByLogin_Result.cs">
+      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\GetPurchaseDetail_Result.cs">
+      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\GetSaleDetailByLogin_Result.cs">
+      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\GetSaleDetail_Result.cs">
       <DependentUpon>FastFoodDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\Login.cs">
@@ -211,11 +229,26 @@
     <Compile Include="Pages\MenuPage.xaml.cs">
       <DependentUpon>MenuPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\NewPurchasePage.xaml.cs">
+      <DependentUpon>NewPurchasePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\NewSalePage.xaml.cs">
       <DependentUpon>NewSalePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\ProductsPage.xaml.cs">
       <DependentUpon>ProductsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\PurchasePage.xaml.cs">
+      <DependentUpon>PurchasePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SalePage.xaml.cs">
+      <DependentUpon>SalePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUps\CommitOrderPopUp.xaml.cs">
+      <DependentUpon>CommitOrderPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUps\InBoxPopUp.xaml.cs">
+      <DependentUpon>InBoxPopUp.xaml</DependentUpon>
     </Compile>
     <Compile Include="PopUps\NewComboPopUp.xaml.cs">
       <DependentUpon>NewComboPopUp.xaml</DependentUpon>
@@ -226,11 +259,20 @@
     <Compile Include="PopUps\NewFoodInputPopUp.xaml.cs">
       <DependentUpon>NewFoodInputPopUp.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PopUps\NewInBoxValue.xaml.cs">
+      <DependentUpon>NewInBoxValue.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PopUps\NewOrderPopUp.xaml.cs">
       <DependentUpon>NewOrderPopUp.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PopUps\NewProviderPopUp.xaml.cs">
+      <DependentUpon>NewProviderPopUp.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PopUps\NewSimpleProductPopUp.xaml.cs">
       <DependentUpon>NewSimpleProductPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUps\NewUserPopUp.xaml.cs">
+      <DependentUpon>NewUserPopUp.xaml</DependentUpon>
     </Compile>
     <Compile Include="PopUps\OrdersPopUp.xaml.cs">
       <DependentUpon>OrdersPopUp.xaml</DependentUpon>
@@ -238,15 +280,31 @@
     <Compile Include="PopUps\ProductPickerPopUp.xaml.cs">
       <DependentUpon>ProductPickerPopUp.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PopUps\ProvidersPopUp.xaml.cs">
+      <DependentUpon>ProvidersPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUps\PurchaseViewerPopUp.xaml.cs">
+      <DependentUpon>PurchaseViewerPopUp.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PopUps\RegisterSalePopUp.xaml.cs">
       <DependentUpon>RegisterSalePopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUps\SaleViewerPopUp.xaml.cs">
+      <DependentUpon>SaleViewerPopUp.xaml</DependentUpon>
     </Compile>
     <Compile Include="PopUps\SecurityPopUp.xaml.cs">
       <DependentUpon>SecurityPopUp.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PopUps\SessionSalesPopUp.xaml.cs">
+      <DependentUpon>SessionSalesPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUps\UsersPopUp.xaml.cs">
+      <DependentUpon>UsersPopUp.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PopUps\WebCamPopUp.xaml.cs">
       <DependentUpon>WebCamPopUp.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Scripts\DatabaseActions.cs" />
     <Compile Include="Scripts\ImageFunctions.cs" />
     <Compile Include="Scripts\UserSession.cs" />
     <Page Include="App.xaml">
@@ -278,6 +336,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\PurchaseDetailItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\SaleDetailItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -305,6 +367,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\NewPurchasePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\NewSalePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -312,6 +378,18 @@
     <Page Include="Pages\ProductsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\PurchasePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\SalePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PopUps\CommitOrderPopUp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PopUps\ConfirmPopUp.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -322,6 +400,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="PopUps\ErrorPopUp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PopUps\InBoxPopUp.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -341,13 +423,25 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="PopUps\NewInBoxValue.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="PopUps\NewOrderPopUp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="PopUps\NewProviderPopUp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="PopUps\NewSimpleProductPopUp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PopUps\NewUserPopUp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="PopUps\OrdersPopUp.xaml">
       <SubType>Designer</SubType>
@@ -357,11 +451,31 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="PopUps\ProvidersPopUp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PopUps\PurchaseViewerPopUp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PopUps\RegisterSalePopUp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="PopUps\SaleViewerPopUp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PopUps\SecurityPopUp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PopUps\SessionSalesPopUp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PopUps\UsersPopUp.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -427,6 +541,7 @@
       <DependentUpon>Database.mdf</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\Images\SearchIcon.png" />
     <Resource Include="Resources\Images\MinusIcon.png" />
     <Resource Include="Resources\Images\NoImage.png" />
     <Resource Include="Resources\Images\excel.png" />

@@ -33,6 +33,12 @@ namespace FastFoodSystem.Pages
         public override async void Refresh()
         {
             App.ShowLoad();
+            var login = await App.RunAsync(() => App.Database.Logins.FirstOrDefault(l => l.Id == UserSession.LoginID));
+            var user = await App.RunAsync(() => App.Database.Users.FirstOrDefault(u => u.Id == login.UserId));
+            if (user.Admin)
+                backButton.Visibility = Visibility.Visible;
+            else
+                backButton.Visibility = Visibility.Collapsed;
             category_container.Items.Clear();
             detail_container.Children.Clear();
             detail_grid.Visibility = Visibility.Hidden;
@@ -45,6 +51,17 @@ namespace FastFoodSystem.Pages
             }
             if (category_container.Items.Count > 0)
                 category_container.SelectedIndex = 0;
+
+            var orders = await App.RunAsync(() => App.Database.Orders
+            .Where(o => !o.Committed)
+            .Count());
+            if (orders <= 0)
+                order_alert_container.Visibility = Visibility.Collapsed;
+            else
+            {
+                order_alert_container.Visibility = Visibility.Visible;
+                order_count.Content = orders;
+            }
             App.CloseSystemPopUp();
         }
 
@@ -171,6 +188,13 @@ namespace FastFoodSystem.Pages
             App.ShowLoad();
             await App.GetSystemPopUp<OrdersPopUp>().Init();
             App.OpenSystemPopUp<OrdersPopUp>();
+        }
+
+        private async void View_sales_button_Click(object sender, RoutedEventArgs e)
+        {
+            App.ShowLoad();
+            await App.GetSystemPopUp<SessionSalesPopUp>().Init();
+            App.OpenSystemPopUp<SessionSalesPopUp>();
         }
     }
 }

@@ -48,9 +48,16 @@ namespace FastFoodSystem.Pages
                 App.ShowMessage("Nombre de usuario o contraseña incorrecta.", false);
         }
 
-        private void OpenMainMenu()
+        private async void OpenMainMenu()
         {
-            App.OpenSystemPage<MenuPage>();
+            App.ShowLoad();
+            var login = await App.RunAsync(() => App.Database.Logins.FirstOrDefault(l => l.Id == UserSession.LoginID));
+            var user = await App.RunAsync(() => App.Database.Users.FirstOrDefault(u => u.Id == login.UserId));
+            App.CloseSystemPopUp();
+            if (user.Admin)
+                App.OpenSystemPage<MenuPage>();
+            else
+                App.OpenSystemPage<NewSalePage>();
         }
     }
 }

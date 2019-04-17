@@ -1,0 +1,115 @@
+﻿<local:SystemPopUpClass x:Class="FastFoodSystem.PopUps.InBoxPopUp"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FastFoodSystem.Scripts"
+             xmlns:controls="clr-namespace:FastFoodSystem.Controls"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             mc:Ignorable="d" 
+             Height="500" Width="700">
+    <Border Background="WhiteSmoke" CornerRadius="10" BorderThickness="5" BorderBrush="#ffab40">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Label Name="title" Content="Caja Chica" FontSize="20" Margin="20" FontWeight="Bold" HorizontalAlignment="Center"></Label>
+            <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled">
+                <telerik:RadGridView
+                            ShowGroupPanel="False"
+                            Background="WhiteSmoke"
+                             GroupRenderMode="Flat"
+                             x:Name="in_box_table"
+                             Grid.Column="1"                                                                      
+							 Grid.Row="0"							
+							 CanUserFreezeColumns="False"
+							 RowIndicatorVisibility="Collapsed"
+							 IsReadOnly="True"								
+							 AutoGenerateColumns="False"
+                             ShowColumnFooters="False"
+                            SelectionChanged="In_box_table_SelectionChanged"
+							 >
+                    <telerik:RadGridView.Columns>
+                        <telerik:GridViewDataColumn
+                                            Header="Fecha y Hora"
+                                            DataMemberBinding="{Binding DateTime, StringFormat={}{0:dd/MM/yyyy HH:mm}}"
+                                            Width="*">
+                            <telerik:GridViewDataColumn.CellTemplate>
+                                <DataTemplate>
+                                    <telerik:Label Content="{Binding DateTime, StringFormat={}{0:dd/MM/yyyy HH:mm}}" Foreground="{Binding Color}"></telerik:Label>
+                                </DataTemplate>
+                            </telerik:GridViewDataColumn.CellTemplate>
+                        </telerik:GridViewDataColumn>
+                        <telerik:GridViewDataColumn     
+                                            Header="Tipo"
+                                            DataMemberBinding="{Binding Type}"
+                                            Width="*">
+                            <telerik:GridViewDataColumn.CellTemplate>
+                                <DataTemplate>
+                                    <telerik:Label Content="{Binding Type}" Foreground="{Binding Color}"></telerik:Label>
+                                </DataTemplate>
+                            </telerik:GridViewDataColumn.CellTemplate>
+                        </telerik:GridViewDataColumn>
+                        <telerik:GridViewDataColumn
+                                            Header="Descripción"
+                                            DataMemberBinding="{Binding Detail}"
+                                            Width="*">
+                            <telerik:GridViewDataColumn.CellTemplate>
+                                <DataTemplate>
+                                    <telerik:Label Content="{Binding Detail}" Foreground="{Binding Color}"></telerik:Label>
+                                </DataTemplate>
+                            </telerik:GridViewDataColumn.CellTemplate>
+                        </telerik:GridViewDataColumn>
+                        <telerik:GridViewDataColumn 
+                                            Header="Valor"
+                                            DataMemberBinding="{Binding Value}"
+						   				    Width="*"
+                                            Name="total_column"
+                                            MinWidth="100">
+                            <telerik:GridViewDataColumn.CellTemplate>
+                                <DataTemplate>
+                                    <telerik:RadNumericUpDown Value="{Binding Value}" NumberDecimalDigits="2" BorderThickness="0" Background="{x:Null}" Foreground="{Binding Color}" IsEditable="False" CustomUnit="Bs" ShowButtons="False" IsHitTestVisible="False"/>
+                                </DataTemplate>
+                            </telerik:GridViewDataColumn.CellTemplate>
+                        </telerik:GridViewDataColumn>
+                    </telerik:RadGridView.Columns>
+                </telerik:RadGridView>
+            </ScrollViewer>
+            <Grid Grid.Row="2">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Label Content="Total en Caja:" VerticalAlignment="Center"></Label>
+                    <telerik:RadNumericUpDown Margin="5" Name="total_in_box_value" Width="{Binding ElementName=total_column, Path=ActualWidth}" ShowButtons="False" Value="0" CustomUnit="Bs" NumberDecimalDigits="2" Background="Transparent" BorderThickness="0" IsEditable="False" IsHitTestVisible="False"></telerik:RadNumericUpDown>
+                </StackPanel>
+            </Grid>
+            <StackPanel Grid.Row="3" Margin="20" Orientation="Horizontal" HorizontalAlignment="Center">
+                <telerik:RadButton Margin="10" Name="add_value_button" Click="Add_value_button_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Viewbox Height="15" Margin="0, 0, 5, 0">
+                            <Path Style="{StaticResource iconoMas}"></Path>
+                        </Viewbox>
+                        <TextBlock Text="Nuevo valor" VerticalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </telerik:RadButton>
+                <telerik:RadButton Margin="10" Name="cancel_button" Click="Cancel_button_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Viewbox Height="15" Margin="0, 0, 5, 0">
+                            <Path Fill="Black" Style="{StaticResource iconoCerrar}"></Path>
+                        </Viewbox>
+                        <TextBlock Text="Cerrar" VerticalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </telerik:RadButton>
+                <telerik:RadButton Margin="10" Name="delete_value_button" Click="Delete_value_button_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Viewbox Height="15" Margin="0, 0, 5, 0">
+                            <Path Fill="Black" Style="{StaticResource iconoEliminar}"></Path>
+                        </Viewbox>
+                        <TextBlock Text="Eliminar Valor" VerticalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </telerik:RadButton>
+            </StackPanel>
+        </Grid>
+    </Border>
+</local:SystemPopUpClass>

@@ -15,7 +15,7 @@
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <telerik:Label Name="product_description" Content="Detalle del producto"></telerik:Label>
-                <Border Grid.Column="1" Padding="5">
+                <Border Grid.Column="1" Padding="5" Name="buttons_container">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>

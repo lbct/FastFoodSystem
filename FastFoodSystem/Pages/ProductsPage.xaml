@@ -10,12 +10,12 @@
       >
     <Grid Background="#E0E0E0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="10*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid Background="#E0E0E0">
-            <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="Inventario" FontSize="15"></Label>
+            <telerik:Label FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Inventario" FontSize="20"></telerik:Label>
         </Grid>
         <Grid Grid.Row="1">
 

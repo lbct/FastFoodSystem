@@ -46,8 +46,8 @@ namespace FastFoodSystem.Scripts
                     var task = tasks.Dequeue();
                     task.Start();
                     task.Wait();
+                    Thread.Sleep(10);
                 }
-                Thread.Sleep(100);
             }
         }
     }

@@ -17,6 +17,7 @@
             <Label Name="title" Content="Pedidos" FontSize="20" Margin="20" FontWeight="Bold" HorizontalAlignment="Center"></Label>
             <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled">
                 <telerik:RadGridView
+                    ShowGroupPanel="False"
                             Background="WhiteSmoke"
                              GroupRenderMode="Flat"
                              x:Name="orders_table"
@@ -31,33 +32,16 @@
                     <telerik:RadGridView.Columns>
                         <telerik:GridViewDataColumn                         
                                             Name="editColumn"
-                                            Header="Entregar"                                   
+                                            Header="Ver"                                   
                                             Width="auto"
                                             IsResizable="False"
                                             IsReorderable="False"
                                             >
                             <telerik:GridViewDataColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Name="commit_order_button" BorderThickness="0" Background="Transparent" Padding="0" Initialized="Commit_order_button_Initialized">
+                                    <Button Name="view_order_button" BorderThickness="0" Background="Transparent" Padding="0" Initialized="View_order_button_Initialized">
                                         <Viewbox Height="15">
-                                            <Path Style="{StaticResource iconoChek}" Fill="Black"/>
-                                        </Viewbox>
-                                    </Button>
-                                </DataTemplate>
-                            </telerik:GridViewDataColumn.CellTemplate>
-                        </telerik:GridViewDataColumn>
-                        <telerik:GridViewDataColumn                         
-                                            Name="deleteColumn"
-                                            Header="Eliminar"                                   
-                                            Width="auto"
-                                            IsResizable="False"
-                                            IsReorderable="False"
-                                            >
-                            <telerik:GridViewDataColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Button Name="delete_order_button" BorderThickness="0" Background="Transparent" Padding="0" Initialized="Delete_order_button_Initialized">
-                                        <Viewbox Height="15">
-                                            <Path Style="{StaticResource iconoEliminar}"/>
+                                            <Path Height="15" Style="{StaticResource iconoVer}" Fill="Black"/>
                                         </Viewbox>
                                     </Button>
                                 </DataTemplate>
@@ -65,7 +49,7 @@
                         </telerik:GridViewDataColumn>
                         <telerik:GridViewDataColumn
                                             Header="Número de Pedido"
-                                            DataMemberBinding="{Binding DailyId, StringFormat={}{0:00000}}"
+                                            DataMemberBinding="{Binding Order.DailyId, StringFormat={}{0:00000}}"
                                             Width="*">
                             <telerik:GridViewDataColumn.AggregateFunctions>
                                 <telerik:CountFunction Caption="Recuento: "></telerik:CountFunction>
@@ -73,12 +57,17 @@
                         </telerik:GridViewDataColumn>
                         <telerik:GridViewDataColumn
                                             Header="Nombre"
-                                            DataMemberBinding="{Binding OrderName}"
+                                            DataMemberBinding="{Binding Order.OrderName}"
                                             Width="*">
                         </telerik:GridViewDataColumn>
                         <telerik:GridViewDataColumn
                                             Header="Observación"
-                                            DataMemberBinding="{Binding Observation}"
+                                            DataMemberBinding="{Binding Order.Observation}"
+                                            Width="*">
+                        </telerik:GridViewDataColumn>
+                        <telerik:GridViewDataColumn
+                                            Header="Fecha y Hora"
+                                            DataMemberBinding="{Binding DateTime, StringFormat={}{0:dd/MM/yyyy HH:mm}}"
                                             Width="*">
                         </telerik:GridViewDataColumn>
                     </telerik:RadGridView.Columns>

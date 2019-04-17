@@ -51,7 +51,7 @@
                         <Label Content="Precio de Venta Unitario:" Margin="0, 20, 0, 0"></Label>
                         <telerik:RadNumericUpDown Name="sale_value" CustomUnit="Bs" NumberDecimalDigits="2" HideTrailingZeros="True" Minimum="0" Value="0"></telerik:RadNumericUpDown>
                         <Label Content="Unidades Actuales:" Margin="0, 20, 0, 0"></Label>
-                        <telerik:RadNumericUpDown Name="total_units_value" Value="1" Minimum="1" NumberDecimalDigits="0" HideTrailingZeros="True" CustomUnit="Unid" ValueChanged="Total_units_value_ValueChanged"></telerik:RadNumericUpDown>
+                        <telerik:RadNumericUpDown Name="total_units_value" Value="1" NumberDecimalDigits="0" HideTrailingZeros="True" CustomUnit="Unid" ValueChanged="Total_units_value_ValueChanged"></telerik:RadNumericUpDown>
                     </StackPanel>
                 </Grid>
             </ScrollViewer>

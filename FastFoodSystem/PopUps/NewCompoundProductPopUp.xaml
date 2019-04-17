@@ -76,7 +76,7 @@
                                 <ColumnDefinition></ColumnDefinition>
                             </Grid.ColumnDefinitions>
                             <telerik:Label Content="Unidades Disponibles:"></telerik:Label>
-                            <telerik:RadNumericUpDown Name="available_units_value" Grid.Column="1" IsEditable="False" Value="1" Minimum="0" NumberDecimalDigits="0" HideTrailingZeros="True" ShowButtons="False" CustomUnit="Unid"></telerik:RadNumericUpDown>
+                            <telerik:RadNumericUpDown Name="available_units_value" Grid.Column="1" IsEditable="False" Value="1" NumberDecimalDigits="0" HideTrailingZeros="True" ShowButtons="False" CustomUnit="Unid"></telerik:RadNumericUpDown>
                             <telerik:Label Grid.Column="2" Content="Costo Unitario:"></telerik:Label>
                             <telerik:RadNumericUpDown Name="unit_cost" Grid.Column="3" IsEditable="False" Value="15" Minimum="0" NumberDecimalDigits="2" HideTrailingZeros="True" ShowButtons="False" CustomUnit="Bs"></telerik:RadNumericUpDown>
                         </Grid>

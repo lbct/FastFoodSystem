@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="FastFoodSystem.Controls.PurchaseDetailItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FastFoodSystem.Controls"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             mc:Ignorable="d" 
+             >
+    <Border CornerRadius="2" Background="WhiteSmoke" Padding="5">
+        <StackPanel VerticalAlignment="Center">
+            <telerik:Label Name="product_description" Content="Detalle del producto"></telerik:Label>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <telerik:RadNumericUpDown Name="units_value" BorderBrush="Transparent" IsReadOnly="True" Value="10" CustomUnit="Unid" NumberDecimalDigits="0" HideTrailingZeros="True" ShowButtons="False" Padding="0" Margin="0"></telerik:RadNumericUpDown>
+                <telerik:RadNumericUpDown Name="purchase_unit_value" BorderBrush="Transparent" IsReadOnly="True" Grid.Column="1" Value="100" CustomUnit="Bs" NumberDecimalDigits="2" HideTrailingZeros="True" ShowButtons="False" Padding="0" Margin="0"></telerik:RadNumericUpDown>
+                <telerik:RadNumericUpDown Name="total_value" BorderBrush="Transparent" IsReadOnly="True" Grid.Column="2" Value="1000" CustomUnit="Bs" NumberDecimalDigits="2" HideTrailingZeros="True" ShowButtons="False" Padding="0" Margin="0"></telerik:RadNumericUpDown>
+            </Grid>
+        </StackPanel>
+    </Border>
+</UserControl>

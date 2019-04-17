@@ -30,10 +30,12 @@ namespace FastFoodSystem.Scripts
 
         public async static Task Logout()
         {
+            var endCash = await DatabaseActions.GetCurrentInBoxCashValue();
             await App.RunAsync(() => 
             {
                 var currentLog = App.Database.Logins.FirstOrDefault(log => log.Id == LoginID);
                 currentLog.EndDateTime = DateTime.Now;
+                currentLog.EndCashValue = endCash;
                 App.Database.SaveChanges();
             });
             dailyId = 0;
@@ -68,10 +70,14 @@ namespace FastFoodSystem.Scripts
                         LoginID = lastLogin.Id;
                     else
                     {
+                        decimal startCash = 0;
+                        if (lastLogin != null && lastLogin.EndCashValue != null)
+                            startCash = lastLogin.EndCashValue.Value;
                         var currentLogin = new Login()
                         {
                             StartDateTime = DateTime.Now,
-                            UserId = user.Id
+                            UserId = user.Id,
+                            StartCashValue = startCash
                         };
                         login = await App.RunAsync(() =>
                         {

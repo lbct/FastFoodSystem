@@ -23,6 +23,7 @@ namespace FastFoodSystem.Database
         public long Id { get; set; }
         public long LoginId { get; set; }
         public System.DateTime DateTime { get; set; }
+        public bool Hide { get; set; }
     
         public virtual Login Login { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

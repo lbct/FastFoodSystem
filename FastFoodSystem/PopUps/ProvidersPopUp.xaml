@@ -1,0 +1,153 @@
+﻿<local:SystemPopUpClass x:Class="FastFoodSystem.PopUps.ProvidersPopUp"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FastFoodSystem.Scripts"
+             xmlns:controls="clr-namespace:FastFoodSystem.Controls"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             mc:Ignorable="d" 
+             Height="500" Width="700">
+    <Border Background="WhiteSmoke" CornerRadius="10" BorderThickness="5" BorderBrush="#ffab40">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Label Name="title" Content="Proveedores" FontSize="20" Margin="20" FontWeight="Bold" HorizontalAlignment="Center"></Label>
+            <Grid Grid.Row="1" Margin="20, 0, 20, 10">
+                <Border Background="White" BorderBrush="LightGray" BorderThickness="1" CornerRadius="10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <telerik:RadWatermarkTextBox Name="search_text" Background="Transparent" BorderBrush="{x:Null}" TextChanged="Search_text_TextChanged">
+                            <telerik:RadWatermarkTextBox.WatermarkContent>
+                                <StackPanel Orientation="Horizontal">
+                                    <Viewbox Height="15" Margin="0, 0, 10, 0">
+                                        <Image RenderOptions.BitmapScalingMode="Fant" Source="/FastFoodSystem;component/Resources/Images/SearchIcon.png"></Image>
+                                    </Viewbox>
+                                    <TextBlock Text="Buscar proveedor..."></TextBlock>
+                                </StackPanel>
+                            </telerik:RadWatermarkTextBox.WatermarkContent>
+                        </telerik:RadWatermarkTextBox>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <telerik:RadButton Name="cancel_search_button" Click="Cancel_search_button_Click" Visibility="Collapsed" Background="Transparent" BorderBrush="{x:Null}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Viewbox Height="15" Margin="0, 0, 5, 0">
+                                        <Path Style="{StaticResource iconoCerrar}" Fill="#FF464646"></Path>
+                                    </Viewbox>
+                                    <TextBlock Text="Cancelar"></TextBlock>
+                                </StackPanel>
+                            </telerik:RadButton>
+                            <telerik:RadButton Name="search_button" IsDefault="True" Background="Transparent" BorderBrush="{x:Null}" Click="Search_button_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <Viewbox Height="15" Margin="0, 0, 5, 0">
+                                        <Image RenderOptions.BitmapScalingMode="Fant" Source="/FastFoodSystem;component/Resources/Images/SearchIcon.png"></Image>
+                                    </Viewbox>
+                                    <TextBlock Text="Buscar"></TextBlock>
+                                </StackPanel>
+                            </telerik:RadButton>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+            <ScrollViewer Grid.Row="2" HorizontalScrollBarVisibility="Disabled">
+                <telerik:RadGridView
+                            Background="WhiteSmoke"
+                             GroupRenderMode="Flat"
+                             x:Name="provider_table"				
+							 CanUserFreezeColumns="False"
+							 RowIndicatorVisibility="Collapsed"
+							 IsReadOnly="True"								
+							 AutoGenerateColumns="False"
+                             ShowGroupPanel="False"
+                             ShowColumnFooters="True"
+							 >
+                    <telerik:RadGridView.Columns>
+                        <telerik:GridViewDataColumn                         
+                                            Name="editColumn"
+                                            Header="Editar"                                   
+                                            Width="auto"
+                                            IsResizable="False"
+                                            IsReorderable="False"
+                                            >
+                            <telerik:GridViewDataColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Name="edit_provider_button" BorderThickness="0" Background="Transparent" Padding="1,2,1,2" Initialized="Edit_provider_button_Initialized">
+                                        <Path Style="{StaticResource ResourceKey=iconoEditar}"/>
+                                    </Button>
+                                </DataTemplate>
+                            </telerik:GridViewDataColumn.CellTemplate>
+                        </telerik:GridViewDataColumn>
+                        <telerik:GridViewDataColumn
+                                            Header="Id Proveedor"
+                                            DataMemberBinding="{Binding Id, StringFormat={}{0:00000}}"
+                                            Width="*">
+                            <telerik:GridViewDataColumn.AggregateFunctions>
+                                <telerik:CountFunction Caption="Recuento: "></telerik:CountFunction>
+                            </telerik:GridViewDataColumn.AggregateFunctions>
+                            <telerik:GridViewDataColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label Content="{Binding Id, StringFormat={}{0:00000}}"/>
+                                </DataTemplate>
+                            </telerik:GridViewDataColumn.CellTemplate>
+                        </telerik:GridViewDataColumn>
+                        <telerik:GridViewDataColumn     
+                                            Header="Nombre"
+                                            DataMemberBinding="{Binding FullName}"
+                                            Width="*">
+                            <telerik:GridViewDataColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label Content="{Binding FullName}"/>
+                                </DataTemplate>
+                            </telerik:GridViewDataColumn.CellTemplate>
+                        </telerik:GridViewDataColumn>
+                        <telerik:GridViewDataColumn
+                                            Header="Número de teléfono"
+                                            DataMemberBinding="{Binding PhoneNumber}"
+                                            Width="*">
+                            <telerik:GridViewDataColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label Content="{Binding PhoneNumber}"/>
+                                </DataTemplate>
+                            </telerik:GridViewDataColumn.CellTemplate>
+                        </telerik:GridViewDataColumn>
+                        <telerik:GridViewDataColumn 
+                                            Header="E-Mail"
+                                            DataMemberBinding="{Binding EMail}"
+						   				    Width="*"
+                                            MinWidth="100">
+                            <telerik:GridViewDataColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label Content="{Binding EMail}"/>
+                                </DataTemplate>
+                            </telerik:GridViewDataColumn.CellTemplate>
+                        </telerik:GridViewDataColumn>
+                    </telerik:RadGridView.Columns>
+                </telerik:RadGridView>
+            </ScrollViewer>
+            <StackPanel Grid.Row="3" Margin="20" Orientation="Horizontal" HorizontalAlignment="Center">
+                <telerik:RadButton Margin="10" Name="add_provider_button" Click="Add_provider_button_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Viewbox Height="15" Margin="0, 0, 5, 0">
+                            <Path Style="{StaticResource iconoMas}"></Path>
+                        </Viewbox>
+                        <TextBlock Text="Nuevo proveedor" VerticalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </telerik:RadButton>
+                <telerik:RadButton Margin="10" Name="cancel_button" Click="Cancel_button_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Viewbox Height="15" Margin="0, 0, 5, 0">
+                            <Path Fill="Black" Style="{StaticResource iconoCerrar}"></Path>
+                        </Viewbox>
+                        <TextBlock Text="Cerrar" VerticalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </telerik:RadButton>
+            </StackPanel>
+        </Grid>
+    </Border>
+</local:SystemPopUpClass>

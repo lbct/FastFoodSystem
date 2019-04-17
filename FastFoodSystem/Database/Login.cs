@@ -26,6 +26,8 @@ namespace FastFoodSystem.Database
         public int UserId { get; set; }
         public System.DateTime StartDateTime { get; set; }
         public Nullable<System.DateTime> EndDateTime { get; set; }
+        public decimal StartCashValue { get; set; }
+        public Nullable<decimal> EndCashValue { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CashMovement> CashMovements { get; set; }

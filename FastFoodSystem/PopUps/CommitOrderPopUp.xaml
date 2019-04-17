@@ -1,0 +1,161 @@
+﻿<local:SystemPopUpClass x:Class="FastFoodSystem.PopUps.CommitOrderPopUp"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FastFoodSystem.Scripts"
+             xmlns:controls="clr-namespace:FastFoodSystem.Controls"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+      mc:Ignorable="d" 
+      Width="720" Height="520">
+    <Border Background="WhiteSmoke" CornerRadius="10" BorderThickness="5" BorderBrush="#32ba7c">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <telerik:Label Content="Nueva Venta" Margin="20, 20, 20, 10" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold"></telerik:Label>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="2" Margin="10, 20, 20, 34" Background="White" BorderThickness="1" BorderBrush="Gray">
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+                        <StackPanel Name="detail_container">
+                            <controls:SaleDetailItem ShowButtons="False" Margin="10"></controls:SaleDetailItem>
+                            <controls:SaleDetailItem ShowButtons="False" Margin="10"></controls:SaleDetailItem>
+                            <controls:SaleDetailItem ShowButtons="False" Margin="10"></controls:SaleDetailItem>
+                            <controls:SaleDetailItem ShowButtons="False" Margin="10"></controls:SaleDetailItem>
+                            <controls:SaleDetailItem ShowButtons="False" Margin="10"></controls:SaleDetailItem>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Border>
+                <Grid Grid.Column="1">
+                    <Border BorderBrush="Gray" Background="White" BorderThickness="1" Margin="10, 20, 10, 34" Padding="10, 20">
+                        <StackPanel>
+                            <telerik:Label Content="Datos cliente" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"></telerik:Label>
+                            <telerik:Label Margin="0, 20, 0, 0" Content="NIT"></telerik:Label>
+                            <telerik:RadAutoCompleteBox TextSearchMode="Contains" TextSearchPath="Nit" SelectionMode="Single" Name="nit_search_bar" SelectionChanged="Nit_search_bar_SelectionChanged"></telerik:RadAutoCompleteBox>
+                            <telerik:Label Content="Nombre"></telerik:Label>
+                            <telerik:RadWatermarkTextBox Name="client_name"></telerik:RadWatermarkTextBox>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+                <Grid>
+                    <Grid Margin="20, 20, 10, 20">
+                        <StackPanel>
+                            <Border BorderBrush="Gray" Background="White" BorderThickness="1">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <telerik:Label Content="Total a pagar:"></telerik:Label>
+                                    <telerik:RadNumericUpDown Name="sale_value" IsReadOnly="True" IsHitTestVisible="False" Value="100" CustomUnit="Bs" Grid.Column="1" Minimum="0" NumberDecimalDigits="2" BorderThickness="0" BorderBrush="{x:Null}" HideTrailingZeros="True" ShowButtons="False"></telerik:RadNumericUpDown>
+                                </Grid>
+                            </Border>
+                            <Border Margin="0, 10, 0, 0" BorderBrush="Gray" Background="White" BorderThickness="1">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <telerik:Label Content="Paga: "></telerik:Label>
+                                    <telerik:RadNumericUpDown Name="client_pay_value" Value="0" NullValue="0" CustomUnit="Bs" Grid.Column="1" Minimum="0" NumberDecimalDigits="2" BorderThickness="0" BorderBrush="{x:Null}" HideTrailingZeros="True" ShowButtons="False" ValueChanged="Client_pay_value_ValueChanged"></telerik:RadNumericUpDown>
+                                </Grid>
+                            </Border>
+                            <Border Margin="0, 10, 0, 0" Background="LightGray" BorderThickness="1" BorderBrush="Gray" Padding="8">
+                                <Grid HorizontalAlignment="Center">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <telerik:RadButton Grid.Column="0" Grid.Row="0" FontWeight="Bold" Margin="5" Padding="0" Click="CalculatorButton_Click">
+                                        <Viewbox>
+                                            <telerik:Label Content="0.2"></telerik:Label>
+                                        </Viewbox>
+                                    </telerik:RadButton>
+                                    <telerik:RadButton Grid.Column="1" Grid.Row="0" FontWeight="Bold" Margin="5" Padding="0" Click="CalculatorButton_Click">
+                                        <Viewbox>
+                                            <telerik:Label Content="0.5"></telerik:Label>
+                                        </Viewbox>
+                                    </telerik:RadButton>
+                                    <telerik:RadButton Grid.Column="2" Grid.Row="0" FontWeight="Bold" Margin="5" Padding="0" Click="CalculatorButton_Click">
+                                        <Viewbox>
+                                            <telerik:Label Content="1"></telerik:Label>
+                                        </Viewbox>
+                                    </telerik:RadButton>
+                                    <telerik:RadButton Grid.Column="3" Grid.Row="0" FontWeight="Bold" Margin="5" Padding="0" Click="CalculatorButton_Click">
+                                        <Viewbox>
+                                            <telerik:Label Content="2"></telerik:Label>
+                                        </Viewbox>
+                                    </telerik:RadButton>
+                                    <telerik:RadButton Grid.Column="0" Grid.Row="1" FontWeight="Bold" Margin="5" Padding="0" Click="CalculatorButton_Click">
+                                        <Viewbox>
+                                            <telerik:Label Content="5"></telerik:Label>
+                                        </Viewbox>
+                                    </telerik:RadButton>
+                                    <telerik:RadButton Grid.Column="1" Grid.Row="1" FontWeight="Bold" Margin="5" Padding="0" Click="CalculatorButton_Click">
+                                        <Viewbox>
+                                            <telerik:Label Content="10"></telerik:Label>
+                                        </Viewbox>
+                                    </telerik:RadButton>
+                                    <telerik:RadButton Grid.Column="2" Grid.Row="1" FontWeight="Bold" Margin="5" Padding="0" Click="CalculatorButton_Click">
+                                        <Viewbox>
+                                            <telerik:Label Content="20"></telerik:Label>
+                                        </Viewbox>
+                                    </telerik:RadButton>
+                                    <telerik:RadButton Grid.Column="3" Grid.Row="1" FontWeight="Bold" Margin="5" Padding="0" Click="CalculatorButton_Click">
+                                        <Viewbox>
+                                            <telerik:Label Content="50"></telerik:Label>
+                                        </Viewbox>
+                                    </telerik:RadButton>
+                                    <telerik:RadButton Grid.Column="0" Grid.Row="2" FontWeight="Bold" Margin="5" Padding="0" Click="CalculatorButton_Click">
+                                        <Viewbox>
+                                            <telerik:Label Content="100"></telerik:Label>
+                                        </Viewbox>
+                                    </telerik:RadButton>
+                                    <telerik:RadButton Grid.Column="1" Grid.Row="2" FontWeight="Bold" Margin="5" Padding="0" Click="CalculatorButton_Click">
+                                        <Viewbox>
+                                            <telerik:Label Content="200"></telerik:Label>
+                                        </Viewbox>
+                                    </telerik:RadButton>
+                                </Grid>
+                            </Border>
+                            <Border Margin="0, 10, 0, 0" BorderBrush="Gray" Background="White" BorderThickness="1">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <telerik:Label Content="Cambio:"></telerik:Label>
+                                    <telerik:RadNumericUpDown Name="change_value" IsReadOnly="True" IsHitTestVisible="False" Value="-100" CustomUnit="Bs" Grid.Column="1" NumberDecimalDigits="2" BorderThickness="0" BorderBrush="{x:Null}" HideTrailingZeros="True" ShowButtons="False"></telerik:RadNumericUpDown>
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Grid>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <telerik:RadButton Grid.Column="0" Name="okButton" IsDefault="True" Margin="20, 10, 10, 20" Content="Realizar Venta" Click="OkButton_Click"></telerik:RadButton>
+                <telerik:RadButton Grid.Column="1" Name="delete_button" IsDefault="True" Margin="10, 10, 10, 20" Content="Eliminar pedido" Click="Delete_button_Click"></telerik:RadButton>
+                <telerik:RadButton Grid.Column="2" Name="cancelButton" Margin="10, 10, 20, 20" Content="Cancelar" Click="CancelButton_Click"></telerik:RadButton>
+            </Grid>
+        </Grid>
+    </Border>
+</local:SystemPopUpClass>

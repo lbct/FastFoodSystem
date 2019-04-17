@@ -54,7 +54,7 @@ namespace FastFoodSystem.PopUps
                 if (string.IsNullOrEmpty(client_name.Text.Trim()))
                     throw new Exception("Debe escribir un Nombre");
 
-                var sale = await CreateSale();
+                var sale = await CreateSale(UserSession.DailyId);
                 if (sale != null)
                 {
                     App.ShowMessage("Venta realizada", true, () =>
@@ -69,7 +69,7 @@ namespace FastFoodSystem.PopUps
             }
         }
 
-        private async Task<Sale> CreateSale()
+        private async Task<Sale> CreateSale(int dailyId)
         {
             bool correct = true;
             Sale sale = null;
@@ -106,7 +106,7 @@ namespace FastFoodSystem.PopUps
                 sale = new Sale()
                 {
                     ClientId = client.Id,
-                    DailyId = UserSession.DailyId,
+                    DailyId = dailyId,
                     DateTime = DateTime.Now,
                     LoginId = UserSession.LoginID,
                     SaleTypeId = 1
@@ -128,92 +128,11 @@ namespace FastFoodSystem.PopUps
                     if (correct)
                     {
                         foreach (var detail in saleDetails)
-                            await ReduceProductUnits(detail);
+                            await DatabaseActions.ReduceProductUnits(detail);
                     }
                 }
             }
             return correct ? sale : null;
-        }
-
-        private async Task ReduceProductUnits(SaleDetail detail)
-        {
-            await ReduceProductUnits(detail.ProductId, detail.Units);
-        }
-
-        private async Task ReduceProductUnits(int productId, int units)
-        {
-            SimpleProduct simple = await App.RunAsync(() => App.Database.SimpleProducts.FirstOrDefault(sp => sp.Id == productId));
-            if (simple != null)
-                await ReduceProductUnits(simple, units);
-            else
-            {
-                var foodInput = await App.RunAsync(() => App.Database.FoodInputs.FirstOrDefault(fi => fi.Id == productId));
-                if (foodInput != null)
-                    await ReduceProductUnits(foodInput, units);
-                else
-                {
-                    var compound = await App.RunAsync(() => App.Database.CompoundProducts.FirstOrDefault(p => p.Id == productId));
-                    if (compound != null)
-                        await ReduceProductUnits(compound, units);
-                    else
-                    {
-                        var combo = await App.RunAsync(() => App.Database.Comboes.FirstOrDefault(p => p.Id == productId));
-                        await ReduceProductUnits(combo, units);
-                    }
-                }
-            }
-        }
-
-        private async Task ReduceProductUnits(Combo combo, int units)
-        {
-            var foodInputRelations = await App.RunAsync(() => App.Database.FoodInputComboes
-                        .Where(r => r.ComboId == combo.Id)
-                        .ToArray());
-            var simpleRelations = await App.RunAsync(() => App.Database.SimpleProductComboes
-            .Where(r => r.ComboId == combo.Id)
-            .ToArray());
-            var compoundRelations = await App.RunAsync(() => App.Database.CompoundProductComboes
-            .Where(r => r.ComboId == combo.Id)
-            .ToArray());
-            foreach (var relation in foodInputRelations)
-            {
-                var input = await App.RunAsync(() => App.Database.FoodInputs.FirstOrDefault(fi => fi.Id == relation.FoodInputId));
-                await ReduceProductUnits(input, units);
-            }
-            foreach (var relation in simpleRelations)
-            {
-                var simpleProd = await App.RunAsync(() => App.Database.SimpleProducts.FirstOrDefault(s => s.Id == relation.SimpleProductId));
-                await ReduceProductUnits(simpleProd, units);
-            }
-            foreach (var relation in compoundRelations)
-            {
-                var comp = await App.RunAsync(() => App.Database.CompoundProducts.FirstOrDefault(c => c.Id == relation.CompoundProductId));
-                await ReduceProductUnits(comp, units);
-            }
-        }
-
-        private async Task ReduceProductUnits(SimpleProduct simple, int units)
-        {
-            simple.Units = Math.Max(simple.Units - units, 0);
-            await App.RunAsync(() => App.Database.SaveChanges());
-        }
-
-        private async Task ReduceProductUnits(FoodInput foodInput, int units)
-        {
-            foodInput.Units = Math.Max(foodInput.Units - units, 0);
-            await App.RunAsync(() => App.Database.SaveChanges());
-        }
-
-        private async Task ReduceProductUnits(CompoundProduct compound, int units)
-        {
-            var relations = await App.RunAsync(() => App.Database.CompoundProductFoodInputs
-                        .Where(r => r.CompoundProductId == compound.Id)
-                        .ToArray());
-            foreach (var relation in relations)
-            {
-                var input = await App.RunAsync(() => App.Database.FoodInputs.FirstOrDefault(fi => fi.Id == relation.FoodInputId));
-                await ReduceProductUnits(input, units * relation.RequiredUnits);
-            }
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -259,7 +178,7 @@ namespace FastFoodSystem.PopUps
                 }
                 if (string.IsNullOrEmpty(client_name.Text.Trim()))
                     client_name.Text = "SIN NOMBRE";
-                var sale = await CreateSale();
+                var sale = await CreateSale(0);
                 if (sale != null)
                 {
                     Order order = new Order()
@@ -270,6 +189,7 @@ namespace FastFoodSystem.PopUps
                         SaleId = sale.Id,
                         Committed = false
                     };
+                    sale.Hide = true;
                     bool correct = await App.RunAsync(() =>
                     {
                         App.Database.Orders.Add(order);

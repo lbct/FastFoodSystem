@@ -59,14 +59,7 @@ namespace FastFoodSystem.PopUps
         {
             App.CloseSystemPopUp();
             bool login = await UserSession.Login(currentUser.Username, password_text.Password);
-            if (login)
-            {
-                action?.Invoke(true);
-            }
-            else
-            {
-                action?.Invoke(false);
-            }
+            action?.Invoke(login);
             password_text.Password = "";
         }
 

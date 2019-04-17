@@ -14,6 +14,7 @@
           <Property Name="Value" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="DateTime" Type="datetime" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Hide" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="CategoryType">
           <Key>
@@ -87,6 +88,8 @@
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="StartDateTime" Type="datetime" Nullable="false" />
           <Property Name="EndDateTime" Type="datetime" />
+          <Property Name="StartCashValue" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="EndCashValue" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="Order">
           <Key>
@@ -129,6 +132,7 @@
           <Property Name="PhoneNumber" Type="nvarchar" MaxLength="250" />
           <Property Name="EMail" Type="nvarchar" MaxLength="250" />
           <Property Name="Description" Type="nvarchar" MaxLength="250" />
+          <Property Name="Hide" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Purchase">
           <Key>
@@ -137,6 +141,7 @@
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="LoginId" Type="bigint" Nullable="false" />
           <Property Name="DateTime" Type="datetime" Nullable="false" />
+          <Property Name="Hide" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="PurchaseDetail">
           <Key>
@@ -158,6 +163,7 @@
           <Property Name="ClientId" Type="int" Nullable="false" />
           <Property Name="DailyId" Type="int" Nullable="false" />
           <Property Name="DateTime" Type="datetime" Nullable="false" />
+          <Property Name="Hide" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="SaleDetail">
           <Key>
@@ -212,6 +218,7 @@
           <Property Name="Password" Type="nvarchar" MaxLength="250" Nullable="false" />
           <Property Name="FullName" Type="nvarchar" MaxLength="250" Nullable="false" />
           <Property Name="Admin" Type="bit" Nullable="false" />
+          <Property Name="Hide" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMAS\FASTFOODSYSTEM\FASTFOODSYSTEM\DATABASE.MDF.dbo.ProductView' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -557,6 +564,106 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="GetCashMovement" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="login_id" Type="bigint" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="Id" Type="int" Nullable="false" />
+                <Property Name="LoginId" Type="bigint" Nullable="false" />
+                <Property Name="Value" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+                <Property Name="DateTime" Type="datetime" Nullable="false" />
+                <Property Name="Description" Type="nvarchar" MaxLength="250" Nullable="false" />
+                <Property Name="Hide" Type="bit" Nullable="false" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetProductCost" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+          <Parameter Name="ProductId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetProductType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="nvarchar">
+          <Parameter Name="ProductId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetProductUnits" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
+          <Parameter Name="ProductId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetPurchaseDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="start_date" Type="datetime" Mode="In" />
+          <Parameter Name="end_date" Type="datetime" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="PurchaseId" Type="bigint" Nullable="false" />
+                <Property Name="PurchaseDetailId" Type="bigint" Nullable="false" />
+                <Property Name="ProductId" Type="int" Nullable="false" />
+                <Property Name="SystemUser" Type="nvarchar" MaxLength="250" Nullable="false" />
+                <Property Name="DateTime" Type="datetime" Nullable="false" />
+                <Property Name="ProductDescription" Type="varchar" MaxLength="256" Nullable="false" />
+                <Property Name="Units" Type="int" Nullable="false" />
+                <Property Name="TotalValue" Type="decimal" Precision="29" Scale="2" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetPurchaseDetailByLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="login_id" Type="bigint" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="PurchaseId" Type="bigint" Nullable="false" />
+                <Property Name="PurchaseDetailId" Type="bigint" Nullable="false" />
+                <Property Name="ProductId" Type="int" Nullable="false" />
+                <Property Name="SystemUser" Type="nvarchar" MaxLength="250" Nullable="false" />
+                <Property Name="DateTime" Type="datetime" Nullable="false" />
+                <Property Name="ProductDescription" Type="varchar" MaxLength="256" Nullable="false" />
+                <Property Name="Units" Type="int" Nullable="false" />
+                <Property Name="TotalValue" Type="decimal" Precision="29" Scale="2" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetSaleDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="start_date" Type="datetime" Mode="In" />
+          <Parameter Name="end_date" Type="datetime" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="SaleId" Type="bigint" Nullable="false" />
+                <Property Name="SaleDetailId" Type="bigint" Nullable="false" />
+                <Property Name="ProductId" Type="int" Nullable="false" />
+                <Property Name="SystemUser" Type="nvarchar" MaxLength="250" Nullable="false" />
+                <Property Name="ClientName" Type="nvarchar" MaxLength="250" Nullable="false" />
+                <Property Name="ClientNit" Type="nvarchar" MaxLength="25" Nullable="false" />
+                <Property Name="DateTime" Type="datetime" Nullable="false" />
+                <Property Name="ProductDescription" Type="varchar" MaxLength="256" Nullable="false" />
+                <Property Name="Units" Type="int" Nullable="false" />
+                <Property Name="TotalValue" Type="decimal" Precision="38" Scale="6" />
+                <Property Name="TotalCost" Type="decimal" Precision="29" Scale="2" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetSaleDetailByLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="login_id" Type="bigint" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="SaleId" Type="bigint" Nullable="false" />
+                <Property Name="SaleDetailId" Type="bigint" Nullable="false" />
+                <Property Name="ProductId" Type="int" Nullable="false" />
+                <Property Name="SystemUser" Type="nvarchar" MaxLength="250" Nullable="false" />
+                <Property Name="ClientName" Type="nvarchar" MaxLength="250" Nullable="false" />
+                <Property Name="ClientNit" Type="nvarchar" MaxLength="25" Nullable="false" />
+                <Property Name="DateTime" Type="datetime" Nullable="false" />
+                <Property Name="ProductDescription" Type="varchar" MaxLength="256" Nullable="false" />
+                <Property Name="Units" Type="int" Nullable="false" />
+                <Property Name="TotalValue" Type="decimal" Precision="38" Scale="6" />
+                <Property Name="TotalCost" Type="decimal" Precision="29" Scale="2" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
         <EntityContainer Name="DatabaseModelStoreContainer">
           <EntitySet Name="CashMovement" EntityType="Self.CashMovement" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CategoryType" EntityType="Self.CategoryType" Schema="dbo" store:Type="Tables" />
@@ -708,6 +815,60 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <ComplexType Name="GetCashMovement_Result">
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="LoginId" Type="Int64" Nullable="false" />
+          <Property Name="Value" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="DateTime" Type="DateTime" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Hide" Type="Boolean" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetPurchaseDetail_Result">
+          <Property Name="PurchaseId" Type="Int64" Nullable="false" />
+          <Property Name="PurchaseDetailId" Type="Int64" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="SystemUser" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateTime" Type="DateTime" Nullable="false" />
+          <Property Name="ProductDescription" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Units" Type="Int32" Nullable="false" />
+          <Property Name="TotalValue" Type="Decimal" Precision="29" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="GetPurchaseDetailByLogin_Result">
+          <Property Name="PurchaseId" Type="Int64" Nullable="false" />
+          <Property Name="PurchaseDetailId" Type="Int64" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="SystemUser" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateTime" Type="DateTime" Nullable="false" />
+          <Property Name="ProductDescription" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Units" Type="Int32" Nullable="false" />
+          <Property Name="TotalValue" Type="Decimal" Precision="29" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="GetSaleDetail_Result">
+          <Property Name="SaleId" Type="Int64" Nullable="false" />
+          <Property Name="SaleDetailId" Type="Int64" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="SystemUser" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClientName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClientNit" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateTime" Type="DateTime" Nullable="false" />
+          <Property Name="ProductDescription" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Units" Type="Int32" Nullable="false" />
+          <Property Name="TotalValue" Type="Decimal" Precision="38" Scale="6" />
+          <Property Name="TotalCost" Type="Decimal" Precision="29" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="GetSaleDetailByLogin_Result">
+          <Property Name="SaleId" Type="Int64" Nullable="false" />
+          <Property Name="SaleDetailId" Type="Int64" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="SystemUser" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClientName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClientNit" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateTime" Type="DateTime" Nullable="false" />
+          <Property Name="ProductDescription" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Units" Type="Int32" Nullable="false" />
+          <Property Name="TotalValue" Type="Decimal" Precision="38" Scale="6" />
+          <Property Name="TotalCost" Type="Decimal" Precision="29" Scale="2" />
+        </ComplexType>
         <EntityType Name="CashMovement">
           <Key>
             <PropertyRef Name="Id" />
@@ -717,6 +878,7 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
           <Property Name="Value" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Hide" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Login" Relationship="Self.FK__CashMovem__Login__4D5F7D71" FromRole="CashMovement" ToRole="Login" />
         </EntityType>
         <EntityType Name="CategoryType">
@@ -810,6 +972,8 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="StartDateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="EndDateTime" Type="DateTime" Precision="3" />
+          <Property Name="StartCashValue" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="EndCashValue" Type="Decimal" Precision="18" Scale="2" />
           <NavigationProperty Name="CashMovements" Relationship="Self.FK__CashMovem__Login__4D5F7D71" FromRole="Login" ToRole="CashMovement" />
           <NavigationProperty Name="User" Relationship="Self.FK__Login__UserId__0D7A0286" FromRole="Login" ToRole="User" />
           <NavigationProperty Name="Purchases" Relationship="Self.FK__Purchase__LoginI__2A164134" FromRole="Login" ToRole="Purchase" />
@@ -857,6 +1021,7 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
           <Property Name="PhoneNumber" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="EMail" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Hide" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Products" Relationship="Self.ProductProviderRelation" FromRole="Provider" ToRole="Product" />
         </EntityType>
         <EntityType Name="Purchase">
@@ -866,6 +1031,7 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="LoginId" Type="Int64" Nullable="false" />
           <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Hide" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Login" Relationship="Self.FK__Purchase__LoginI__2A164134" FromRole="Purchase" ToRole="Login" />
           <NavigationProperty Name="PurchaseDetails" Relationship="Self.FK__PurchaseD__Purch__5BAD9CC8" FromRole="Purchase" ToRole="PurchaseDetail" />
         </EntityType>
@@ -891,6 +1057,7 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
           <Property Name="ClientId" Type="Int32" Nullable="false" />
           <Property Name="DailyId" Type="Int32" Nullable="false" />
           <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Hide" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Client" Relationship="Self.FK__Sale__ClientId__2334397B" FromRole="Sale" ToRole="Client" />
           <NavigationProperty Name="Login" Relationship="Self.FK__Sale__LoginId__2057CCD0" FromRole="Sale" ToRole="Login" />
           <NavigationProperty Name="Orders" Relationship="Self.FK__Order__SaleId__41B8C09B" FromRole="Sale" ToRole="Order" />
@@ -958,6 +1125,7 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
           <Property Name="Password" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="FullName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Admin" Type="Boolean" Nullable="false" />
+          <Property Name="Hide" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Logins" Relationship="Self.FK__Login__UserId__0D7A0286" FromRole="User" ToRole="Login" />
         </EntityType>
         <EntityType Name="ProductView">
@@ -1410,6 +1578,23 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
             <End Role="Product" EntitySet="Products" />
             <End Role="Provider" EntitySet="Providers" />
           </AssociationSet>
+          <FunctionImport Name="GetCashMovement" IsComposable="true" ReturnType="Collection(DatabaseModel.GetCashMovement_Result)">
+            <Parameter Name="login_id" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="GetPurchaseDetail" IsComposable="true" ReturnType="Collection(DatabaseModel.GetPurchaseDetail_Result)">
+            <Parameter Name="start_date" Mode="In" Type="DateTime" />
+            <Parameter Name="end_date" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="GetPurchaseDetailByLogin" IsComposable="true" ReturnType="Collection(DatabaseModel.GetPurchaseDetailByLogin_Result)">
+            <Parameter Name="login_id" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="GetSaleDetail" IsComposable="true" ReturnType="Collection(DatabaseModel.GetSaleDetail_Result)">
+            <Parameter Name="start_date" Mode="In" Type="DateTime" />
+            <Parameter Name="end_date" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="GetSaleDetailByLogin" IsComposable="true" ReturnType="Collection(DatabaseModel.GetSaleDetailByLogin_Result)">
+            <Parameter Name="login_id" Mode="In" Type="Int64" />
+          </FunctionImport>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -1425,6 +1610,7 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
                 <ScalarProperty Name="Value" ColumnName="Value" />
                 <ScalarProperty Name="DateTime" ColumnName="DateTime" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Hide" ColumnName="Hide" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1504,6 +1690,8 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="StartDateTime" ColumnName="StartDateTime" />
                 <ScalarProperty Name="EndDateTime" ColumnName="EndDateTime" />
+                <ScalarProperty Name="StartCashValue" ColumnName="StartCashValue" />
+                <ScalarProperty Name="EndCashValue" ColumnName="EndCashValue" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1541,6 +1729,7 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
                 <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
                 <ScalarProperty Name="EMail" ColumnName="EMail" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Hide" ColumnName="Hide" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1550,6 +1739,7 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="LoginId" ColumnName="LoginId" />
                 <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="Hide" ColumnName="Hide" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1573,6 +1763,7 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
                 <ScalarProperty Name="ClientId" ColumnName="ClientId" />
                 <ScalarProperty Name="DailyId" ColumnName="DailyId" />
                 <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="Hide" ColumnName="Hide" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1632,6 +1823,7 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="FullName" ColumnName="FullName" />
                 <ScalarProperty Name="Admin" ColumnName="Admin" />
+                <ScalarProperty Name="Hide" ColumnName="Hide" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1658,6 +1850,80 @@ advertencia 6002: La tabla o vista 'C:\USERS\BERNARDO\PROYECTOS\TRABAJOS\SISTEMA
               <ScalarProperty Name="Id" ColumnName="ProviderId" />
             </EndProperty>
           </AssociationSetMapping>
+          <FunctionImportMapping FunctionName="DatabaseModel.Store.GetCashMovement" FunctionImportName="GetCashMovement">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DatabaseModel.GetCashMovement_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="LoginId" ColumnName="LoginId" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Hide" ColumnName="Hide" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionName="DatabaseModel.Store.GetPurchaseDetail" FunctionImportName="GetPurchaseDetail">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DatabaseModel.GetPurchaseDetail_Result">
+                <ScalarProperty Name="PurchaseId" ColumnName="PurchaseId" />
+                <ScalarProperty Name="PurchaseDetailId" ColumnName="PurchaseDetailId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="SystemUser" ColumnName="SystemUser" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
+                <ScalarProperty Name="Units" ColumnName="Units" />
+                <ScalarProperty Name="TotalValue" ColumnName="TotalValue" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionName="DatabaseModel.Store.GetPurchaseDetailByLogin" FunctionImportName="GetPurchaseDetailByLogin">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DatabaseModel.GetPurchaseDetailByLogin_Result">
+                <ScalarProperty Name="PurchaseId" ColumnName="PurchaseId" />
+                <ScalarProperty Name="PurchaseDetailId" ColumnName="PurchaseDetailId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="SystemUser" ColumnName="SystemUser" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
+                <ScalarProperty Name="Units" ColumnName="Units" />
+                <ScalarProperty Name="TotalValue" ColumnName="TotalValue" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionName="DatabaseModel.Store.GetSaleDetail" FunctionImportName="GetSaleDetail">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DatabaseModel.GetSaleDetail_Result">
+                <ScalarProperty Name="SaleId" ColumnName="SaleId" />
+                <ScalarProperty Name="SaleDetailId" ColumnName="SaleDetailId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="SystemUser" ColumnName="SystemUser" />
+                <ScalarProperty Name="ClientName" ColumnName="ClientName" />
+                <ScalarProperty Name="ClientNit" ColumnName="ClientNit" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
+                <ScalarProperty Name="Units" ColumnName="Units" />
+                <ScalarProperty Name="TotalValue" ColumnName="TotalValue" />
+                <ScalarProperty Name="TotalCost" ColumnName="TotalCost" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionName="DatabaseModel.Store.GetSaleDetailByLogin" FunctionImportName="GetSaleDetailByLogin">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DatabaseModel.GetSaleDetailByLogin_Result">
+                <ScalarProperty Name="SaleId" ColumnName="SaleId" />
+                <ScalarProperty Name="SaleDetailId" ColumnName="SaleDetailId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="SystemUser" ColumnName="SystemUser" />
+                <ScalarProperty Name="ClientName" ColumnName="ClientName" />
+                <ScalarProperty Name="ClientNit" ColumnName="ClientNit" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
+                <ScalarProperty Name="Units" ColumnName="Units" />
+                <ScalarProperty Name="TotalValue" ColumnName="TotalValue" />
+                <ScalarProperty Name="TotalCost" ColumnName="TotalCost" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
