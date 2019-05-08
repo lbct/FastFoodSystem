@@ -61,6 +61,14 @@
                             <telerik:Label Content="Proveedores" HorizontalContentAlignment="Center"></telerik:Label>
                         </StackPanel>
                     </telerik:RadButton>
+                    <telerik:RadButton Padding="0" Name="bill_config_button" BorderThickness="0" Width="100" Height="100" Margin="5" Background="Transparent" Click="Bill_config_button_Click">
+                        <StackPanel>
+                            <Viewbox Height="45">
+                                <Image Opacity="1" RenderOptions.BitmapScalingMode="Fant" Source="/FastFoodSystem;component/Resources/Images/BillIcon.png"></Image>
+                            </Viewbox>
+                            <telerik:Label Content="Facturación" HorizontalContentAlignment="Center"></telerik:Label>
+                        </StackPanel>
+                    </telerik:RadButton>
                 </WrapPanel>
             </StackPanel>
         </Border>

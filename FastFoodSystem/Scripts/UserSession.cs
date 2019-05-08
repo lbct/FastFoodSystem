@@ -11,8 +11,10 @@ namespace FastFoodSystem.Scripts
     public static class UserSession
     {
         public static long LoginID { get; private set; }
+        public static int BillConfigId { get; private set; }
         private static int dailyId = 0;
         private static int dailyOrderId;
+        
         public static int DailyId
         {
             get
@@ -41,6 +43,12 @@ namespace FastFoodSystem.Scripts
             dailyId = 0;
         }
 
+        public static async Task<BillConfig> GetBillConfig()
+        {
+            return await App.RunAsync(() => App.Database.BillConfigs
+            .FirstOrDefault(b => b.Id == BillConfigId));
+        }
+
         public static async Task<bool> Login(string username, string password)
         {
             dailyOrderId = await App.RunAsync(() => 
@@ -66,6 +74,30 @@ namespace FastFoodSystem.Scripts
                                 select log).FirstOrDefault();
                                    
                     });
+                    var lastBillConfig = await App.RunAsync(() => 
+                    {
+                        return (from bill in App.Database.BillConfigs
+                                orderby bill.Id descending
+                                select bill).FirstOrDefault();
+                    });
+                    if(lastBillConfig == null)
+                    {
+                        BillConfig billConfig = new BillConfig()
+                        {
+                            AuthorizationCode = "",
+                            CurrentBillNumber = 1,
+                            DosificationCode = "",
+                            LimitEmissionDate = DateTime.Now
+                        };
+                        await App.RunAsync(() =>
+                        {
+                            App.Database.BillConfigs.Add(billConfig);
+                            App.Database.SaveChanges();
+                        });
+                        lastBillConfig = billConfig;
+                    }
+                    BillConfigId = lastBillConfig.Id;
+
                     if (lastLogin != null && lastLogin.EndDateTime == null)
                         LoginID = lastLogin.Id;
                     else

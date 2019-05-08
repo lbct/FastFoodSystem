@@ -60,6 +60,7 @@ namespace FastFoodSystem.PopUps
         {
             EncoderParameters encoderParameters = new EncoderParameters(1);
             encoderParameters.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 100L);
+            
             camera.GetCurrentImage().Save(saveLocation, GetEncoder(ImageFormat.Jpeg), encoderParameters);
             if(camera.IsCapturing)
                 camera.StopCapture();

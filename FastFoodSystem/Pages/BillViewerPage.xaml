@@ -1,0 +1,122 @@
+﻿<local:SystemPageClass x:Class="FastFoodSystem.Pages.BillViewerPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FastFoodSystem.Scripts"
+             xmlns:controls="clr-namespace:FastFoodSystem.Controls"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             mc:Ignorable="d" 
+             d:DesignHeight="570" d:DesignWidth="800" Background="Gray">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+            <Grid Background="White" Name="bill_container" Width="{Binding Source={x:Static local:PaperSize.BillWidth}}">
+                <Grid Margin="20">
+                    <StackPanel>
+                        <Label FontFamily="Consolas" Foreground="Black" x:Name="company_name_label"  FontSize="20" Content="Doggies S.A." HorizontalAlignment="Center"></Label>
+                        <Label FontSize="11" FontFamily="Consolas" Foreground="Black" Content="FACTURA ORIGINAL" HorizontalAlignment="Center" FontWeight="Bold"></Label>
+                        <Grid HorizontalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel HorizontalAlignment="Right">
+                                <Label FontSize="11" FontFamily="Consolas" Foreground="Black" FontWeight="Bold" Content="NIT:" HorizontalAlignment="Right"></Label>
+                                <Label FontSize="11" FontFamily="Consolas" Foreground="Black" FontWeight="Bold" Content="FACTURA No.:" HorizontalAlignment="Right"></Label>
+                                <Label FontSize="11" FontFamily="Consolas" Foreground="Black" FontWeight="Bold" Content="AUTORIZACIÓN No.:" HorizontalAlignment="Right"></Label>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1">
+                                <Label FontSize="11" FontFamily="Consolas" Foreground="Black" Name="company_nit_label" Content="35989941010"></Label>
+                                <Label FontSize="11" FontFamily="Consolas" Foreground="Black" Name="bill_number_label" Content="325"></Label>
+                                <Label FontSize="11" FontFamily="Consolas" Foreground="Black" Name="auth_number_label" Content="65656646654652"></Label>
+                            </StackPanel>
+                        </Grid>
+                        <Separator Background="Black" Margin="0"></Separator>
+                        <StackPanel Orientation="Horizontal">
+                            <Label FontSize="11" FontFamily="Consolas" Foreground="Black" Content="Fecha:"></Label>
+                            <Label FontSize="11" FontFamily="Consolas" Foreground="Black" Name="sale_date_label" Content="25/10/2013" FontWeight="Bold"></Label>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label FontSize="11" FontFamily="Consolas" Foreground="Black" Content="Señor(a):"></Label>
+                            <Label FontSize="11" FontFamily="Consolas" Foreground="Black" Name="client_name_label" Content="SEJAS" FontWeight="Bold"></Label>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label FontSize="11" FontFamily="Consolas" Foreground="Black" Content="NIT/CI:"></Label>
+                            <Label FontSize="11" FontFamily="Consolas" Foreground="Black" Name="client_nit_label" Content="3589994010" FontWeight="Bold"></Label>
+                        </StackPanel>
+                        <Separator Background="Black" Margin="0"></Separator>
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label FontSize="11" FontFamily="Consolas" Foreground="Black" FontWeight="Bold" Content="Concepto"></Label>
+                                <Label FontSize="11" FontFamily="Consolas" Foreground="Black" FontWeight="Bold" Content="Cantidad" Grid.Column="1"></Label>
+                                <Label FontSize="11" FontFamily="Consolas" Foreground="Black" FontWeight="Bold" Content="P. Unit." Grid.Column="2"></Label>
+                                <Label FontSize="11" FontFamily="Consolas" Foreground="Black" FontWeight="Bold" Content="SubTotal" Grid.Column="3"></Label>
+                            </Grid>
+                            <Separator Background="Black" Margin="0"></Separator>
+                            <StackPanel Name="bill_detail_container">
+                                <controls:BillSaleDetailItem></controls:BillSaleDetailItem>
+                                <controls:BillSaleDetailItem></controls:BillSaleDetailItem>
+                            </StackPanel>
+                            <Separator Background="Black" Margin="0, 10, 0, 10"></Separator>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel>
+                                    <Label FontSize="11" FontFamily="Consolas" Foreground="Black" Padding="0" FontWeight="Bold" HorizontalAlignment="Right" Content="Sub-Total (Bs)"></Label>
+                                    <Label FontSize="11" FontFamily="Consolas" Foreground="Black" Padding="0" FontWeight="Bold" HorizontalAlignment="Right" Content="Descuento (Bs)"></Label>
+                                    <Label FontSize="11" FontFamily="Consolas" Foreground="Black" Padding="0" FontWeight="Bold" HorizontalAlignment="Right" Content="Total (Bs)"></Label>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1">
+                                    <Label FontSize="11" FontFamily="Consolas" Foreground="Black" Name="total_without_discount_label" Padding="0" Content="1300.00" HorizontalAlignment="Right"></Label>
+                                    <Label FontSize="11" FontFamily="Consolas" Foreground="Black" Name="total_discount" Padding="0" Content="0.00" HorizontalAlignment="Right"></Label>
+                                    <Label FontSize="11" FontFamily="Consolas" Foreground="Black" Name="total_sale_label" Padding="0" Content="1300.00" HorizontalAlignment="Right"></Label>
+                                </StackPanel>
+                            </Grid>
+                            <Separator Margin="0, 10" Background="Black"></Separator>
+                            <StackPanel Orientation="Horizontal">
+                                <Label FontSize="11" FontFamily="Consolas" Foreground="Black" Content="Son: "></Label>
+                                <Label FontSize="11" FontFamily="Consolas" Foreground="Black" Name="total_sale_literal_label" FontWeight="Bold" Content="MIL TRECIENTOS 00/100"></Label>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label FontSize="11" FontFamily="Consolas" Foreground="Black" Content="Código de control:"></Label>
+                                <Label FontSize="11" FontFamily="Consolas" Foreground="Black" FontWeight="Bold" Name="code_control_label" Content="50-4B-77-H2"></Label>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label FontSize="11" FontFamily="Consolas" Foreground="Black" Content="Fecha límite de emisión:"></Label>
+                                <Label FontSize="11" FontFamily="Consolas" Foreground="Black" FontWeight="Bold" Name="limit_date_emission_label" Content="30/11/2020"></Label>
+                            </StackPanel>
+                        </StackPanel>
+                        <telerik:RadBarcodeQR Name="code_control_qr" MaxWidth="{Binding Source={x:Static local:PaperSize.BillWidth}}" Text="50-4B-77-H2|dfdkjfkdjfkdjskajskhjsdj"></telerik:RadBarcodeQR>
+                        <TextBlock FontSize="11" Foreground="Black" FontFamily="Consolas" Name="consumer_law_legend_text" TextAlignment="Center" TextWrapping="Wrap" Text="ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAÍS. EL USO ILÍCITO DE ÉSTA SERÁ SANCIONADO DE ACUERDO A LEY,  y ya no LA ALTERACIÓN, FALSIFICACIÓN O COMERCIALIZACIÓN ILEGAL DE ESTE DOCUMENTO TIENE CÁRCEL"></TextBlock>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+        <Border Grid.Row="1" Background="WhiteSmoke">
+            <Grid Margin="20">
+                <telerik:RadButton Name="back_button" Click="Back_button_Click" HorizontalAlignment="Left">
+                    <StackPanel Orientation="Horizontal">
+                        <telerik:Label Content="Atras"></telerik:Label>
+                    </StackPanel>
+                </telerik:RadButton>
+                <telerik:RadButton HorizontalAlignment="Right" Name="print_button" Click="Print_button_Click"  VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <telerik:Label Content="Imprimir"></telerik:Label>
+                    </StackPanel>
+                </telerik:RadButton>
+            </Grid>
+        </Border>
+    </Grid>
+</local:SystemPageClass>

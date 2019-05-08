@@ -2,6 +2,7 @@
 using FastFoodSystem.Database;
 using FastFoodSystem.Pages;
 using FastFoodSystem.Scripts;
+using FastFoodSystem.Scripts.Billing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,15 +73,29 @@ namespace FastFoodSystem.PopUps
                 if (string.IsNullOrEmpty(client_name.Text.Trim()))
                     throw new Exception("Debe escribir un Nombre");
                 var client = await GetClient();
+                var billInfo = await UserSession.GetBillConfig();
                 sale.ClientId = client.Id;
                 sale.Hide = false;
                 sale.DateTime = DateTime.Now;
                 sale.DailyId = UserSession.DailyId;
                 sale.LoginId = UserSession.LoginID;
-                
+                sale.BillNumber = billInfo.CurrentBillNumber;
+
+                sale.ControlCode = await ControlCodeGenerator.GenerateAsync(
+                    sale.BillNumber,
+                    client.Nit,
+                    sale.DateTime,
+                    sale_value.Value.Value,
+                    billInfo.DosificationCode,
+                    billInfo.AuthorizationCode);
+
                 order.Committed = true;
 
-                bool correct = await App.RunAsync(() => { App.Database.SaveChanges(); });
+                bool correct = await App.RunAsync(() => 
+                {
+                    billInfo.CurrentBillNumber++;
+                    App.Database.SaveChanges();
+                });
                 if (correct)
                 {
                     App.ShowMessage("Venta realizada", true, () =>

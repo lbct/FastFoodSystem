@@ -15,6 +15,8 @@ namespace FastFoodSystem.Database
     {
         public long SaleId { get; set; }
         public long SaleDetailId { get; set; }
+        public int BillNumber { get; set; }
+        public string ControlCode { get; set; }
         public int ProductId { get; set; }
         public string SystemUser { get; set; }
         public string ClientName { get; set; }

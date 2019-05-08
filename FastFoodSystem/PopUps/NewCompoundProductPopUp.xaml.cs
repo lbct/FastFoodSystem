@@ -149,7 +149,7 @@ namespace FastFoodSystem.PopUps
                 if (product_id != null)
                     compoundProduct = await App.RunAsync(() => App.Database.CompoundProducts.FirstOrDefault(cp => cp.Id == product_id.Value));
                 else
-                    compoundProduct = new CompoundProduct() { Id = product_id.Value };
+                    compoundProduct = new CompoundProduct() { Id = product.Id };
                 await App.RunAsync(() =>
                 {
                     if(product_id == null)

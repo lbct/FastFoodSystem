@@ -44,6 +44,23 @@ namespace FastFoodSystem.Scripts
             await IncreaseProductUnits(detail.ProductId, detail.Units);
         }
 
+        public static async Task ValidateBillInformation()
+        {
+            var billConfig = await UserSession.GetBillConfig();
+            if (string.IsNullOrEmpty(CompanyInformation.CompanyName.Trim()))
+                throw new Exception("Debe añadir el nombre de su empresa");
+            if (string.IsNullOrEmpty(CompanyInformation.EconomicActivity.Trim()))
+                throw new Exception("Debe añadir una actividad económica");
+            if (CompanyInformation.CompanyNit.Trim().Length < 5 || !CompanyInformation.CompanyNit.Trim().All(char.IsDigit))
+                throw new Exception("Debe añadir un NIT válido");
+            if (billConfig.AuthorizationCode.Trim().Length < 5 || !billConfig.AuthorizationCode.Trim().All(char.IsDigit))
+                throw new Exception("Debe añadir un número de autorización válido");
+            if (billConfig.DosificationCode.Trim().Length != 64)
+                throw new Exception("Debe añadir una llave de dosificación válida");
+            if (billConfig.LimitEmissionDate < DateTime.Now.Date)
+                throw new Exception("Debe añadir una Fecha límite de emisión válida");
+        }
+
         public static async Task IncreaseProductUnits(SaleDetail detail)
         {
             await IncreaseProductUnits(detail.ProductId, detail.Units);
@@ -208,6 +225,35 @@ namespace FastFoodSystem.Scripts
             {
                 var input = await App.RunAsync(() => App.Database.FoodInputs.FirstOrDefault(fi => fi.Id == relation.FoodInputId));
                 await IncreaseProductUnits(input, units * relation.RequiredUnits);
+            }
+        }
+    }
+
+    public static class PixelUnitFactor
+    {
+        public const double Px = 1.0;
+        public const double Inch = 96.0;
+        public const double Cm = 37.7952755905512;
+        public const double Pt = 1.33333333333333;
+
+        public static double CmToPx(double cm)
+        {
+            return cm * Cm;
+        }
+
+        public static double PxToCm(double px)
+        {
+            return px / Cm;
+        }
+    }
+
+    public static class PaperSize
+    {
+        public static double BillWidth
+        {
+            get
+            {
+                return PixelUnitFactor.CmToPx(7.5);
             }
         }
     }

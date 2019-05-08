@@ -70,6 +70,16 @@
                                             Width="*">
                         </telerik:GridViewDataColumn>
                         <telerik:GridViewDataColumn
+                                            Header="Número Factura"
+                                            DataMemberBinding="{Binding BillNumber, StringFormat={}{0:00000}}"
+                                            Width="*">
+                        </telerik:GridViewDataColumn>
+                        <telerik:GridViewDataColumn
+                                            Header="Código Control"
+                                            DataMemberBinding="{Binding ControlCode}"
+                                            Width="*">
+                        </telerik:GridViewDataColumn>
+                        <telerik:GridViewDataColumn
                                             Header="Cliente"
                                             DataMemberBinding="{Binding ClientName}"
                                             Width="*">

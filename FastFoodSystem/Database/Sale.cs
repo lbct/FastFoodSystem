@@ -26,6 +26,8 @@ namespace FastFoodSystem.Database
         public int SaleTypeId { get; set; }
         public int ClientId { get; set; }
         public int DailyId { get; set; }
+        public int BillNumber { get; set; }
+        public string ControlCode { get; set; }
         public System.DateTime DateTime { get; set; }
         public bool Hide { get; set; }
     

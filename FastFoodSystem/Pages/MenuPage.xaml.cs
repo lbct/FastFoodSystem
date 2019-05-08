@@ -77,5 +77,10 @@ namespace FastFoodSystem.Pages
             await App.GetSystemPopUp<InBoxPopUp>().Init();
             App.OpenSystemPopUp<InBoxPopUp>();
         }
+
+        private void Bill_config_button_Click(object sender, RoutedEventArgs e)
+        {
+            App.OpenSystemPage<BillConfigPage>();
+        }
     }
 }

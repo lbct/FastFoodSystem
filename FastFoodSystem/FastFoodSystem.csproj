@@ -59,10 +59,13 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="ReachFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Printing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
@@ -79,6 +82,10 @@
     </Reference>
     <Reference Include="Telerik.Windows.Controls.Data, Version=2019.1.220.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
       <HintPath>..\lib\RCWPF\2019.1.220.45.NoXaml\Telerik.Windows.Controls.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.DataVisualization, Version=2019.1.220.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2019.1.220.45.NoXaml\Telerik.Windows.Controls.DataVisualization.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Telerik.Windows.Controls.GridView, Version=2019.1.220.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
@@ -109,6 +116,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\BillSaleDetailItem.xaml.cs">
+      <DependentUpon>BillSaleDetailItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\EditableImage.xaml.cs">
       <DependentUpon>EditableImage.xaml</DependentUpon>
     </Compile>
@@ -123,6 +133,9 @@
     </Compile>
     <Compile Include="Controls\VisualProduct.xaml.cs">
       <DependentUpon>VisualProduct.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Database\BillConfig.cs">
+      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\CashMovement.cs">
       <DependentUpon>FastFoodDBModel.tt</DependentUpon>
@@ -223,6 +236,12 @@
     <Compile Include="Database\User.cs">
       <DependentUpon>FastFoodDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Pages\BillConfigPage.xaml.cs">
+      <DependentUpon>BillConfigPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BillViewerPage.xaml.cs">
+      <DependentUpon>BillViewerPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
@@ -243,6 +262,12 @@
     </Compile>
     <Compile Include="Pages\SalePage.xaml.cs">
       <DependentUpon>SalePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUps\CodeControlGenPopUp.xaml.cs">
+      <DependentUpon>CodeControlGenPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUps\CodeControlViewer.xaml.cs">
+      <DependentUpon>CodeControlViewer.xaml</DependentUpon>
     </Compile>
     <Compile Include="PopUps\CommitOrderPopUp.xaml.cs">
       <DependentUpon>CommitOrderPopUp.xaml</DependentUpon>
@@ -304,6 +329,8 @@
     <Compile Include="PopUps\WebCamPopUp.xaml.cs">
       <DependentUpon>WebCamPopUp.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Scripts\CompanyInformation.cs" />
+    <Compile Include="Scripts\ControlCodeGenerator.cs" />
     <Compile Include="Scripts\DatabaseActions.cs" />
     <Compile Include="Scripts\ImageFunctions.cs" />
     <Compile Include="Scripts\UserSession.cs" />
@@ -328,6 +355,10 @@
     <Compile Include="Scripts\SystemPageClass.cs" />
     <Compile Include="Scripts\SystemPopUpClass.cs" />
     <Compile Include="Scripts\UnsafeNative.cs" />
+    <Page Include="Controls\BillSaleDetailItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\EditableImage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -359,6 +390,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\BillConfigPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\BillViewerPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\LoginPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -386,6 +425,14 @@
     <Page Include="Pages\SalePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PopUps\CodeControlGenPopUp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PopUps\CodeControlViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PopUps\CommitOrderPopUp.xaml">
       <SubType>Designer</SubType>
@@ -541,6 +588,8 @@
       <DependentUpon>Database.mdf</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\Images\QrCodeIcon.png" />
+    <Resource Include="Resources\Images\BillIcon.png" />
     <Resource Include="Resources\Images\SearchIcon.png" />
     <Resource Include="Resources\Images\MinusIcon.png" />
     <Resource Include="Resources\Images\NoImage.png" />

@@ -28,6 +28,7 @@ namespace FastFoodSystem.Database
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<BillConfig> BillConfigs { get; set; }
         public virtual DbSet<CashMovement> CashMovements { get; set; }
         public virtual DbSet<CategoryType> CategoryTypes { get; set; }
         public virtual DbSet<Client> Clients { get; set; }

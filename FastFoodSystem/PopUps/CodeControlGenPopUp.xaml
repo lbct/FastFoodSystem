@@ -1,0 +1,44 @@
+﻿<local:SystemPopUpClass x:Class="FastFoodSystem.PopUps.CodeControlGenPopUp"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:local="clr-namespace:FastFoodSystem.Scripts"
+             mc:Ignorable="d" 
+             Height="560" Width="450">
+    <Border Background="WhiteSmoke" CornerRadius="10" BorderThickness="5" BorderBrush="#ffab40">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Label Name="title" Content="Generador Código Control" FontSize="20" Margin="10, 10, 10, 10" FontWeight="Bold" HorizontalAlignment="Center"></Label>
+            <Grid Grid.Row="1">
+                <StackPanel Margin="20, 0, 20, 0">
+                    <Label Content="Número de Autorización"></Label>
+                    <telerik:RadWatermarkTextBox Name="auth_number_text"></telerik:RadWatermarkTextBox>
+                    <Label Content="Número de Factura"></Label>
+                    <telerik:RadNumericUpDown Name="bill_number_value" NumberDecimalDigits="0" HideTrailingZeros="True" Minimum="1" Value="1"></telerik:RadNumericUpDown>
+                    <Label Content="Nit"></Label>
+                    <telerik:RadWatermarkTextBox Name="client_nit_text"></telerik:RadWatermarkTextBox>
+                    <Label Content="Fecha"></Label>
+                    <telerik:RadDatePicker Name="bill_date"></telerik:RadDatePicker>
+                    <Label Content="Monto"></Label>
+                    <telerik:RadNumericUpDown Minimum="0" NumberDecimalDigits="2" HideTrailingZeros="True" CustomUnit="Bs" Value="0" Name="total_sale_value"></telerik:RadNumericUpDown>
+                    <Label Content="Llave de Dosificación"></Label>
+                    <telerik:RadWatermarkTextBox Name="dosification_key_text"></telerik:RadWatermarkTextBox>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <telerik:RadButton Margin="10" Name="generate_button" Content="Generar Código" Click="Generate_button_Click"></telerik:RadButton>
+                <telerik:RadButton Margin="10" Name="cancel_button" Grid.Column="1" Content="Cancelar" Click="Cancel_button_Click"></telerik:RadButton>
+            </Grid>
+        </Grid>
+    </Border>
+</local:SystemPopUpClass>
