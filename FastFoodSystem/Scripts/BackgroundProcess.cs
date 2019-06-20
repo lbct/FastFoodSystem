@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -11,7 +12,7 @@ namespace FastFoodSystem.Scripts
     {
         private bool state;
         private Queue<Task<object>> tasks;
-        private Thread thread;
+        private BackgroundWorker thread;
 
         public BackgroundProcess()
         {
@@ -22,8 +23,14 @@ namespace FastFoodSystem.Scripts
         {
             state = true;
             tasks = new Queue<Task<object>>();
-            thread = new Thread(new ThreadStart(StartTask));
-            thread.Start();
+            thread = new BackgroundWorker();
+            thread.DoWork += Thread_DoWork;
+            thread.RunWorkerAsync();
+        }
+
+        private void Thread_DoWork(object sender, DoWorkEventArgs e)
+        {
+            StartTask();
         }
 
         public void AddTask(Task<object> task)
@@ -46,7 +53,6 @@ namespace FastFoodSystem.Scripts
                     var task = tasks.Dequeue();
                     task.Start();
                     task.Wait();
-                    Thread.Sleep(10);
                 }
             }
         }

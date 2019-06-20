@@ -7,7 +7,7 @@
              xmlns:controls="clr-namespace:FastFoodSystem.Controls"
              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
       mc:Ignorable="d" 
-      Width="720" Height="520">
+      Width="620" Height="520">
     <Border Background="WhiteSmoke" CornerRadius="10" BorderThickness="5" BorderBrush="#32ba7c">
         <Grid>
             <Grid.RowDefinitions>
@@ -19,7 +19,7 @@
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="0"></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="2" Margin="10, 20, 20, 34" Background="White" BorderThickness="1" BorderBrush="Gray">
@@ -33,17 +33,6 @@
                         </StackPanel>
                     </ScrollViewer>
                 </Border>
-                <Grid Grid.Column="1">
-                    <Border BorderBrush="Gray" Background="White" BorderThickness="1" Margin="10, 20, 10, 34" Padding="10, 20">
-                        <StackPanel>
-                            <telerik:Label Content="Datos cliente" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"></telerik:Label>
-                            <telerik:Label Margin="0, 20, 0, 0" Content="NIT"></telerik:Label>
-                            <telerik:RadAutoCompleteBox TextSearchMode="Contains" TextSearchPath="Nit" SelectionMode="Single" Name="nit_search_bar" SelectionChanged="Nit_search_bar_SelectionChanged"></telerik:RadAutoCompleteBox>
-                            <telerik:Label Content="Nombre"></telerik:Label>
-                            <telerik:RadWatermarkTextBox Name="client_name"></telerik:RadWatermarkTextBox>
-                        </StackPanel>
-                    </Border>
-                </Grid>
                 <Grid>
                     <Grid Margin="20, 20, 10, 20">
                         <StackPanel>
@@ -67,7 +56,7 @@
                                     <telerik:RadNumericUpDown Name="client_pay_value" Value="0" NullValue="0" CustomUnit="Bs" Grid.Column="1" Minimum="0" NumberDecimalDigits="2" BorderThickness="0" BorderBrush="{x:Null}" HideTrailingZeros="True" ShowButtons="False" ValueChanged="Client_pay_value_ValueChanged"></telerik:RadNumericUpDown>
                                 </Grid>
                             </Border>
-                            <Border Margin="0, 10, 0, 0" Background="LightGray" BorderThickness="1" BorderBrush="Gray" Padding="8">
+                            <Border Margin="0, 10, 0, 0" Height="173" Background="LightGray" BorderThickness="1" BorderBrush="Gray" Padding="8">
                                 <Grid HorizontalAlignment="Center">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition></ColumnDefinition>
@@ -151,10 +140,12 @@
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <telerik:RadButton Grid.Column="0" Name="okButton" IsDefault="True" Margin="20, 10, 10, 20" Content="Realizar Venta" Click="OkButton_Click"></telerik:RadButton>
-                <telerik:RadButton Grid.Column="1" Name="delete_button" IsDefault="True" Margin="10, 10, 10, 20" Content="Eliminar pedido" Click="Delete_button_Click"></telerik:RadButton>
-                <telerik:RadButton Grid.Column="2" Name="cancelButton" Margin="10, 10, 20, 20" Content="Cancelar" Click="CancelButton_Click"></telerik:RadButton>
+                <telerik:RadButton Grid.Column="1" Name="delete_button" Margin="10, 10, 10, 20" Content="Eliminar Pedido" Click="Delete_button_Click"></telerik:RadButton>
+                <telerik:RadButton Grid.Column="2" Name="editButton" Margin="10, 10, 10, 20" Content="Editar Pedido" Click="EditButton_Click"></telerik:RadButton>
+                <telerik:RadButton Grid.Column="3" Name="cancelButton" Margin="10, 10, 20, 20" Content="Cancelar" Click="CancelButton_Click"></telerik:RadButton>
             </Grid>
         </Grid>
     </Border>

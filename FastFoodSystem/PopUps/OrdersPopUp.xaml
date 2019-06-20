@@ -49,20 +49,25 @@
                         </telerik:GridViewDataColumn>
                         <telerik:GridViewDataColumn
                                             Header="Número de Pedido"
-                                            DataMemberBinding="{Binding Order.DailyId, StringFormat={}{0:00000}}"
+                                            DataMemberBinding="{Binding DailyId, StringFormat={}{0:00000}}"
                                             Width="*">
                             <telerik:GridViewDataColumn.AggregateFunctions>
                                 <telerik:CountFunction Caption="Recuento: "></telerik:CountFunction>
                             </telerik:GridViewDataColumn.AggregateFunctions>
                         </telerik:GridViewDataColumn>
                         <telerik:GridViewDataColumn
+                                            Header="Id Pedido"
+                                            DataMemberBinding="{Binding Id, StringFormat={}{0:00000}}"
+                                            Width="*">
+                        </telerik:GridViewDataColumn>
+                        <telerik:GridViewDataColumn
                                             Header="Nombre"
-                                            DataMemberBinding="{Binding Order.OrderName}"
+                                            DataMemberBinding="{Binding OrderName}"
                                             Width="*">
                         </telerik:GridViewDataColumn>
                         <telerik:GridViewDataColumn
                                             Header="Observación"
-                                            DataMemberBinding="{Binding Order.Observation}"
+                                            DataMemberBinding="{Binding Observation}"
                                             Width="*">
                         </telerik:GridViewDataColumn>
                         <telerik:GridViewDataColumn

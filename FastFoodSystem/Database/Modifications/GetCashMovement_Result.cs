@@ -11,15 +11,13 @@ namespace FastFoodSystem.Database
 {
     using System;
     
-    public partial class GetPurchaseDetailByLogin_Result
+    public class GetCashMovement_Result
     {
-        public long PurchaseId { get; set; }
-        public long PurchaseDetailId { get; set; }
-        public int ProductId { get; set; }
-        public string SystemUser { get; set; }
+        public int Id { get; set; }
+        public long LoginId { get; set; }
+        public decimal Value { get; set; }
         public System.DateTime DateTime { get; set; }
-        public string ProductDescription { get; set; }
-        public int Units { get; set; }
-        public Nullable<decimal> TotalValue { get; set; }
+        public string Description { get; set; }
+        public bool Hide { get; set; }
     }
 }

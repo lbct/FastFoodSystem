@@ -31,21 +31,9 @@ namespace FastFoodSystem.PopUps
         {
             orders_table.ItemsSource = await App.RunAsync(() => 
             {
-                var orders = App.Database.Orders
-                .Where(o => !o.Committed)
+                return App.Database.SaleOrders
+                .Where(o => !o.Hide)
                 .ToArray();
-                var orderItems = new List<OrderItem>();
-                foreach(var order in orders)
-                {
-                    var sale = App.Database.Sales.FirstOrDefault(s => s.Id == order.SaleId);
-                    var item = new OrderItem()
-                    {
-                        Order = order,
-                        DateTime = sale.DateTime
-                    };
-                    orderItems.Add(item);
-                }
-                return orderItems;
             });
         }
 
@@ -62,15 +50,10 @@ namespace FastFoodSystem.PopUps
         private async void EditData_Click(object sender, RoutedEventArgs e)
         {
             App.ShowLoad();
-            var data = ((FrameworkElement)sender).DataContext as OrderItem;
-            await App.GetSystemPopUp<CommitOrderPopUp>().Init(data.Order);
+            var data = ((FrameworkElement)sender).DataContext as SaleOrder;
+            
+            await App.GetSystemPopUp<CommitOrderPopUp>().Init(data);
             App.OpenSystemPopUp<CommitOrderPopUp>();
         }
-    }
-
-    public class OrderItem
-    {
-        public Order Order { get; set; }
-        public DateTime DateTime { get; set; }
     }
 }

@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using Telerik.Windows.Controls;
 
 namespace FastFoodSystem.Pages
 {

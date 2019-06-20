@@ -44,7 +44,11 @@
                             </telerik:RadPasswordBox.WatermarkContent>
                         </telerik:RadPasswordBox>
                     </Grid>
-                    <telerik:RadButton Margin="20,0,20,20" Name="loginButton" Content="Iniciar Sesión" HorizontalAlignment="Right" IsDefault="True" Click="loginButton_Click"/>
+                    <telerik:RadButton Margin="20,0,20,20" Name="loginButton" HorizontalAlignment="Right" IsDefault="True" Click="loginButton_Click">
+                        <StackPanel Orientation="Horizontal" Name="content">
+                            <Label Content="Iniciar Sesión"></Label>
+                        </StackPanel>
+                    </telerik:RadButton>
                 </StackPanel>
             </Border>
 

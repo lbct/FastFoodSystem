@@ -42,7 +42,9 @@ namespace FastFoodSystem.PopUps
             client_name.Text = "";
             nit_search_bar.SelectedItem = null;
             nit_search_bar.SearchText = "";
-            nit_search_bar.ItemsSource = await App.RunAsync(() => App.Database.Clients.ToArray());
+            var clients = await App.RunAsync(() => App.Database.Clients.ToArray());
+            nit_search_bar.ItemsSource = clients;
+            nit_search_bar.SelectedItem = clients.FirstOrDefault();
         }
 
         private async void OkButton_Click(object sender, RoutedEventArgs e)
@@ -55,7 +57,7 @@ namespace FastFoodSystem.PopUps
                 if (string.IsNullOrEmpty(client_name.Text.Trim()))
                     throw new Exception("Debe escribir un Nombre");
                 var billConfig = await UserSession.GetBillConfig();
-                await DatabaseActions.ValidateBillInformation();
+                //await DatabaseActions.ValidateBillInformation();
                 var sale = await CreateSale(UserSession.DailyId, billConfig.CurrentBillNumber);
                 
                 if (sale != null)
@@ -65,12 +67,12 @@ namespace FastFoodSystem.PopUps
                         billConfig.CurrentBillNumber++;
                         App.Database.SaveChanges();
                     });
-                    App.ShowMessage("Venta realizada", true, async () =>
+                    App.ShowMessage("Venta realizada", true, () =>
                     {
                         App.ShowLoad();
-                        await App.GetSystemPage<BillViewerPage>().Init(sale);
+                        //await App.GetSystemPage<BillViewerPage>().Init(sale);
                         App.GetSystemPage<NewSalePage>().Refresh();
-                        App.OpenSystemPage<BillViewerPage>();
+                        //App.OpenSystemPage<BillViewerPage>();
                     });
                 }
             }
@@ -117,13 +119,13 @@ namespace FastFoodSystem.PopUps
                 var billConfig = await UserSession.GetBillConfig();
                 var saleDateTime = DateTime.Now;
 
-                string controlCode = await ControlCodeGenerator.GenerateAsync(
+                /*string controlCode = await ControlCodeGenerator.GenerateAsync(
                     billConfig.CurrentBillNumber, 
                     client.Nit,
                     saleDateTime, 
                     sale_value.Value.Value, 
                     billConfig.DosificationCode, 
-                    billConfig.AuthorizationCode);
+                    billConfig.AuthorizationCode);*/
 
                 sale = new Sale()
                 {
@@ -133,7 +135,7 @@ namespace FastFoodSystem.PopUps
                     LoginId = UserSession.LoginID,
                     SaleTypeId = 1,
                     BillNumber = billNumber,
-                    ControlCode = controlCode
+                    ControlCode = "Bill"//controlCode
                 };
                 correct = await App.RunAsync(() =>
                 {
@@ -157,6 +159,55 @@ namespace FastFoodSystem.PopUps
                 }
             }
             return correct ? sale : null;
+        }
+
+        private async Task<SaleOrder> CreateOrder(int dailyId, string name, string obs)
+        {
+            bool correct = true;
+            SaleOrder order = null;
+            var saleDateTime = DateTime.Now;
+
+            order = new SaleOrder()
+            {
+                DailyId = dailyId,
+                DateTime = saleDateTime,
+                LoginId = UserSession.LoginID,
+                Observation = obs,
+                OrderName = name
+            };
+            correct = await App.RunAsync(() =>
+            {
+                App.Database.SaleOrders.Add(order);
+                App.Database.SaveChanges();
+            });
+            if (correct)
+            {
+                await AddDetailsToOrder(saleDetails, order);
+                foreach (var detail in saleDetails)
+                    await DatabaseActions.ReduceProductUnits(detail);
+            }
+            return correct ? order : null;
+        }
+
+        private async Task AddDetailsToOrder(SaleDetail[] details, SaleOrder order)
+        {
+            foreach(var detail in details)
+            {
+                SaleOrderDetail orderDetail = new SaleOrderDetail()
+                {
+                    DiscountValue = detail.DiscountValue,
+                    ProductId = detail.ProductId,
+                    SaleOrderId = order.Id,
+                    Units = detail.Units,
+                    UnitCost = detail.UnitCost,
+                    UnitValue = detail.UnitValue
+                };
+                await App.RunAsync(() =>
+                {
+                    App.Database.SaleOrderDetails.Add(orderDetail);
+                    App.Database.SaveChanges();
+                });
+            }
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -195,33 +246,11 @@ namespace FastFoodSystem.PopUps
             App.OpenSystemPopUp<NewOrderPopUp>().Init(async (name, obs) =>
             {
                 App.ShowLoad();
-                if (nit_search_bar.SelectedItem == null && string.IsNullOrEmpty(nit_search_bar.SearchText.Trim()))
-                {
-                    nit_search_bar.SearchText = "0";
-                    client_name.Text = "SIN NOMBRE";
-                }
-                if (string.IsNullOrEmpty(client_name.Text.Trim()))
-                    client_name.Text = "SIN NOMBRE";
                 try
                 {
-                    await DatabaseActions.ValidateBillInformation();
-                    var sale = await CreateSale(0, 0);
-                    if (sale != null)
+                    var order = await CreateOrder(UserSession.DailyOrderId, name, obs);
+                    if (order != null)
                     {
-                        Order order = new Order()
-                        {
-                            DailyId = UserSession.DailyOrderId,
-                            Observation = obs,
-                            OrderName = name,
-                            SaleId = sale.Id,
-                            Committed = false
-                        };
-                        sale.Hide = true;
-                        bool correct = await App.RunAsync(() =>
-                        {
-                            App.Database.Orders.Add(order);
-                            App.Database.SaveChanges();
-                        });
                         App.ShowMessage("Pedido (" + order.DailyId + ") guardado a nombre de " + order.OrderName, true,
                             () => App.GetSystemPage<NewSalePage>().Refresh());
                     }

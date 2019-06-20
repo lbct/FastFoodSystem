@@ -30,12 +30,12 @@ namespace FastFoodSystem.PopUps
             InitializeComponent();
         }
 
-        public void Init(Action<string, string> action, Action actionCancel)
+        public void Init(Action<string, string> action, Action actionCancel, string name = "", string obs = "")
         {
             this.action = action;
             this.actionCancel = actionCancel;
-            name_text.Text = "";
-            observation_text.Text = "";
+            name_text.Text = name;
+            observation_text.Text = obs;
         }
 
         private void Save_button_Click(object sender, RoutedEventArgs e)

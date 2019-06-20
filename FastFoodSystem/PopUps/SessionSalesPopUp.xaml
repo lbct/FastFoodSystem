@@ -56,13 +56,8 @@
                             </telerik:GridViewDataColumn.AggregateFunctions>
                         </telerik:GridViewDataColumn>
                         <telerik:GridViewDataColumn
-                                            Header="Nombre Cliente"
-                                            DataMemberBinding="{Binding Client.Name}"
-                                            Width="*">
-                        </telerik:GridViewDataColumn>
-                        <telerik:GridViewDataColumn
-                                            Header="Nit Cliente"
-                                            DataMemberBinding="{Binding Client.Nit}"
+                                            Header="Id Venta"
+                                            DataMemberBinding="{Binding Sale.Id, StringFormat={}{0:00000}}"
                                             Width="*">
                         </telerik:GridViewDataColumn>
                         <telerik:GridViewDataColumn

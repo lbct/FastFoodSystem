@@ -14,6 +14,7 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -26,7 +27,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -50,11 +50,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -63,6 +60,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Printing" />
@@ -92,6 +90,10 @@
       <HintPath>..\lib\RCWPF\2019.1.220.45.NoXaml\Telerik.Windows.Controls.GridView.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Telerik.Windows.Controls.GridView.Export, Version=2019.1.220.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2019.1.220.45.NoXaml\Telerik.Windows.Controls.GridView.Export.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Telerik.Windows.Controls.Input, Version=2019.1.220.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
       <HintPath>..\lib\RCWPF\2019.1.220.45.NoXaml\Telerik.Windows.Controls.Input.dll</HintPath>
       <Private>True</Private>
@@ -104,8 +106,32 @@
       <HintPath>..\lib\RCWPF\2019.1.220.45.NoXaml\Telerik.Windows.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Telerik.Windows.Documents.Core, Version=2019.1.215.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2019.1.220.45.NoXaml\Telerik.Windows.Documents.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Fixed, Version=2019.1.215.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2019.1.220.45.NoXaml\Telerik.Windows.Documents.Fixed.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Spreadsheet, Version=2019.1.215.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2019.1.220.45.NoXaml\Telerik.Windows.Documents.Spreadsheet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml, Version=2019.1.215.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2019.1.220.45.NoXaml\Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Spreadsheet.FormatProviders.Pdf, Version=2019.1.215.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2019.1.220.45.NoXaml\Telerik.Windows.Documents.Spreadsheet.FormatProviders.Pdf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Telerik.Windows.Themes.Material">
       <HintPath>..\lib\RCWPF\2019.1.220.45.NoXaml\Telerik.Windows.Themes.Material.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Zip, Version=2019.1.215.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2019.1.220.45.NoXaml\Telerik.Windows.Zip.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="WebEye.Controls.Wpf.WebCameraControl">
@@ -135,106 +161,98 @@
       <DependentUpon>VisualProduct.xaml</DependentUpon>
     </Compile>
     <Compile Include="Database\BillConfig.cs">
-      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+      <DependentUpon>FastFoodDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\CashMovement.cs">
-      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+      <DependentUpon>FastFoodDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\CategoryType.cs">
-      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+      <DependentUpon>FastFoodDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\Client.cs">
-      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+      <DependentUpon>FastFoodDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\Combo.cs">
-      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+      <DependentUpon>FastFoodDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\CompoundProduct.cs">
-      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+      <DependentUpon>FastFoodDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\CompoundProductCombo.cs">
-      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+      <DependentUpon>FastFoodDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\CompoundProductFoodInput.cs">
-      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+      <DependentUpon>FastFoodDbModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\FastFoodDBModel.Context.cs">
+    <Compile Include="Database\FastFoodDbModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>FastFoodDBModel.Context.tt</DependentUpon>
+      <DependentUpon>FastFoodDbModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\FastFoodDBModel.cs">
+    <Compile Include="Database\FastFoodDbModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+      <DependentUpon>FastFoodDbModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\FastFoodDBModel.Designer.cs">
+    <Compile Include="Database\FastFoodDbModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>FastFoodDBModel.edmx</DependentUpon>
+      <DependentUpon>FastFoodDbModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Database\FoodInput.cs">
-      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+      <DependentUpon>FastFoodDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\FoodInputCombo.cs">
-      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\GetCashMovement_Result.cs">
-      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\GetPurchaseDetailByLogin_Result.cs">
-      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\GetPurchaseDetail_Result.cs">
-      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\GetSaleDetailByLogin_Result.cs">
-      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\GetSaleDetail_Result.cs">
-      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+      <DependentUpon>FastFoodDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\Login.cs">
-      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+      <DependentUpon>FastFoodDbModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\Order.cs">
-      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Database\Modifications\DatabaseEntities.cs" />
+    <Compile Include="Database\Modifications\GetCashMovement_Result.cs" />
+    <Compile Include="Database\Modifications\GetPurchaseDetailByLogin_Result.cs" />
+    <Compile Include="Database\Modifications\GetPurchaseDetail_Result.cs" />
+    <Compile Include="Database\Modifications\GetSaleDetailByLogin_Result.cs" />
+    <Compile Include="Database\Modifications\GetSaleDetail_Result.cs" />
+    <Compile Include="Database\Modifications\ProductView.cs" />
     <Compile Include="Database\Product.cs">
-      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\ProductView.cs">
-      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+      <DependentUpon>FastFoodDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\Provider.cs">
-      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+      <DependentUpon>FastFoodDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\Purchase.cs">
-      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+      <DependentUpon>FastFoodDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\PurchaseDetail.cs">
-      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+      <DependentUpon>FastFoodDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\Sale.cs">
-      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+      <DependentUpon>FastFoodDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\SaleDetail.cs">
-      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+      <DependentUpon>FastFoodDbModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\SaleOrder.cs">
+      <DependentUpon>FastFoodDbModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\SaleOrderDetail.cs">
+      <DependentUpon>FastFoodDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\SaleType.cs">
-      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+      <DependentUpon>FastFoodDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\SimpleProduct.cs">
-      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+      <DependentUpon>FastFoodDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\SimpleProductCombo.cs">
-      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+      <DependentUpon>FastFoodDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\UnitType.cs">
-      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+      <DependentUpon>FastFoodDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\User.cs">
-      <DependentUpon>FastFoodDBModel.tt</DependentUpon>
+      <DependentUpon>FastFoodDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Pages\BillConfigPage.xaml.cs">
       <DependentUpon>BillConfigPage.xaml</DependentUpon>
@@ -332,6 +350,7 @@
     <Compile Include="Scripts\CompanyInformation.cs" />
     <Compile Include="Scripts\ControlCodeGenerator.cs" />
     <Compile Include="Scripts\DatabaseActions.cs" />
+    <Compile Include="Scripts\ExcelExporter.cs" />
     <Compile Include="Scripts\ImageFunctions.cs" />
     <Compile Include="Scripts\UserSession.cs" />
     <Page Include="App.xaml">
@@ -553,12 +572,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="Database\FastFoodDBModel.edmx">
+    <EntityDeploy Include="Database\FastFoodDbModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>FastFoodDBModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>FastFoodDbModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Database\FastFoodDBModel.edmx.diagram">
-      <DependentUpon>FastFoodDBModel.edmx</DependentUpon>
+    <None Include="Database\FastFoodDbModel.edmx.diagram">
+      <DependentUpon>FastFoodDbModel.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -574,19 +593,19 @@
     <Content Include="Database.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Database\FastFoodDBModel.Context.tt">
+    <Content Include="Database\FastFoodDbModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>FastFoodDBModel.edmx</DependentUpon>
-      <LastGenOutput>FastFoodDBModel.Context.cs</LastGenOutput>
+      <DependentUpon>FastFoodDbModel.edmx</DependentUpon>
+      <LastGenOutput>FastFoodDbModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Database\FastFoodDBModel.tt">
+    <Content Include="Database\FastFoodDbModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>FastFoodDBModel.edmx</DependentUpon>
-      <LastGenOutput>FastFoodDBModel.cs</LastGenOutput>
+      <DependentUpon>FastFoodDbModel.edmx</DependentUpon>
+      <LastGenOutput>FastFoodDbModel.cs</LastGenOutput>
     </Content>
     <Content Include="Database_log.ldf">
-      <DependentUpon>Database.mdf</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>Database.mdf</DependentUpon>
     </Content>
     <Resource Include="Resources\Images\QrCodeIcon.png" />
     <Resource Include="Resources\Images\BillIcon.png" />

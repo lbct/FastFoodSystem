@@ -44,7 +44,7 @@
 							 RowIndicatorVisibility="Collapsed"
 							 IsReadOnly="True"								
 							 AutoGenerateColumns="False"
-                             ShowColumnFooters="False"
+                             ShowColumnFooters="True"
 							 >
                     <telerik:RadGridView.Columns>
                         <telerik:GridViewDataColumn                         
@@ -70,28 +70,9 @@
                                             Width="*">
                         </telerik:GridViewDataColumn>
                         <telerik:GridViewDataColumn
-                                            Header="Número Factura"
-                                            DataMemberBinding="{Binding BillNumber, StringFormat={}{0:00000}}"
-                                            Width="*">
-                        </telerik:GridViewDataColumn>
-                        <telerik:GridViewDataColumn
-                                            Header="Código Control"
-                                            DataMemberBinding="{Binding ControlCode}"
-                                            Width="*">
-                        </telerik:GridViewDataColumn>
-                        <telerik:GridViewDataColumn
-                                            Header="Cliente"
-                                            DataMemberBinding="{Binding ClientName}"
-                                            Width="*">
-                        </telerik:GridViewDataColumn>
-                        <telerik:GridViewDataColumn
-                                            Header="Nit Cliente"
-                                            DataMemberBinding="{Binding ClientNit}"
-                                            Width="*">
-                        </telerik:GridViewDataColumn>
-                        <telerik:GridViewDataColumn
                                             Header="Fecha y Hora"
                                             DataMemberBinding="{Binding DateTime, StringFormat={}{0:dd/MM/yyyy HH:mm}}"
+                                            Name="date_column"
                                             Width="*">
                         </telerik:GridViewDataColumn>
                         <telerik:GridViewDataColumn
@@ -101,8 +82,12 @@
                         </telerik:GridViewDataColumn>
                         <telerik:GridViewDataColumn 
                                             Header="Unidades"
+                                            Name="units_column"
                                             DataMemberBinding="{Binding Units, Mode=OneWay}"
                                             Width="*">
+                            <telerik:GridViewDataColumn.AggregateFunctions>
+                                <telerik:SumFunction Caption="Unidades: "></telerik:SumFunction>
+                            </telerik:GridViewDataColumn.AggregateFunctions>
                             <telerik:GridViewDataColumn.CellTemplate>
                                 <DataTemplate>
                                     <telerik:RadNumericUpDown Background="{x:Null}" Foreground="Black" BorderThickness="0" Value="{Binding Units, Mode=OneWay}" NumberDecimalDigits="0" IsEditable="False" CustomUnit="Unid" HideTrailingZeros="True" ShowButtons="False" IsHitTestVisible="False"/>
@@ -114,6 +99,9 @@
                                             Name="total_column"
                                             DataMemberBinding="{Binding TotalValue, Mode=OneWay}"
                                             Width="*">
+                            <telerik:GridViewDataColumn.AggregateFunctions>
+                                <telerik:SumFunction Caption="Total Bs: " ResultFormatString="{}{0:#,#.00}"/>
+                            </telerik:GridViewDataColumn.AggregateFunctions>
                             <telerik:GridViewDataColumn.CellTemplate>
                                 <DataTemplate>
                                     <telerik:RadNumericUpDown Background="{x:Null}" Foreground="Black" BorderThickness="0" Value="{Binding TotalValue, Mode=OneWay}" NumberDecimalDigits="0" IsEditable="False" CustomUnit="Bs" HideTrailingZeros="True" ShowButtons="False" IsHitTestVisible="False"/>
@@ -130,10 +118,13 @@
                                     <telerik:RadNumericUpDown Background="{x:Null}" Foreground="Black" BorderThickness="0" Value="{Binding TotalCost, Mode=OneWay}" NumberDecimalDigits="0" IsEditable="False" CustomUnit="Bs" HideTrailingZeros="True" ShowButtons="False" IsHitTestVisible="False"/>
                                 </DataTemplate>
                             </telerik:GridViewDataColumn.CellTemplate>
+                            <telerik:GridViewDataColumn.AggregateFunctions>
+                                <telerik:SumFunction Caption="Total Bs: " ResultFormatString="{}{0:#,#.00}"/>
+                            </telerik:GridViewDataColumn.AggregateFunctions>
                         </telerik:GridViewDataColumn>
                     </telerik:RadGridView.Columns>
                 </telerik:RadGridView>
-                <Grid Grid.Row="1">
+                <Grid Grid.Row="1" Visibility="Collapsed">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                         <Label FontWeight="Bold" Content="Total:" VerticalAlignment="Center"></Label>
                         <telerik:RadNumericUpDown Name="total_sale_value" FontWeight="Bold" Margin="5" Value="0" Width="{Binding ElementName=total_column, Path=ActualWidth}" NumberDecimalDigits="2" CustomUnit="Bs" ShowButtons="False" Background="Transparent" BorderThickness="0" IsEditable="False" IsHitTestVisible="False"></telerik:RadNumericUpDown>
@@ -168,7 +159,7 @@
                         </telerik:RadMenuItem.Icon>
                         <telerik:RadMenuGroupItem Header="Opciones de Ventas">
                             <telerik:RadMenuItem x:Name="new_sale_button" Header="Realizar nueva venta" Click="New_sale_button_Click"/>
-                            <telerik:RadMenuItem x:Name="export_to_excel_button" Visibility="Collapsed" Header="Exportar a excel" Click="Export_to_excel_button_Click">
+                            <telerik:RadMenuItem x:Name="export_to_excel_button" Header="Exportar a excel" Click="Export_to_excel_button_Click">
                                 <telerik:RadMenuItem.Icon>
                                     <Image RenderOptions.BitmapScalingMode="Fant" Source="/FastFoodSystem;component/Resources/Images/excel.png"/>
                                 </telerik:RadMenuItem.Icon>

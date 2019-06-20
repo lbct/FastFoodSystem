@@ -25,6 +25,8 @@ namespace FastFoodSystem.Pages
     /// </summary>
     public partial class NewSalePage : SystemPageClass
     {
+        private SaleOrder order;
+
         public NewSalePage()
         {
             InitializeComponent();
@@ -33,6 +35,12 @@ namespace FastFoodSystem.Pages
         public override async void Refresh()
         {
             App.ShowLoad();
+            await RefreshAll();
+            App.CloseSystemPopUp();
+        }
+
+        public async Task RefreshAll()
+        {
             var login = await App.RunAsync(() => App.Database.Logins.FirstOrDefault(l => l.Id == UserSession.LoginID));
             var user = await App.RunAsync(() => App.Database.Users.FirstOrDefault(u => u.Id == login.UserId));
             if (user.Admin)
@@ -43,17 +51,17 @@ namespace FastFoodSystem.Pages
             detail_container.Children.Clear();
             detail_grid.Visibility = Visibility.Hidden;
             var categories = await App.RunAsync(() => App.Database.CategoryTypes.ToArray());
-            foreach(var category in categories)
+            foreach (var category in categories)
             {
                 var tab = await GetNewCategoryItem(category);
-                if(tab != null)
+                if (tab != null)
                     category_container.Items.Add(tab);
             }
             if (category_container.Items.Count > 0)
                 category_container.SelectedIndex = 0;
 
-            var orders = await App.RunAsync(() => App.Database.Orders
-            .Where(o => !o.Committed)
+            var orders = await App.RunAsync(() => App.Database.SaleOrders
+            .Where(o => !o.Hide)
             .Count());
             if (orders <= 0)
                 order_alert_container.Visibility = Visibility.Collapsed;
@@ -62,7 +70,16 @@ namespace FastFoodSystem.Pages
                 order_alert_container.Visibility = Visibility.Visible;
                 order_count.Content = orders;
             }
-            App.CloseSystemPopUp();
+            if (order == null)
+            {
+                order_row.Height = new GridLength(0);
+                order_buttons_container.Visibility = Visibility.Collapsed;
+                sale_buttons_container.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                await SetSaleOrder(order);
+            }
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
@@ -151,6 +168,43 @@ namespace FastFoodSystem.Pages
             UpdateTotalValue();
         }
 
+        public bool DetailContainerInUse
+        {
+            get
+            {
+                return detail_container.Children.Count > 0 || order != null;
+            }
+        }
+
+        public async Task SetSaleOrder(SaleOrder order)
+        {
+            order_row.Height = new GridLength(48);
+            sale_buttons_container.Visibility = Visibility.Collapsed;
+            order_buttons_container.Visibility = Visibility.Visible;
+            order_number_label.Content = order.DailyId;
+            this.order = order;
+            var details = await App.RunAsync(() =>
+            {
+                return App.Database.SaleOrderDetails.Where(d => d.SaleOrderId == order.Id).ToArray();
+            });
+            detail_container.Children.Clear();
+            foreach (var detail in details)
+            {
+                var product = await App.RunAsync(() =>
+                App.Database.Products.FirstOrDefault(p => p.Id == detail.ProductId));
+                var item = new SaleDetailItem()
+                {
+                    Margin = new Thickness(10)
+                };
+                item.SetProduct(product, detail.Units);
+                item.remove_button.Click += RemoveDetailSaleButton_Click;
+                item.remove_unit_button.Click += RemoveSaleUnitButton_Click;
+                detail_container.Children.Add(item);
+            }
+            detail_grid.Visibility = Visibility.Visible;
+            UpdateTotalValue();
+        }
+
         private void RemoveSaleUnitButton_Click(object sender, RoutedEventArgs e)
         {
             var item = (sender as RadButton).ParentOfType<SaleDetailItem>();
@@ -195,6 +249,87 @@ namespace FastFoodSystem.Pages
             App.ShowLoad();
             await App.GetSystemPopUp<SessionSalesPopUp>().Init();
             App.OpenSystemPopUp<SessionSalesPopUp>();
+        }
+
+        private async void Save_order_button_Click(object sender, RoutedEventArgs e)
+        {
+            if(order != null)
+            {
+                var items = detail_container.Children.OfType<SaleDetailItem>().ToArray();
+                if (items.Length > 0)
+                {
+                    App.ShowLoad();
+                    var details = await App.RunAsync(() =>
+                    {
+                        return App.Database.SaleOrderDetails.Where(d => d.SaleOrderId == order.Id).ToArray();
+                    });
+                    foreach (var detail in details)
+                    {
+                        await App.RunAsync(() =>
+                        {
+                            App.Database.SaleOrderDetails.Remove(detail);
+                        });
+                    }
+                    await App.RunAsync(() => App.Database.SaveChanges());
+                    
+                    foreach (var item in items)
+                    {
+                        SaleOrderDetail detail = new SaleOrderDetail()
+                        {
+                            DiscountValue = item.Product.SaleDiscount,
+                            ProductId = item.Product.Id,
+                            UnitCost = await App.RunAsync(() => App.Database.GetProductCost(item.Product.Id)),
+                            Units = (int)item.units_value.Value,
+                            UnitValue = item.Product.SaleValue,
+                            SaleOrderId = order.Id
+                        };
+                        App.Database.SaleOrderDetails.Add(detail);
+                        await DatabaseActions.ReduceProductUnits(detail);
+                    }
+                    await App.RunAsync(() => App.Database.SaveChanges());
+
+                    App.OpenSystemPopUp<NewOrderPopUp>().Init(async (name, obs) => 
+                    {
+                        App.ShowLoad();
+                        order.OrderName = name;
+                        order.Observation = obs;
+                        order.Hide = false;
+                        await App.RunAsync(() => App.Database.SaveChanges());
+                        order = null;
+                        await RefreshAll();
+                        App.CloseSystemPopUp();
+                    }, () => { }, order.OrderName, order.Observation);
+                }
+                else
+                {
+                    App.ShowMessage("Debe añadir por lo menos un detalle al pedido.", false);
+                }
+            }
+        }
+
+        private void Delete_order_button_Click(object sender, RoutedEventArgs e)
+        {
+            if(order != null)
+            {
+                App.OpenSystemPopUp<ConfirmPopUp>().Init("¿Desea eliminar el pedido?", () => 
+                {
+                    order = null;
+                    Refresh();
+                });
+            }
+        }
+
+        private async void Discard_order_button_Click(object sender, RoutedEventArgs e)
+        {
+            if(order != null)
+            {
+                App.ShowLoad();
+                order.Hide = false;
+                await App.RunAsync(() => App.Database.SaveChanges());
+                App.CloseSystemPopUp();
+                order = null;
+                Refresh();
+            }
         }
     }
 }

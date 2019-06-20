@@ -22,10 +22,12 @@
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <StackPanel Margin="20, 20, 10, 20">
-                    <telerik:Label FontWeight="Bold" Content="Nombre Cliente:"></telerik:Label>
-                    <telerik:Label Name="client_name" Content="SIN NOMBRE"></telerik:Label>
-                    <telerik:Label FontWeight="Bold" Content="Nit:" Margin="0, 20, 0, 0"></telerik:Label>
-                    <telerik:Label Name="client_nit" Content="0"></telerik:Label>
+                    <StackPanel Visibility="Collapsed">
+                        <telerik:Label FontWeight="Bold" Content="Nombre Cliente:"></telerik:Label>
+                        <telerik:Label Name="client_name" Content="SIN NOMBRE"></telerik:Label>
+                        <telerik:Label FontWeight="Bold" Content="Nit:" Margin="0, 20, 0, 0"></telerik:Label>
+                        <telerik:Label Name="client_nit" Content="0"></telerik:Label>
+                    </StackPanel>
                     <telerik:Label FontWeight="Bold" Content="Fecha y Hora:"></telerik:Label>
                     <telerik:Label Name="sale_datetime" Content="17/04/2019 - 22:50"></telerik:Label>
                     <telerik:Label FontWeight="Bold" Content="Usuario:" Margin="0, 20, 0, 0"></telerik:Label>

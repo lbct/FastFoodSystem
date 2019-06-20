@@ -53,7 +53,7 @@ namespace FastFoodSystem.Scripts
         {
             dailyOrderId = await App.RunAsync(() => 
             {
-                return App.Database.Orders.Count() <= 0 ? 0 : App.Database.Orders.Max(o => o.DailyId);
+                return App.Database.SaleOrders.Count() <= 0 ? 0 : App.Database.SaleOrders.Max(o => o.DailyId);
             });
             bool login = false;
             using (MD5 md5Hash = MD5.Create())
@@ -62,23 +62,18 @@ namespace FastFoodSystem.Scripts
                 var user = await App.RunAsync(() => 
                     App.Database.Users
                     .FirstOrDefault(u => u.Username.Equals(username) 
-                    && u.Password.Equals(hash.ToLower().Trim()))
+                    && u.Password.Equals(hash.ToLower().Trim()) && !u.Hide)
                 );
                 if (user != null)
                 {
                     login = true;
                     var lastLogin = await App.RunAsync(() => 
                     {
-                        return (from log in App.Database.Logins
-                                orderby log.Id descending
-                                select log).FirstOrDefault();
-                                   
+                        return App.Database.Logins.OrderByDescending(l => l.Id).FirstOrDefault();
                     });
                     var lastBillConfig = await App.RunAsync(() => 
                     {
-                        return (from bill in App.Database.BillConfigs
-                                orderby bill.Id descending
-                                select bill).FirstOrDefault();
+                        return App.Database.BillConfigs.OrderByDescending(b => b.Id).FirstOrDefault();
                     });
                     if(lastBillConfig == null)
                     {

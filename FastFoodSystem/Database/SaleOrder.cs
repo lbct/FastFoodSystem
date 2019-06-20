@@ -12,17 +12,22 @@ namespace FastFoodSystem.Database
     using System;
     using System.Collections.Generic;
     
-    public partial class UnitType
+    public partial class SaleOrder
     {
-        public UnitType()
+        public SaleOrder()
         {
-            this.FoodInputs = new HashSet<FoodInput>();
+            this.SaleOrderDetails = new HashSet<SaleOrderDetail>();
         }
     
-        public int Id { get; set; }
-        public string ShortName { get; set; }
-        public string Description { get; set; }
+        public long Id { get; set; }
+        public long LoginId { get; set; }
+        public string OrderName { get; set; }
+        public string Observation { get; set; }
+        public int DailyId { get; set; }
+        public System.DateTime DateTime { get; set; }
+        public bool Hide { get; set; }
     
-        public virtual ICollection<FoodInput> FoodInputs { get; set; }
+        public virtual Login Login { get; set; }
+        public virtual ICollection<SaleOrderDetail> SaleOrderDetails { get; set; }
     }
 }

@@ -71,6 +71,11 @@ namespace FastFoodSystem.Scripts
             await ReduceProductUnits(detail.ProductId, detail.Units);
         }
 
+        public static async Task ReduceProductUnits(SaleOrderDetail detail)
+        {
+            await ReduceProductUnits(detail.ProductId, detail.Units);
+        }
+
         public static async Task ReduceProductUnits(PurchaseDetail detail)
         {
             await ReduceProductUnits(detail.ProductId, detail.Units);

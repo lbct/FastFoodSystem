@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Telerik.Windows.Controls;
 
 namespace FastFoodSystem.Pages
 {
@@ -86,7 +87,23 @@ namespace FastFoodSystem.Pages
 
         private void Export_to_excel_button_Click(object sender, Telerik.Windows.RadRoutedEventArgs e)
         {
-
+            App.ShowLoad();
+            List<string> formatos = new List<string>();
+            foreach (Telerik.Windows.Controls.GridViewColumn column in saleTable.Columns)
+            {
+                if ((column is GridViewDataColumn) && column.IsVisible && (column as GridViewDataColumn).DataMemberBinding != null)
+                {
+                    if (column == total_column || column == total_cost_column)
+                        formatos.Add(ExcelExporter.DarFormatoUnidad("Bs"));
+                    else if (column == date_column)
+                        formatos.Add(ExcelExporter.DarFormatoFecha());
+                    else if (column == units_column)
+                        formatos.Add(ExcelExporter.DarFormatoUnidad("Ud."));
+                    else
+                        formatos.Add(null);
+                }
+            }
+            ExcelExporter.Export(saleTable, productsTableControl, formatos.ToArray(), "Big Roll", "Ventas");
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)

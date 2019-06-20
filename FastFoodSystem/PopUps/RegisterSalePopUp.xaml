@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:FastFoodSystem.Scripts"
              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
       mc:Ignorable="d" 
-      Width="720" Height="520">
+      Width="620" Height="520">
     <Border Background="WhiteSmoke" CornerRadius="10" BorderThickness="5" BorderBrush="#32ba7c">
         <Grid>
             <Grid.RowDefinitions>
@@ -18,9 +18,9 @@
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition Width="250"></ColumnDefinition>
+                    <ColumnDefinition Width="0"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Grid Grid.Column="1">
+                <Grid Grid.Column="1" Visibility="Collapsed">
                     <Border BorderBrush="Gray" Background="White" BorderThickness="1" Margin="10, 20, 20, 29" Padding="10, 20">
                         <StackPanel>
                             <telerik:Label Content="Datos cliente" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"></telerik:Label>
@@ -128,8 +128,8 @@
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <telerik:RadButton Grid.Column="0" Name="okButton" IsDefault="True" Margin="20, 10, 10, 20" Content="Realizar Venta" Click="OkButton_Click"></telerik:RadButton>
-                <telerik:RadButton Grid.Column="1" Name="save_as_order_button" IsDefault="True" Margin="10, 10, 10, 20" Content="Guardar como Pedido" Click="Save_as_order_button_Click"></telerik:RadButton>
+                <telerik:RadButton BorderThickness="2" BorderBrush="#32ba7c" Grid.Column="0" Name="okButton" IsDefault="True" Margin="20, 10, 10, 20" Content="Realizar Venta" Click="OkButton_Click"></telerik:RadButton>
+                <telerik:RadButton Grid.Column="1" Name="save_as_order_button" Margin="10, 10, 10, 20" IsDefault="True" Content="Guardar como Pedido" Click="Save_as_order_button_Click"></telerik:RadButton>
                 <telerik:RadButton Grid.Column="2" Name="cancelButton" Margin="10, 10, 20, 20" Content="Cancelar" Click="CancelButton_Click"></telerik:RadButton>
             </Grid>
         </Grid>

@@ -26,39 +26,31 @@ namespace FastFoodSystem.PopUps
     /// </summary>
     public partial class CommitOrderPopUp : SystemPopUpClass
     {
-        private SaleDetail[] saleDetails;
-        private Order order;
-        private Sale sale;
+        private SaleOrder order;
 
         public CommitOrderPopUp()
         {
             InitializeComponent();
         }
 
-        public async Task Init(Order order)
+        public async Task Init(SaleOrder order)
         {
             detail_container.Children.Clear();
             this.order = order;
-            sale = await App.RunAsync(() => App.Database.Sales.FirstOrDefault(s => s.Id == order.SaleId));
-            var client = await App.RunAsync(() => App.Database.Clients.FirstOrDefault(c => c.Id == sale.ClientId));
-            saleDetails = await App.RunAsync(() => App.Database.SaleDetails.Where(d => d.SaleId == order.SaleId).ToArray());
-            sale_value.Value = double.Parse(saleDetails
+            var saleOrderDetails = await App.RunAsync(() => App.Database.SaleOrderDetails.Where(d => d.SaleOrderId == order.Id).ToArray());
+
+            sale_value.Value = double.Parse(saleOrderDetails
                 .Sum(d => d.UnitValue * d.Units * (1.0m - (d.DiscountValue / 100.0m))).ToString());
             client_pay_value.Value = 0;
             change_value.Value = sale_value.Value * -1;
-            client_name.Text = client.Name;
-            nit_search_bar.SelectedItem = null;
-            nit_search_bar.SearchText = "";
-            nit_search_bar.ItemsSource = await App.RunAsync(() => App.Database.Clients.ToArray());
-            nit_search_bar.SelectedItem = client;
-            foreach (var detail in saleDetails)
+            foreach (var detail in saleOrderDetails)
             {
                 var item = new SaleDetailItem()
                 {
                     Margin = new Thickness(10),
                     ShowButtons = false
                 };
-                await item.SetDetail(detail);
+                await item.SetOrderDetail(detail);
                 detail_container.Children.Add(item);
             }
         }
@@ -68,36 +60,26 @@ namespace FastFoodSystem.PopUps
             App.ShowLoad();
             try
             {
-                if (nit_search_bar.SelectedItem == null && string.IsNullOrEmpty(nit_search_bar.SearchText.Trim()))
-                    throw new Exception("Debe escribir un Nit");
-                if (string.IsNullOrEmpty(client_name.Text.Trim()))
-                    throw new Exception("Debe escribir un Nombre");
-                var client = await GetClient();
-                var billInfo = await UserSession.GetBillConfig();
-                sale.ClientId = client.Id;
-                sale.Hide = false;
-                sale.DateTime = DateTime.Now;
-                sale.DailyId = UserSession.DailyId;
-                sale.LoginId = UserSession.LoginID;
-                sale.BillNumber = billInfo.CurrentBillNumber;
-
-                sale.ControlCode = await ControlCodeGenerator.GenerateAsync(
-                    sale.BillNumber,
-                    client.Nit,
-                    sale.DateTime,
-                    sale_value.Value.Value,
-                    billInfo.DosificationCode,
-                    billInfo.AuthorizationCode);
-
-                order.Committed = true;
-
-                bool correct = await App.RunAsync(() => 
+                Sale sale = new Sale()
                 {
-                    billInfo.CurrentBillNumber++;
+                    BillNumber = 1,
+                    ClientId = 1,
+                    ControlCode = "0",
+                    DailyId = UserSession.DailyId,
+                    DateTime = DateTime.Now,
+                    LoginId = UserSession.LoginID,
+                    SaleTypeId = 1
+                };
+                bool correct = await App.RunAsync(() =>
+                {
+                    App.Database.Sales.Add(sale);
                     App.Database.SaveChanges();
                 });
                 if (correct)
                 {
+                    order.Hide = true;
+                    await App.RunAsync(() => App.Database.SaveChanges());
+                    await AddSaleDetails(sale);
                     App.ShowMessage("Venta realizada", true, () =>
                     {
                         App.GetSystemPage<NewSalePage>().Refresh();
@@ -110,33 +92,26 @@ namespace FastFoodSystem.PopUps
             }
         }
 
-        private async Task<Client> GetClient()
+        private async Task AddSaleDetails(Sale sale)
         {
-            string name = client_name.Text.Trim().ToUpper();
-            Client client = null;
-            if (nit_search_bar.SelectedItem != null)
+            var details = await App.RunAsync(() => App.Database.SaleOrderDetails.Where(d => d.SaleOrderId == order.Id).ToArray());
+            foreach(var detail in details)
             {
-                client = nit_search_bar.SelectedItem as Client;
-                client.Name = name;
-            }
-            else
-            {
-                string nitTxt = nit_search_bar.SearchText.Trim();
-                client = await App.RunAsync(() => App.Database.Clients
-                .FirstOrDefault(c => c.Nit.Equals(nitTxt)));
-                if (client == null)
+                SaleDetail saleDetail = new SaleDetail()
                 {
-                    client = new Client()
-                    {
-                        Name = name,
-                        Nit = nitTxt
-                    };
-                    App.Database.Clients.Add(client);
-                }
-                else
-                    client.Name = name;
+                    DiscountValue = detail.DiscountValue,
+                    ProductId = detail.ProductId,
+                    SaleId = sale.Id,
+                    UnitCost = detail.UnitCost,
+                    Units = detail.Units,
+                    UnitValue = detail.UnitValue
+                };
+                await App.RunAsync(() =>
+                {
+                    App.Database.SaleDetails.Add(saleDetail);
+                    App.Database.SaveChanges();
+                });
             }
-            return client;
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -153,15 +128,6 @@ namespace FastFoodSystem.PopUps
                 client_pay_value.Value += value;
         }
 
-        private void Nit_search_bar_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (nit_search_bar.SelectedItem != null)
-            {
-                var client = nit_search_bar.SelectedItem as Client;
-                client_name.Text = client.Name;
-            }
-        }
-
         private void Client_pay_value_ValueChanged(object sender, Telerik.Windows.Controls.RadRangeBaseValueChangedEventArgs e)
         {
             if (change_value != null)
@@ -175,8 +141,12 @@ namespace FastFoodSystem.PopUps
             App.OpenSystemPopUp<ConfirmPopUp>().Init("¿Desea eliminar el pedido?", async () => 
             {
                 App.ShowLoad();
-                order.Committed = true;
-                foreach(var detail in saleDetails)
+                order.Hide = true;
+                var details = await App.RunAsync(() =>
+                {
+                    return App.Database.SaleOrderDetails.Where(d => d.SaleOrderId == order.Id).ToArray();
+                });
+                foreach(var detail in details)
                 {
                     await IncreaseProductUnits(detail);
                 }
@@ -190,7 +160,7 @@ namespace FastFoodSystem.PopUps
             });
         }
 
-        private async Task IncreaseProductUnits(SaleDetail detail)
+        private async Task IncreaseProductUnits(SaleOrderDetail detail)
         {
             await IncreaseProductUnits(detail.ProductId, detail.Units);
         }
@@ -269,6 +239,33 @@ namespace FastFoodSystem.PopUps
                 var input = await App.RunAsync(() => App.Database.FoodInputs.FirstOrDefault(fi => fi.Id == relation.FoodInputId));
                 await IncreaseProductUnits(input, units * relation.RequiredUnits);
             }
+        }
+
+        private async void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!App.GetSystemPage<NewSalePage>().DetailContainerInUse)
+            {
+                App.ShowLoad();
+                order.Hide = true;
+                var details = await App.RunAsync(() =>
+                {
+                    return App.Database.SaleOrderDetails.Where(d => d.SaleOrderId == order.Id).ToArray();
+                });
+                foreach (var detail in details)
+                {
+                    await IncreaseProductUnits(detail);
+                }
+                await App.RunAsync(() => App.Database.SaveChanges());
+                await App.GetSystemPopUp<OrdersPopUp>().Init();
+                await App.GetSystemPage<NewSalePage>().RefreshAll();
+                await App.GetSystemPage<NewSalePage>().SetSaleOrder(order);
+                App.CloseSystemPopUp();
+            }
+            else
+                App.ShowMessage("No puede editar el pedido porque la Lista está con productos", false, () =>
+                {
+                    App.OpenSystemPopUp<CommitOrderPopUp>();
+                });
         }
     }
 }

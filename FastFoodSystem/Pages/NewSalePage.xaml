@@ -54,10 +54,17 @@
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="48"></RowDefinition>
+                    <RowDefinition Height="48" Name="order_row"></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <Rectangle Fill="#3f51b5"></Rectangle>
-                <Grid Margin="20" Width="300" Grid.Row="1">
+                <Grid Grid.Row="1" Background="#FFD2D200">
+                    <StackPanel Orientation="Horizontal">
+                        <telerik:Label Content="Editando Pedido N°" Padding="0" Margin="10, 0, 0, 0"></telerik:Label>
+                        <telerik:Label Name="order_number_label" Content="1" Margin="0" Padding="0"></telerik:Label>
+                    </StackPanel>
+                </Grid>
+                <Grid Margin="20" Width="300" Grid.Row="2">
                     <StackPanel VerticalAlignment="Center">
                         <TextBlock TextWrapping="Wrap" Foreground="Gray" FontSize="20" TextAlignment="Center" Text="Seleccione un producto para añadirlo a la lista"></TextBlock>
                         <Grid>
@@ -70,7 +77,7 @@
                     </StackPanel>
 
                 </Grid>
-                <Border Grid.Row="1" Name="detail_grid" Visibility="Hidden" Background="LightGray">
+                <Border Grid.Row="2" Name="detail_grid" Visibility="Hidden" Background="LightGray">
                     <Grid Width="300">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"></RowDefinition>
@@ -109,40 +116,71 @@
                     </StackPanel>
                 </telerik:RadButton>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <telerik:RadButton 				
+                    <StackPanel Orientation="Horizontal" Name="sale_buttons_container">
+                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <telerik:RadButton 				
 				        x:Name="orders_button" Click="Orders_button_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <Viewbox Height="20" Margin="10,10,5,10">
+                                        <Image RenderOptions.BitmapScalingMode="Fant" Source="/FastFoodSystem;component/Resources/Images/user.png"/>
+                                    </Viewbox>
+                                    <telerik:Label Content="Pedidos"/>
+                                </StackPanel>
+                            </telerik:RadButton>
+                            <Grid Name="order_alert_container" Margin="2" Height="25" Width="25" HorizontalAlignment="Right" VerticalAlignment="Top">
+                                <Ellipse Fill="IndianRed"></Ellipse>
+                                <telerik:Label Name="order_count" Content="10" FontWeight="Bold" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0"></telerik:Label>
+                            </Grid>
+
+                        </Grid>
+                        <telerik:RadButton 				
+				        x:Name="view_sales_button" Margin="10, 0, 0, 0" Click="View_sales_button_Click">
                             <StackPanel Orientation="Horizontal">
                                 <Viewbox Height="20" Margin="10,10,5,10">
-                                    <Image RenderOptions.BitmapScalingMode="Fant" Source="/FastFoodSystem;component/Resources/Images/user.png"/>
+                                    <Image RenderOptions.BitmapScalingMode="Fant" Source="/FastFoodSystem;component/Resources/Images/NewSaleIcon.png"/>
                                 </Viewbox>
-                                <telerik:Label Content="Pedidos"/>
+                                <telerik:Label Content="Ventas"/>
                             </StackPanel>
                         </telerik:RadButton>
-                        <Grid Name="order_alert_container" Margin="2" Height="25" Width="25" HorizontalAlignment="Right" VerticalAlignment="Top">
-                            <Ellipse Fill="IndianRed"></Ellipse>
-                            <telerik:Label Name="order_count" Content="10" FontWeight="Bold" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0"></telerik:Label>
-                        </Grid>
-                        
-                    </Grid>
-                    <telerik:RadButton 				
-				        x:Name="view_sales_button" Margin="10, 0, 0, 0" Click="View_sales_button_Click">
-                        <StackPanel Orientation="Horizontal">
-                            <Viewbox Height="20" Margin="10,10,5,10">
-                                <Image RenderOptions.BitmapScalingMode="Fant" Source="/FastFoodSystem;component/Resources/Images/NewSaleIcon.png"/>
-                            </Viewbox>
-                            <telerik:Label Content="Ventas"/>
-                        </StackPanel>
-                    </telerik:RadButton>
-                    <telerik:RadButton 				
+                        <telerik:RadButton 				
 				        x:Name="register_button" Margin="10, 0, 0, 0" Click="Register_button_Click" BorderBrush="#32ba7c" BorderThickness="2">
-                        <StackPanel Orientation="Horizontal">
-                            <Viewbox Height="20" Margin="10,10,5,10">
-                                <Image RenderOptions.BitmapScalingMode="Fant" Source="/FastFoodSystem;component/Resources/Images/CashRegisterIcon.png"/>
-                            </Viewbox>
-                            <telerik:Label FontWeight="Bold" Content="Registrar"/>
-                        </StackPanel>
-                    </telerik:RadButton>
+                            <StackPanel Orientation="Horizontal">
+                                <Viewbox Height="20" Margin="10,10,5,10">
+                                    <Image RenderOptions.BitmapScalingMode="Fant" Source="/FastFoodSystem;component/Resources/Images/CashRegisterIcon.png"/>
+                                </Viewbox>
+                                <telerik:Label FontWeight="Bold" Content="Registrar"/>
+                            </StackPanel>
+                        </telerik:RadButton>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Name="order_buttons_container">
+                        <telerik:RadButton 				
+				        x:Name="save_order_button" Margin="10, 0, 0, 0" Click="Save_order_button_Click"  BorderBrush="#32ba7c" BorderThickness="2">
+                            <StackPanel Orientation="Horizontal">
+                                <Viewbox Height="20" Margin="10,10,5,10">
+                                    <Path Style="{DynamicResource ResourceKey=iconoChek}" Fill="Black"></Path>
+                                </Viewbox>
+                                <telerik:Label FontWeight="Bold" Content="Guardar"/>
+                            </StackPanel>
+                        </telerik:RadButton>
+                        <telerik:RadButton 				
+				        x:Name="delete_order_button" Margin="10, 0, 0, 0" Click="Delete_order_button_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Viewbox Height="20" Margin="10,10,5,10">
+                                    <Path Style="{DynamicResource ResourceKey=iconoEliminar}"></Path>
+                                </Viewbox>
+                                <telerik:Label FontWeight="Bold" Content="Eliminar"/>
+                            </StackPanel>
+                        </telerik:RadButton>
+                        <telerik:RadButton 				
+				        x:Name="discard_order_button" Margin="10, 0, 0, 0" Click="Discard_order_button_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Viewbox Height="20" Margin="10,10,5,10">
+                                    <Path Style="{DynamicResource ResourceKey=iconoCerrar}" Fill="Black"></Path>
+                                </Viewbox>
+                                <telerik:Label FontWeight="Bold" Content="Cancelar"/>
+                            </StackPanel>
+                        </telerik:RadButton>
+                    </StackPanel>
                 </StackPanel>
             </Grid>
         </Border>

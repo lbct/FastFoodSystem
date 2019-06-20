@@ -10,17 +10,19 @@
 namespace FastFoodSystem.Database
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Order
+    public class GetSaleDetailByLogin_Result
     {
-        public long Id { get; set; }
         public long SaleId { get; set; }
-        public int DailyId { get; set; }
-        public string OrderName { get; set; }
-        public string Observation { get; set; }
-        public bool Committed { get; set; }
-    
-        public virtual Sale Sale { get; set; }
+        public long SaleDetailId { get; set; }
+        public int ProductId { get; set; }
+        public string SystemUser { get; set; }
+        public string ClientName { get; set; }
+        public string ClientNit { get; set; }
+        public System.DateTime DateTime { get; set; }
+        public string ProductDescription { get; set; }
+        public int Units { get; set; }
+        public Nullable<decimal> TotalValue { get; set; }
+        public Nullable<decimal> TotalCost { get; set; }
     }
 }

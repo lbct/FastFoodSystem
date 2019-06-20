@@ -40,16 +40,25 @@ namespace FastFoodSystem.Controls
             InitializeComponent();
         }
 
-        public void SetProduct(Product product)
+        public void SetProduct(Product product, int units = 1)
         {
             Product = product;
             product_description.Content = product.Description;
-            units_value.Value = 1;
+            units_value.Value = units;
             sale_unit_value.Value = double.Parse((product.SaleValue * (1.0m - (product.SaleDiscount / 100.0m))).ToString());
-            total_value.Value = double.Parse((product.SaleValue * (1.0m - (product.SaleDiscount / 100.0m))).ToString());
+            total_value.Value = units * double.Parse((product.SaleValue * (1.0m - (product.SaleDiscount / 100.0m))).ToString());
         }
 
         public async Task SetDetail(SaleDetail detail)
+        {
+            Product = await App.RunAsync(() => App.Database.Products.FirstOrDefault(p => p.Id == detail.ProductId));
+            product_description.Content = Product.Description;
+            units_value.Value = detail.Units;
+            sale_unit_value.Value = double.Parse((detail.UnitValue * (1.0m - (detail.DiscountValue / 100.0m))).ToString());
+            total_value.Value = double.Parse((detail.UnitValue * (1.0m - (detail.DiscountValue / 100.0m))).ToString()) * detail.Units;
+        }
+
+        public async Task SetOrderDetail(SaleOrderDetail detail)
         {
             Product = await App.RunAsync(() => App.Database.Products.FirstOrDefault(p => p.Id == detail.ProductId));
             product_description.Content = Product.Description;
