@@ -31,6 +31,27 @@ namespace FastFoodSystem.Pages
             {
                 usernameText.Focus();
             }), DispatcherPriority.ApplicationIdle);
+
+            databse_name_combo.ItemsSource = CompanyInformation.DatabaseConfigs;
+            databse_name_combo.SelectedItem = CompanyInformation.SelectedConfig;
+            App.DatabaseForeceUpdate();
+            App.MainWin.Title = CompanyInformation.SelectedConfig.VisualName;
+
+            if(App.MainWin.AuthWindowMessage != null)
+            {
+                databse_name_combo.Visibility = Visibility.Collapsed;
+                login_panel.Visibility = Visibility.Collapsed;
+                FastLogin(App.MainWin.AuthWindowMessage.Username
+                    , App.MainWin.AuthWindowMessage.Password);
+            }
+        }
+
+        private async void FastLogin(string username, string password)
+        {
+            App.ShowLoad();
+            var login = await UserSession.Login(username, password);
+            if (login)
+                OpenMainMenu();
         }
 
         public override void Refresh()
@@ -59,6 +80,18 @@ namespace FastFoodSystem.Pages
                 App.OpenSystemPage<MenuPage>();
             else
                 App.OpenSystemPage<NewSalePage>();
+        }
+
+        private void databse_name_combo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(databse_name_combo.SelectedItem != null)
+            {
+                var config = databse_name_combo.SelectedItem as DatabaseConfig;
+                CompanyInformation.SelectedConfig = config;
+                DatabaseSettings.Configure(CompanyInformation.SelectedConfig.Database);
+                App.DatabaseForeceUpdate();
+                App.MainWin.Title = CompanyInformation.SelectedConfig.VisualName;
+            }
         }
     }
 }

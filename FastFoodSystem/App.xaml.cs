@@ -1,6 +1,7 @@
 ﻿using FastFoodSystem.Database;
 using FastFoodSystem.PopUps;
 using FastFoodSystem.Scripts;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -32,6 +33,13 @@ namespace FastFoodSystem
             currentDomain.UnhandledException += CurrentDomain_UnhandledException;
             process = new BackgroundProcess();
             process.Start();
+        }
+
+        public static void DatabaseForeceUpdate()
+        {
+            Database = new DatabaseEntities();
+            Database.Database.Connection.ConnectionString = DatabaseSettings.ConnectionString;
+            instances = new Dictionary<Type, UserControl>();
         }
 
         public static void CloseAll()
@@ -204,17 +212,39 @@ namespace FastFoodSystem
         private static void Init(string[] args)
         {
             var proc = Process.GetCurrentProcess();
+
             var processName = proc.ProcessName.Replace(".vshost", "");
             var runningProcess = Process.GetProcesses()
                 .FirstOrDefault(x => (x.ProcessName == processName ||
                                 x.ProcessName == proc.ProcessName ||
                                 x.ProcessName == proc.ProcessName + ".vshost") && x.Id != proc.Id);
 
-            if (runningProcess == null)
+            var message = ""; 
+            if(args.Length > 0)
+                message = string.Join(" ", args);
+            AuthWindowMessage auth = null;
+            
+            if (!string.IsNullOrEmpty(message))
+            {
+                var json = StringCipher.Decrypt(message, "fast");
+                auth = JsonConvert.DeserializeObject<AuthWindowMessage>(json);
+            }
+
+            if (runningProcess == null || (auth != null && auth.AllowNewWindow))
             {
                 var app = new App();
                 app.InitializeComponent();
                 MainWin = new MainWindow();
+
+                CompanyInformation.ReadDatabaseConfigs();
+                if (auth != null && auth.DatabaseConfig != null)
+                {
+                    CompanyInformation.SelectedConfig = auth.DatabaseConfig;
+                    DatabaseSettings.Configure(auth.DatabaseConfig.Database);
+                    MainWin.AuthWindowMessage = auth;
+                }
+                else
+                    DatabaseSettings.Configure(CompanyInformation.SelectedConfig.Database);
 
                 FastFoodSystem.MainWindow.HandleParameter(args);
                 app.Run(MainWin);
@@ -222,7 +252,15 @@ namespace FastFoodSystem
             }
 
             if (args.Length > 0)
-                UnsafeNative.SendMessage(runningProcess.MainWindowHandle, string.Join(" ", args));
+                UnsafeNative.SendMessage(runningProcess.MainWindowHandle, message);
         }
+    }
+
+    public class AuthWindowMessage
+    {
+        public bool AllowNewWindow { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public DatabaseConfig DatabaseConfig { get; set; }
     }
 }

@@ -14,6 +14,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Telerik.Windows.Controls;
@@ -26,10 +27,12 @@ namespace FastFoodSystem.Pages
     public partial class NewSalePage : SystemPageClass
     {
         private SaleOrder order;
+        private Dictionary<int, WrapPanel> item_containers;
 
         public NewSalePage()
         {
             InitializeComponent();
+            item_containers = new Dictionary<int, WrapPanel>();
         }
 
         public override async void Refresh()
@@ -47,13 +50,16 @@ namespace FastFoodSystem.Pages
                 backButton.Visibility = Visibility.Visible;
             else
                 backButton.Visibility = Visibility.Collapsed;
-            category_container.Items.Clear();
+            if(item_containers.Count <= 0)
+                category_container.Items.Clear();
             detail_container.Children.Clear();
+
             detail_grid.Visibility = Visibility.Hidden;
             var categories = await App.RunAsync(() => App.Database.CategoryTypes.ToArray());
+            var products = await App.RunAsync(() => App.Database.GetProductView());
             foreach (var category in categories)
             {
-                var tab = await GetNewCategoryItem(category);
+                var tab = GetNewCategoryItem(products, category);
                 if (tab != null)
                     category_container.Items.Add(tab);
             }
@@ -98,11 +104,11 @@ namespace FastFoodSystem.Pages
                 {
                     SaleDetail detail = new SaleDetail()
                     {
-                        DiscountValue = item.Product.SaleDiscount,
-                        ProductId = item.Product.Id,
-                        UnitCost = await App.RunAsync(() => App.Database.GetProductCost(item.Product.Id)),
+                        DiscountValue = item.ProductView.SaleDiscount,
+                        ProductId = item.ProductView.Id,
+                        UnitCost = item.ProductView.UnitCost.Value,
                         Units = (int)item.units_value.Value,
-                        UnitValue = item.Product.SaleValue
+                        UnitValue = item.ProductView.UnitSaleValue
                     };
                     details.Add(detail);
                 }
@@ -115,49 +121,87 @@ namespace FastFoodSystem.Pages
             }
         }
 
-        private async Task<RadTabItem> GetNewCategoryItem(CategoryType type)
+        private RadTabItem GetNewCategoryItem(ProductView[] all_products, CategoryType type)
         {
-            var products = await App.RunAsync(() => App.Database.Products
-            .Where(p => (p.CategoryTypeId == type.Id || type.Id == 1) && !p.HideForSales && !p.Hide).ToArray());
-            WrapPanel content = new WrapPanel()
-            {
-                HorizontalAlignment = HorizontalAlignment.Center
-            };
-            foreach(var product in products)
-            {
-                var item = new VisualProduct()
-                {
-                    Margin = new Thickness(5)
-                };
-                await item.SetProductAsSale(product);
-                item.button.Click += ProductButton_Click;
-                content.Children.Add(item);
-            }
+            RadTabItem tab = null;
+            var products = all_products.Where(p => (p.CategoryTypeId == type.Id || type.Id == 1) && !p.HideForSales).ToList();
+                
+                /*await App.RunAsync(() => App.Database.Products
+            .Where(p => (p.CategoryTypeId == type.Id || type.Id == 1) && !p.HideForSales && !p.Hide).ToList());*/
 
-            RadTabItem tab = new RadTabItem()
+            if (item_containers.ContainsKey(type.Id))
             {
-                Header = type.Id == 1 ? "Todo" : type.Description,
-                Content = new ScrollViewer()
+                var container = item_containers[type.Id];
+                var items = container.Children.OfType<VisualProduct>().ToList();
+                foreach (var product in products)
                 {
-                    HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
-                    Content = content
+                    var item = items.FirstOrDefault(i => i.ProductView.Id == product.Id);
+                    if(item != null)
+                        item.SetProductAsSale(product);
+                    else
+                    {
+                        item = new VisualProduct()
+                        {
+                            Margin = new Thickness(5)
+                        };
+                        item.SetProductAsSale(product);
+                        item.button.Click += ProductButton_Click;
+                        container.Children.Add(item);
+                    }
                 }
-            };
-            return products.Length == 0 ? null : tab;
+                if(products.Count != container.Children.Count)
+                {
+                    foreach(var item in items)
+                    {
+                        if (!products.Exists(p => p.Id == item.ProductView.Id))
+                            container.Children.Remove(item);
+                    }
+                }
+            }
+            else
+            {
+                WrapPanel content = new WrapPanel()
+                {
+                    HorizontalAlignment = HorizontalAlignment.Center
+                };
+                foreach (var product in products)
+                {
+                    var item = new VisualProduct()
+                    {
+                        Margin = new Thickness(5)
+                    };
+                    item.SetProductAsSale(product);
+                    item.button.Click += ProductButton_Click;
+                    content.Children.Add(item);
+                }
+                if(products.Count > 0)
+                    item_containers.Add(type.Id, content);
+                tab = new RadTabItem()
+                {
+                    Header = type.Id == 1 ? "Todo" : type.Description,
+                    Content = new ScrollViewer()
+                    {
+                        HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
+                        Content = content
+                    }
+                };
+            }
+            return products.Count == 0 ? null : tab;
         }
 
         private void ProductButton_Click(object sender, RoutedEventArgs e)
         {
-            var product = (sender as RadButton).ParentOfType<VisualProduct>().Product;
+            var productView = (sender as RadButton).ParentOfType<VisualProduct>().ProductView;
+            //var product = await App.RunAsync(())
             var sel_item = detail_container.Children.OfType<SaleDetailItem>()
-                .FirstOrDefault(it => it.Product.Id == product.Id);
+                .FirstOrDefault(it => it.ProductView.Id == productView.Id);
             if (sel_item == null)
             {
                 var item = new SaleDetailItem()
                 {
                     Margin = new Thickness(10)
                 };
-                item.SetProduct(product);
+                item.SetProduct(productView);
                 item.remove_button.Click += RemoveDetailSaleButton_Click;
                 item.remove_unit_button.Click += RemoveSaleUnitButton_Click;
                 detail_container.Children.Add(item);
@@ -190,8 +234,8 @@ namespace FastFoodSystem.Pages
             detail_container.Children.Clear();
             foreach (var detail in details)
             {
-                var product = await App.RunAsync(() =>
-                App.Database.Products.FirstOrDefault(p => p.Id == detail.ProductId));
+                var product = await App.RunAsync(() => App.Database.GetProductView(detail.ProductId)); /*await App.RunAsync(() =>
+                App.Database.Products.FirstOrDefault(p => p.Id == detail.ProductId));*/
                 var item = new SaleDetailItem()
                 {
                     Margin = new Thickness(10)
@@ -276,11 +320,11 @@ namespace FastFoodSystem.Pages
                     {
                         SaleOrderDetail detail = new SaleOrderDetail()
                         {
-                            DiscountValue = item.Product.SaleDiscount,
-                            ProductId = item.Product.Id,
-                            UnitCost = await App.RunAsync(() => App.Database.GetProductCost(item.Product.Id)),
+                            DiscountValue = item.ProductView.SaleDiscount,
+                            ProductId = item.ProductView.Id,
+                            UnitCost = item.ProductView.UnitCost.Value,//await App.RunAsync(() => App.Database.GetProductCost(item.Product.Id)),
                             Units = (int)item.units_value.Value,
-                            UnitValue = item.Product.SaleValue,
+                            UnitValue = item.ProductView.UnitSaleValue,
                             SaleOrderId = order.Id
                         };
                         App.Database.SaleOrderDetails.Add(detail);

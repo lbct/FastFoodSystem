@@ -132,5 +132,6 @@
     </UserControl.Resources>
     <Grid>
         <Control Style="{StaticResource BusyAnimationStyle}"></Control>
+        <telerik:Label HorizontalContentAlignment="Center" Margin="0, 80, 0, 0" Content="Cargando..." Name="load_label" Foreground="White" FontSize="20"></telerik:Label>
     </Grid>
 </local:SystemPopUpClass>

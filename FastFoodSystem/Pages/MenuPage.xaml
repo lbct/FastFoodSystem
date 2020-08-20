@@ -15,7 +15,12 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <Border Background="#E0E0E0">
-            <telerik:Label FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Menú principal" FontSize="20" Foreground="Black"></telerik:Label>
+            <Grid>
+                <telerik:Label FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Menú principal" FontSize="20" Foreground="Black"></telerik:Label>
+                <telerik:RadButton HorizontalAlignment="Right" x:Name="open_in_new_window_button" Click="open_in_new_window_button_Click">
+                    Abrir en otra ventana
+                </telerik:RadButton>
+            </Grid>
         </Border>
         <Border Width="400" Height="350" Background="WhiteSmoke" Grid.Row="1" BorderThickness="5" BorderBrush="#ffab40" CornerRadius="10">
             <StackPanel Margin="20">

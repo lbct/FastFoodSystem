@@ -24,7 +24,7 @@ namespace FastFoodSystem.PopUps
     /// </summary>
     public partial class ProductPickerPopUp : SystemPopUpClass
     {
-        private Action<Product> action;
+        private Action<ProductView> action;
         private Action actionCancel;
 
         public ProductPickerPopUp()
@@ -32,7 +32,7 @@ namespace FastFoodSystem.PopUps
             InitializeComponent();
         }
 
-        public void Init(Action<Product> action, Action actionCancel, Product[] products)
+        public void Init(Action<ProductView> action, Action actionCancel, ProductView[] products)
         {
             this.action = action;
             this.actionCancel = actionCancel;
@@ -51,7 +51,7 @@ namespace FastFoodSystem.PopUps
 
         private void SelectProduct_Click(object sender, RoutedEventArgs e)
         {
-            var product = (sender as RadButton).ParentOfType<VisualProduct>().Product;
+            var product = (sender as RadButton).ParentOfType<VisualProduct>().ProductView;
             App.CloseSystemPopUp();
             action?.Invoke(product);
         }

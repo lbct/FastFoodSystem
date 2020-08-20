@@ -56,7 +56,7 @@ namespace FastFoodSystem.Scripts
             var image_bytes = image.DarImagen();
             string dir = @"C:\" + Assembly.GetEntryAssembly().GetName().Name + @"\Images";
             Directory.CreateDirectory(dir);
-            string path = System.IO.Path.Combine(dir, "product_" + id);
+            string path = System.IO.Path.Combine(dir, "product_" + CompanyInformation.SelectedConfig.Code + "_" + id);
             Task<bool> saveImage = new Task<bool>(() =>
             {
                 bool saved = false;

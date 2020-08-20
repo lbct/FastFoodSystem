@@ -1,4 +1,5 @@
 ﻿using FastFoodSystem.Database;
+using FastFoodSystem.PopUps;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,9 @@ namespace FastFoodSystem.Scripts
         public static int BillConfigId { get; private set; }
         private static int dailyId = 0;
         private static int dailyOrderId;
+
+        public static string LastUsername { get; private set; }
+        public static string LastPassword { get; private set; }
         
         public static int DailyId
         {
@@ -32,6 +36,7 @@ namespace FastFoodSystem.Scripts
 
         public async static Task Logout()
         {
+            LoadPopUp.SetText("Cerrando sesión...");
             var endCash = await DatabaseActions.GetCurrentInBoxCashValue();
             await App.RunAsync(() => 
             {
@@ -40,6 +45,7 @@ namespace FastFoodSystem.Scripts
                 currentLog.EndCashValue = endCash;
                 App.Database.SaveChanges();
             });
+            LoadPopUp.SetText("Cargando...");
             dailyId = 0;
         }
 
@@ -51,10 +57,9 @@ namespace FastFoodSystem.Scripts
 
         public static async Task<bool> Login(string username, string password)
         {
-            dailyOrderId = await App.RunAsync(() => 
-            {
-                return App.Database.SaleOrders.Count() <= 0 ? 0 : App.Database.SaleOrders.Max(o => o.DailyId);
-            });
+            LastUsername = username;
+            LastPassword = password;
+            LoadPopUp.SetText("Iniciando sesión...");
             bool login = false;
             using (MD5 md5Hash = MD5.Create())
             {
@@ -64,9 +69,16 @@ namespace FastFoodSystem.Scripts
                     .FirstOrDefault(u => u.Username.Equals(username) 
                     && u.Password.Equals(hash.ToLower().Trim()) && !u.Hide)
                 );
+                LoadPopUp.SetText("Cargando...");
                 if (user != null)
                 {
                     login = true;
+                    dailyOrderId = await App.RunAsync(() =>
+                    {
+                        return App.Database.SaleOrders.Count() <= 0 ? 0 : App.Database.SaleOrders.Max(o => o.DailyId);
+                    });
+                    await LoadProducts();
+
                     var lastLogin = await App.RunAsync(() => 
                     {
                         return App.Database.Logins.OrderByDescending(l => l.Id).FirstOrDefault();
@@ -117,6 +129,28 @@ namespace FastFoodSystem.Scripts
                 }
             }
             return login;
+        }
+
+        private static async Task LoadProducts()
+        {
+            LoadPopUp.SetText("Obteniendo imagenes de productos...");
+            var productsImages = await App.RunAsync(() =>
+            {
+                return App.Database.Products.Where(p => !p.Hide).Select(p => p.ImagePath).ToArray();
+            });
+
+            await App.RunAsync(() =>
+            {
+                int max = productsImages.Length;
+                int count = 0;
+                foreach (var img in productsImages)
+                {
+                    LoadPopUp.SetText("Cargando imágenes (" + count + "/" + max + ")");
+                    ImageManager.LoadBitmap(img, 180);
+                    count++;
+                }
+                LoadPopUp.SetText("Cargando...");
+            });
         }
 
         public static string GetMd5Hash(MD5 md5Hash, string input)

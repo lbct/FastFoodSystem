@@ -48,12 +48,14 @@ namespace FastFoodSystem.Scripts
         {
             while (state || tasks.Count > 0)
             {
-                if(tasks.Count > 0)
+                if (tasks.Count > 0)
                 {
                     var task = tasks.Dequeue();
                     task.Start();
                     task.Wait();
                 }
+                else
+                    Thread.Sleep(100);
             }
         }
     }

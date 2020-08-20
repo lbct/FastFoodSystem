@@ -2,7 +2,7 @@ namespace FastFoodSystem.Database
 {
     using System;
     using System.Collections.Generic;
-    
+
     public class ProductView
     {
         public int Id { get; set; }
@@ -14,5 +14,7 @@ namespace FastFoodSystem.Database
         public Nullable<decimal> UnitCost { get; set; }
         public Nullable<int> AvailableUnits { get; set; }
         public decimal SaleDiscount { get; set; }
+        public string ImagePath { get; set; }
+        public bool HideForSales { get; set; }
     }
 }

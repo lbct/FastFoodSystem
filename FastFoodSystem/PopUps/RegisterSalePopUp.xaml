@@ -58,12 +58,12 @@
                                 <WrapPanel HorizontalAlignment="Center">
                                     <telerik:RadButton FontWeight="Bold" Margin="5" Padding="0" Click="CalculatorButton_Click">
                                         <Viewbox Height="70" Width="70">
-                                            <telerik:Label Content="0.2"></telerik:Label>
+                                            <telerik:Label Content="0,2"></telerik:Label>
                                         </Viewbox>
                                     </telerik:RadButton>
                                     <telerik:RadButton FontWeight="Bold" Margin="5" Padding="0" Click="CalculatorButton_Click">
                                         <Viewbox Height="70" Width="70">
-                                            <telerik:Label Content="0.5"></telerik:Label>
+                                            <telerik:Label Content="0,5"></telerik:Label>
                                         </Viewbox>
                                     </telerik:RadButton>
                                     <telerik:RadButton FontWeight="Bold" Margin="5" Padding="0" Click="CalculatorButton_Click">

@@ -71,12 +71,12 @@
                                     </Grid.RowDefinitions>
                                     <telerik:RadButton Grid.Column="0" Grid.Row="0" FontWeight="Bold" Margin="5" Padding="0" Click="CalculatorButton_Click">
                                         <Viewbox>
-                                            <telerik:Label Content="0.2"></telerik:Label>
+                                            <telerik:Label Content="0,2"></telerik:Label>
                                         </Viewbox>
                                     </telerik:RadButton>
                                     <telerik:RadButton Grid.Column="1" Grid.Row="0" FontWeight="Bold" Margin="5" Padding="0" Click="CalculatorButton_Click">
                                         <Viewbox>
-                                            <telerik:Label Content="0.5"></telerik:Label>
+                                            <telerik:Label Content="0,5"></telerik:Label>
                                         </Viewbox>
                                     </telerik:RadButton>
                                     <telerik:RadButton Grid.Column="2" Grid.Row="0" FontWeight="Bold" Margin="5" Padding="0" Click="CalculatorButton_Click">

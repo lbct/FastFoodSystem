@@ -46,21 +46,10 @@ namespace FastFoodSystem.Pages
         {
             App.OpenSystemPopUp<LoadPopUp>();
 
-            var foodInputs = await App.RunAsync(() => App.Database.FoodInputs.ToArray());
-            var simples = await App.RunAsync(() => App.Database.SimpleProducts.ToArray());
-            var products = new List<Product>();
-            foreach (var input in foodInputs)
-            {
-                var product = await App.RunAsync(() => App.Database.Products.FirstOrDefault(p => p.Id == input.Id));
-                if (!product.Hide)
-                    products.Add(product);
-            }
-            foreach(var simple in simples)
-            {
-                var product = await App.RunAsync(() => App.Database.Products.FirstOrDefault(p => p.Id == simple.Id));
-                if (!product.Hide)
-                    products.Add(product);
-            }
+            var products = new List<ProductView>();
+            products.AddRange(await App.RunAsync(() => App.Database.GetFoodInputProductView()));
+            products.AddRange(await App.RunAsync(() => App.Database.GetSimpleProductView()));
+
             App.GetSystemPopUp<ProductPickerPopUp>().Init(AddPurchaseDetailItem, () => { }, products.ToArray());
             App.OpenSystemPopUp<ProductPickerPopUp>();
         }
@@ -136,8 +125,9 @@ namespace FastFoodSystem.Pages
             (sender as Button).Click += new RoutedEventHandler(EditData_Click);
         }
 
-        private async void AddPurchaseDetailItem(Product product)
+        private async void AddPurchaseDetailItem(ProductView productView)
         {
+            var product = await App.RunAsync(() => App.Database.Products.FirstOrDefault(p => p.Id == productView.Id));
             var item = details.FirstOrDefault(i => i.Product.Id == product.Id);
             if (item == null)
             {

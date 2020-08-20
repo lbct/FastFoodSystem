@@ -65,10 +65,10 @@ namespace FastFoodSystem.Controls
 
         private void botonEditar_Click(object sender, RoutedEventArgs e)
         {
-            ImageSource imagen = ImageFunctions.SeleccionarImagen();
+            var imagen = ImageFunctions.SeleccionarImagen();
             if (imagen != null)
             {
-                EstablecerImagen(imagen, ImageFunctions.UltimaImagenSeleccionada);
+                EstablecerImagen(ImageFunctions.UltimaImagenSeleccionada);
             }
         }
 
@@ -82,7 +82,7 @@ namespace FastFoodSystem.Controls
             pop.Owner = App.MainWin;
             pop.SetValues(() => 
             {
-                EstablecerImagen(ImageFunctions.ByteToImageSource(File.ReadAllBytes(temp_location)), temp_location);
+                EstablecerImagen(temp_location);
                 if (currentPop != null)
                     App.OpenSystemPopUp(currentPop);
             }, () => 
@@ -92,50 +92,17 @@ namespace FastFoodSystem.Controls
             }, temp_location);
         }
 
-        public void EstablecerImagen(ImageSource imagen, string direccion)
+        public void EstablecerImagen(string direccion)
         {
-            try
-            {
+            if(botonEliminar != null)
                 botonEliminar.Visibility = Visibility.Visible;
-            }
-            catch (NullReferenceException)
-            {
+            else
                 ocultarBotonEliminarImagen = false;
-            }
-            imagenProducto.Source = imagen;
+            //ImageManager.LoadBitmap(direccion, 180);
+            imagenProducto.Source = ImageFunctions.FileToImageSource(direccion);// ImageManager.GetImageSource(direccion);
             imagenProducto.Width = imagenProducto.Height = double.NaN;
             txtImagen.Visibility = Visibility.Hidden;
             DireccionImagen = direccion;
-        }
-
-        public int DarHashImagen()
-        {
-            int hash = 0;
-            if (!string.IsNullOrWhiteSpace(DireccionImagen) && File.Exists(DireccionImagen))
-            {
-                byte[] img = File.ReadAllBytes(DireccionImagen);
-                hash = JsonConvert.SerializeObject(img).GetHashCode();
-            }
-            return hash;
-        }
-
-        public int DarHashImagenProducto()
-        {
-            int hash = 0;
-            if (botonEliminar.Visibility == Visibility.Visible)
-            {
-                byte[] img = ImageFunctions.ImageSourceToBytes(new JpegBitmapEncoder(), imagenProducto.Source);
-                hash = JsonConvert.SerializeObject(img).GetHashCode();
-            }
-            return hash;
-        }
-
-        public ImageSource DarImageSource()
-        {
-            ImageSource img = null;
-            if (botonEliminar.Visibility == Visibility.Visible)
-                img = imagenProducto.Source;
-            return img;
         }
 
         public byte[] DarImagen()
@@ -150,15 +117,12 @@ namespace FastFoodSystem.Controls
 
         public void BorrarImagen()
         {
-            try
-            {
-                imagenProducto.Source = imagenPorDefecto;
-                imagenProducto.Height = imagenProducto.Width = 50;
+            imagenProducto.Source = imagenPorDefecto;
+            imagenProducto.Height = imagenProducto.Width = 50;
+            if (botonEliminar != null)
                 botonEliminar.Visibility = Visibility.Collapsed;
-                txtImagen.Visibility = Visibility.Visible;
-                DireccionImagen = "";
-            }
-            catch (Exception) { }
+            txtImagen.Visibility = Visibility.Visible;
+            DireccionImagen = "";
         }
 
         private void botonEliminar_Initialized(object sender, EventArgs e)

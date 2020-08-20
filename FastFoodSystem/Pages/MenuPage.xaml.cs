@@ -1,7 +1,9 @@
 ﻿using FastFoodSystem.PopUps;
 using FastFoodSystem.Scripts;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +28,8 @@ namespace FastFoodSystem.Pages
         public MenuPage()
         {
             InitializeComponent();
+            if (App.MainWin.AuthWindowMessage != null)
+                open_in_new_window_button.Visibility = Visibility.Collapsed;
         }
 
         public override void Refresh()
@@ -81,6 +85,27 @@ namespace FastFoodSystem.Pages
         private void Bill_config_button_Click(object sender, RoutedEventArgs e)
         {
             App.OpenSystemPage<BillConfigPage>();
+        }
+
+        private void open_in_new_window_button_Click(object sender, RoutedEventArgs e)
+        {
+            App.MainWin.FastLogout();
+            AuthWindowMessage msg = new AuthWindowMessage()
+            {
+                AllowNewWindow = true,
+                DatabaseConfig = CompanyInformation.SelectedConfig,
+                Username = UserSession.LastUsername,
+                Password = UserSession.LastPassword
+            };
+            string program = Process.GetCurrentProcess().MainModule.FileName;
+            string args = StringCipher.Encrypt(JsonConvert.SerializeObject(msg), "fast");
+
+            ProcessStartInfo proStart = new ProcessStartInfo();
+            Process pro = new Process();
+            proStart.FileName = program;
+            proStart.Arguments = args;
+            pro.StartInfo = proStart;
+            pro.Start();
         }
     }
 }

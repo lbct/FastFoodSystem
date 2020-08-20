@@ -21,9 +21,21 @@ namespace FastFoodSystem.PopUps
     /// </summary>
     public partial class LoadPopUp : SystemPopUpClass
     {
+        private static LoadPopUp _instance;
+
         public LoadPopUp()
         {
             InitializeComponent();
+            _instance = this;
+        }
+
+        public static void SetText(string txt)
+        {
+            App.Current.Dispatcher.Invoke(() => 
+            {
+                if (_instance != null)
+                    _instance.load_label.Content = txt;
+            });
         }
     }
 }

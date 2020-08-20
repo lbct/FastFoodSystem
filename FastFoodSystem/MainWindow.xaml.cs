@@ -24,6 +24,7 @@ namespace FastFoodSystem
     public partial class MainWindow : Window
     {
         public static IntPtr WindowHandle { get; private set; }
+        public AuthWindowMessage AuthWindowMessage { get; set; }
 
         public MainWindow()
         {
@@ -87,9 +88,24 @@ namespace FastFoodSystem
                     await CompanyInformation.Save();
                     await UserSession.Logout();
                     App.CloseSystemPopUp();
-                    App.OpenSystemPage<LoginPage>();
+                    if(AuthWindowMessage == null)
+                        App.OpenSystemPage<LoginPage>();
+                    else
+                    {
+                        App.CloseAll();
+                        App.Current.Shutdown();
+                    }
                 });
             }
+        }
+
+        public async void FastLogout()
+        {
+            App.ShowLoad();
+            await CompanyInformation.Save();
+            //await UserSession.Logout();
+            App.CloseSystemPopUp();
+            App.OpenSystemPage<LoginPage>();
         }
     }
 }

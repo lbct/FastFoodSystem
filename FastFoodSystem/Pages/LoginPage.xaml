@@ -16,7 +16,7 @@
 
             <!--Cuerpo-->
 
-            <Border Background="WhiteSmoke" Height="300" CornerRadius="10" BorderBrush="#ffab40" BorderThickness="5" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Border x:Name="login_panel" Background="WhiteSmoke" Height="300" CornerRadius="10" BorderBrush="#ffab40" BorderThickness="5" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="20">
                     <Grid Margin="20,0,20,20" >
                         <Grid.RowDefinitions>
@@ -60,6 +60,7 @@
                 <Grid Margin="20">
                     <Label Content="Versión 2.0" HorizontalAlignment="Left" Margin="20,7,7,7"/>
                     <Label Content="Sistema de ventas" HorizontalAlignment="Center" Margin="7"/>
+                    <telerik:RadComboBox HorizontalAlignment="Right" DisplayMemberPath="VisualName" MinWidth="150" Name="databse_name_combo" SelectionChanged="databse_name_combo_SelectionChanged"></telerik:RadComboBox>
                 </Grid>
             </Border>
         </Grid>

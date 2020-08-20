@@ -21,7 +21,7 @@ namespace FastFoodSystem.Controls
     /// </summary>
     public partial class SaleDetailItem : UserControl
     {
-        public Product Product { get; private set; }
+        public ProductView ProductView { get; private set; }
 
         public bool ShowButtons
         {
@@ -40,19 +40,19 @@ namespace FastFoodSystem.Controls
             InitializeComponent();
         }
 
-        public void SetProduct(Product product, int units = 1)
+        public void SetProduct(ProductView product, int units = 1)
         {
-            Product = product;
+            ProductView = product;
             product_description.Content = product.Description;
             units_value.Value = units;
-            sale_unit_value.Value = double.Parse((product.SaleValue * (1.0m - (product.SaleDiscount / 100.0m))).ToString());
-            total_value.Value = units * double.Parse((product.SaleValue * (1.0m - (product.SaleDiscount / 100.0m))).ToString());
+            sale_unit_value.Value = double.Parse((product.UnitSaleValue * (1.0m - (product.SaleDiscount / 100.0m))).ToString());
+            total_value.Value = units * double.Parse((product.UnitSaleValue * (1.0m - (product.SaleDiscount / 100.0m))).ToString());
         }
 
         public async Task SetDetail(SaleDetail detail)
         {
-            Product = await App.RunAsync(() => App.Database.Products.FirstOrDefault(p => p.Id == detail.ProductId));
-            product_description.Content = Product.Description;
+            ProductView = await App.RunAsync(() => App.Database.GetProductView(detail.ProductId));
+            product_description.Content = ProductView.Description;
             units_value.Value = detail.Units;
             sale_unit_value.Value = double.Parse((detail.UnitValue * (1.0m - (detail.DiscountValue / 100.0m))).ToString());
             total_value.Value = double.Parse((detail.UnitValue * (1.0m - (detail.DiscountValue / 100.0m))).ToString()) * detail.Units;
@@ -60,8 +60,9 @@ namespace FastFoodSystem.Controls
 
         public async Task SetOrderDetail(SaleOrderDetail detail)
         {
-            Product = await App.RunAsync(() => App.Database.Products.FirstOrDefault(p => p.Id == detail.ProductId));
-            product_description.Content = Product.Description;
+            ProductView = await App.RunAsync(() => App.Database.GetProductView(detail.ProductId));
+            //Product = await App.RunAsync(() => App.Database.Products.FirstOrDefault(p => p.Id == detail.ProductId));
+            product_description.Content = ProductView.Description;
             units_value.Value = detail.Units;
             sale_unit_value.Value = double.Parse((detail.UnitValue * (1.0m - (detail.DiscountValue / 100.0m))).ToString());
             total_value.Value = double.Parse((detail.UnitValue * (1.0m - (detail.DiscountValue / 100.0m))).ToString()) * detail.Units;

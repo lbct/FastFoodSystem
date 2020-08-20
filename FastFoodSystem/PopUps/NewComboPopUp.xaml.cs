@@ -60,8 +60,8 @@ namespace FastFoodSystem.PopUps
                 category_search_bar.SelectedItem = await App.RunAsync(() => App.Database.CategoryTypes.FirstOrDefault(ct => ct.Id == product.CategoryTypeId));
                 if (File.Exists(product.ImagePath))
                 {
-                    var imgSource = ImageFunctions.FileToImageSource(product.ImagePath);
-                    image.EstablecerImagen(imgSource, product.ImagePath);
+                    //var imgSource = ImageFunctions.FileToImageSource(product.ImagePath);
+                    image.EstablecerImagen(product.ImagePath);
                 }
                 description_text.Text = product.Description;
                 sale_value.Value = double.Parse(product.SaleValue.ToString());
@@ -153,6 +153,7 @@ namespace FastFoodSystem.PopUps
                 if (imgPath != null)
                 {
                     product.ImagePath = imgPath;
+                    ImageManager.LoadBitmap(imgPath, 180, true);
                     await App.RunAsync(() => App.Database.SaveChanges());
                 }
                 else
@@ -364,20 +365,22 @@ namespace FastFoodSystem.PopUps
         private async void Add_product_button_Click(object sender, RoutedEventArgs e)
         {
             App.ShowLoad();
+
             var sel_products = products_container.Children.OfType<ProductLabel>()
                 .Select(vp => vp.Product).ToList();
+
             var products = await App.RunAsync(() =>
             {
                 var exclude = App.Database.Comboes
                                 .Select(c => c.Id)
                                 .ToList();
-                return App.Database.Products
-                .ToArray()
-                .Where(p => !sel_products.Exists(sp => sp.Id == p.Id) && !exclude.Exists(id => id == p.Id) && !p.Hide)
+                return App.Database.GetProductView()
+                .Where(p => !sel_products.Exists(sp => sp.Id == p.Id) && !exclude.Exists(id => id == p.Id))
                 .ToArray();
             });
-            App.OpenSystemPopUp<ProductPickerPopUp>().Init(product =>
+            App.OpenSystemPopUp<ProductPickerPopUp>().Init(async productView =>
             {
+                var product = await App.RunAsync(() => App.Database.Products.FirstOrDefault(p => p.Id == productView.Id));
                 App.OpenSystemPopUp<NewComboPopUp>();
                 AddProductToList(product);
                 UpdateValues();

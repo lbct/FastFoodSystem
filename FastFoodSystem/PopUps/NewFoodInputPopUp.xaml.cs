@@ -64,8 +64,8 @@ namespace FastFoodSystem.PopUps
                 category_search_bar.SelectedItem = await App.RunAsync(() => App.Database.CategoryTypes.FirstOrDefault(ct => ct.Id == product.CategoryTypeId));
                 if (File.Exists(product.ImagePath))
                 {
-                    var imgSource = ImageFunctions.FileToImageSource(product.ImagePath);
-                    image.EstablecerImagen(imgSource, product.ImagePath);
+                    //var imgSource = ImageFunctions.FileToImageSource(product.ImagePath);
+                    image.EstablecerImagen(product.ImagePath);
                 }
                 description_text.Text = product.Description;
                 sale_value.Value = double.Parse(product.SaleValue.ToString());
@@ -245,6 +245,7 @@ namespace FastFoodSystem.PopUps
                 if (imgPath != null)
                 {
                     product.ImagePath = imgPath;
+                    ImageManager.LoadBitmap(imgPath, 180, true);
                     await App.RunAsync(() => App.Database.SaveChanges());
                 }
                 else

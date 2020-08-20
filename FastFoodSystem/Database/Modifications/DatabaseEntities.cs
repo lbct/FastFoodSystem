@@ -14,6 +14,32 @@ namespace FastFoodSystem.Database
             return this.Database.SqlQuery<ProductView>("SELECT * from ProductView;").ToArray();
         }
 
+        public ProductView[] GetSimpleProductView()
+        {
+            return this.Database.SqlQuery<ProductView>("SELECT * from ProductView WHERE ProductType='Producto Simple';").ToArray();
+        }
+
+        public ProductView[] GetCompoundProductView()
+        {
+            return this.Database.SqlQuery<ProductView>("SELECT * from ProductView WHERE ProductType='Producto Compuesto';").ToArray();
+        }
+
+        public ProductView[] GetComboProductView()
+        {
+            return this.Database.SqlQuery<ProductView>("SELECT * from ProductView WHERE ProductType='Combo';").ToArray();
+        }
+
+
+        public ProductView[] GetFoodInputProductView()
+        {
+            return this.Database.SqlQuery<ProductView>("SELECT * from ProductView WHERE ProductType='Insumo';").ToArray();
+        }
+
+        public ProductView GetProductView(int id)
+        {
+            return this.Database.SqlQuery<ProductView>("SELECT * from ProductView WHERE Id=?;", id).FirstOrDefault();
+        }
+
         public decimal GetProductCost(int productId)
         {
             return this.Database.SqlQuery<decimal>(
