@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DatabaseModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="FastFoodDbModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="BillConfig">
           <Key>
             <PropertyRef Name="Id" />
@@ -101,6 +101,13 @@
           <Property Name="StartCashValue" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="EndCashValue" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
+        <EntityType Name="OrderState">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="250" Nullable="false" />
+        </EntityType>
         <EntityType Name="Product">
           <Key>
             <PropertyRef Name="Id" />
@@ -184,8 +191,10 @@
           </Key>
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="LoginId" Type="bigint" Nullable="false" />
+          <Property Name="OrderStateId" Type="bigint" Nullable="false" />
           <Property Name="OrderName" Type="varchar" MaxLength="150" Nullable="false" />
           <Property Name="Observation" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="PhoneNumber" Type="varchar" MaxLength="250" />
           <Property Name="DailyId" Type="int" Nullable="false" />
           <Property Name="DateTime" Type="datetime" Precision="0" Nullable="false" />
           <Property Name="Hide" Type="bool" Nullable="false" />
@@ -245,7 +254,7 @@
           <Property Name="Admin" Type="bool" Nullable="false" />
           <Property Name="Hide" Type="bool" Nullable="false" />
         </EntityType>
-        <Association Name="cashmovement_ibfk_1">
+        <Association Name="CashMovement_ibfk_1">
           <End Role="Login" Type="Self.Login" Multiplicity="1" />
           <End Role="CashMovement" Type="Self.CashMovement" Multiplicity="*" />
           <ReferentialConstraint>
@@ -257,7 +266,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="combo_ibfk_1">
+        <Association Name="Combo_ibfk_1">
           <End Role="Product" Type="Self.Product" Multiplicity="1" />
           <End Role="Combo" Type="Self.Combo" Multiplicity="0..1" />
           <ReferentialConstraint>
@@ -269,7 +278,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="compoundproduct_ibfk_1">
+        <Association Name="CompoundProduct_ibfk_1">
           <End Role="Product" Type="Self.Product" Multiplicity="1" />
           <End Role="CompoundProduct" Type="Self.CompoundProduct" Multiplicity="0..1" />
           <ReferentialConstraint>
@@ -281,7 +290,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="compoundproductcombo_ibfk_1">
+        <Association Name="CompoundProductCombo_ibfk_1">
           <End Role="CompoundProduct" Type="Self.CompoundProduct" Multiplicity="1" />
           <End Role="CompoundProductCombo" Type="Self.CompoundProductCombo" Multiplicity="*" />
           <ReferentialConstraint>
@@ -293,7 +302,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="compoundproductcombo_ibfk_2">
+        <Association Name="CompoundProductCombo_ibfk_2">
           <End Role="Combo" Type="Self.Combo" Multiplicity="1" />
           <End Role="CompoundProductCombo" Type="Self.CompoundProductCombo" Multiplicity="*" />
           <ReferentialConstraint>
@@ -305,7 +314,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="compoundproductfoodinput_ibfk_1">
+        <Association Name="CompoundProductFoodInput_ibfk_1">
           <End Role="CompoundProduct" Type="Self.CompoundProduct" Multiplicity="1" />
           <End Role="CompoundProductFoodInput" Type="Self.CompoundProductFoodInput" Multiplicity="*" />
           <ReferentialConstraint>
@@ -317,7 +326,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="compoundproductfoodinput_ibfk_2">
+        <Association Name="CompoundProductFoodInput_ibfk_2">
           <End Role="FoodInput" Type="Self.FoodInput" Multiplicity="1" />
           <End Role="CompoundProductFoodInput" Type="Self.CompoundProductFoodInput" Multiplicity="*" />
           <ReferentialConstraint>
@@ -329,7 +338,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="foodinput_ibfk_1">
+        <Association Name="FK_SaleOrder_OrderState">
+          <End Role="OrderState" Type="Self.OrderState" Multiplicity="1" />
+          <End Role="SaleOrder" Type="Self.SaleOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderState">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SaleOrder">
+              <PropertyRef Name="OrderStateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FoodInput_ibfk_1">
           <End Role="UnitType" Type="Self.UnitType" Multiplicity="1" />
           <End Role="FoodInput" Type="Self.FoodInput" Multiplicity="*" />
           <ReferentialConstraint>
@@ -341,7 +362,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="foodinputcombo_ibfk_1">
+        <Association Name="FoodInputCombo_ibfk_1">
           <End Role="FoodInput" Type="Self.FoodInput" Multiplicity="1" />
           <End Role="FoodInputCombo" Type="Self.FoodInputCombo" Multiplicity="*" />
           <ReferentialConstraint>
@@ -353,7 +374,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="foodinputcombo_ibfk_2">
+        <Association Name="FoodInputCombo_ibfk_2">
           <End Role="Combo" Type="Self.Combo" Multiplicity="1" />
           <End Role="FoodInputCombo" Type="Self.FoodInputCombo" Multiplicity="*" />
           <ReferentialConstraint>
@@ -365,7 +386,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="login_ibfk_1">
+        <Association Name="Login_ibfk_1">
           <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="Login" Type="Self.Login" Multiplicity="*" />
           <ReferentialConstraint>
@@ -377,7 +398,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="product_ibfk_1">
+        <Association Name="Product_ibfk_1">
           <End Role="CategoryType" Type="Self.CategoryType" Multiplicity="1" />
           <End Role="Product" Type="Self.Product" Multiplicity="*" />
           <ReferentialConstraint>
@@ -389,7 +410,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="productproviderrelation_ibfk_1">
+        <Association Name="ProductProviderRelation_ibfk_1">
           <End Role="Provider" Type="Self.Provider" Multiplicity="1" />
           <End Role="ProductProviderRelation" Type="Self.ProductProviderRelation" Multiplicity="*" />
           <ReferentialConstraint>
@@ -401,7 +422,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="productproviderrelation_ibfk_2">
+        <Association Name="ProductProviderRelation_ibfk_2">
           <End Role="Product" Type="Self.Product" Multiplicity="1" />
           <End Role="ProductProviderRelation" Type="Self.ProductProviderRelation" Multiplicity="*" />
           <ReferentialConstraint>
@@ -413,7 +434,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="purchase_ibfk_1">
+        <Association Name="Purchase_ibfk_1">
           <End Role="Login" Type="Self.Login" Multiplicity="1" />
           <End Role="Purchase" Type="Self.Purchase" Multiplicity="*" />
           <ReferentialConstraint>
@@ -425,7 +446,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="purchasedetail_ibfk_1">
+        <Association Name="PurchaseDetail_ibfk_1">
           <End Role="Purchase" Type="Self.Purchase" Multiplicity="1" />
           <End Role="PurchaseDetail" Type="Self.PurchaseDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -437,7 +458,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="purchasedetail_ibfk_2">
+        <Association Name="PurchaseDetail_ibfk_2">
           <End Role="Product" Type="Self.Product" Multiplicity="1" />
           <End Role="PurchaseDetail" Type="Self.PurchaseDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -449,7 +470,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="sale_ibfk_1">
+        <Association Name="Sale_ibfk_1">
           <End Role="Login" Type="Self.Login" Multiplicity="1" />
           <End Role="Sale" Type="Self.Sale" Multiplicity="*" />
           <ReferentialConstraint>
@@ -461,7 +482,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="sale_ibfk_2">
+        <Association Name="Sale_ibfk_2">
           <End Role="SaleType" Type="Self.SaleType" Multiplicity="1" />
           <End Role="Sale" Type="Self.Sale" Multiplicity="*" />
           <ReferentialConstraint>
@@ -473,7 +494,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="sale_ibfk_3">
+        <Association Name="Sale_ibfk_3">
           <End Role="Client" Type="Self.Client" Multiplicity="1" />
           <End Role="Sale" Type="Self.Sale" Multiplicity="*" />
           <ReferentialConstraint>
@@ -485,7 +506,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="saledetail_ibfk_1">
+        <Association Name="SaleDetail_ibfk_1">
           <End Role="Sale" Type="Self.Sale" Multiplicity="1" />
           <End Role="SaleDetail" Type="Self.SaleDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -497,7 +518,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="saledetail_ibfk_2">
+        <Association Name="SaleDetail_ibfk_2">
           <End Role="Product" Type="Self.Product" Multiplicity="1" />
           <End Role="SaleDetail" Type="Self.SaleDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -509,7 +530,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="saleorder_ibfk_1">
+        <Association Name="SaleOrder_ibfk_1">
           <End Role="Login" Type="Self.Login" Multiplicity="1" />
           <End Role="SaleOrder" Type="Self.SaleOrder" Multiplicity="*" />
           <ReferentialConstraint>
@@ -521,7 +542,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="saleorderdetail_ibfk_1">
+        <Association Name="SaleOrderDetail_ibfk_1">
           <End Role="SaleOrder" Type="Self.SaleOrder" Multiplicity="1" />
           <End Role="SaleOrderDetail" Type="Self.SaleOrderDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -533,7 +554,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="simpleproduct_ibfk_1">
+        <Association Name="SimpleProduct_ibfk_1">
           <End Role="Product" Type="Self.Product" Multiplicity="1" />
           <End Role="SimpleProduct" Type="Self.SimpleProduct" Multiplicity="0..1" />
           <ReferentialConstraint>
@@ -545,7 +566,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="simpleproductcombo_ibfk_1">
+        <Association Name="SimpleProductCombo_ibfk_1">
           <End Role="SimpleProduct" Type="Self.SimpleProduct" Multiplicity="1" />
           <End Role="SimpleProductCombo" Type="Self.SimpleProductCombo" Multiplicity="*" />
           <ReferentialConstraint>
@@ -557,7 +578,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="simpleproductcombo_ibfk_2">
+        <Association Name="SimpleProductCombo_ibfk_2">
           <End Role="Combo" Type="Self.Combo" Multiplicity="1" />
           <End Role="SimpleProductCombo" Type="Self.SimpleProductCombo" Multiplicity="*" />
           <ReferentialConstraint>
@@ -569,7 +590,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="DatabaseModelStoreContainer">
+        <EntityContainer Name="FastFoodDbModelStoreContainer">
           <EntitySet Name="BillConfig" EntityType="Self.BillConfig" Schema="fast_food_db" store:Type="Tables" />
           <EntitySet Name="CashMovement" EntityType="Self.CashMovement" Schema="fast_food_db" store:Type="Tables" />
           <EntitySet Name="CategoryType" EntityType="Self.CategoryType" Schema="fast_food_db" store:Type="Tables" />
@@ -581,6 +602,7 @@
           <EntitySet Name="FoodInput" EntityType="Self.FoodInput" Schema="fast_food_db" store:Type="Tables" />
           <EntitySet Name="FoodInputCombo" EntityType="Self.FoodInputCombo" Schema="fast_food_db" store:Type="Tables" />
           <EntitySet Name="Login" EntityType="Self.Login" Schema="fast_food_db" store:Type="Tables" />
+          <EntitySet Name="OrderState" EntityType="Self.OrderState" Schema="fast_food_db" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="fast_food_db" store:Type="Tables" />
           <EntitySet Name="ProductProviderRelation" EntityType="Self.ProductProviderRelation" Schema="fast_food_db" store:Type="Tables" />
           <EntitySet Name="Provider" EntityType="Self.Provider" Schema="fast_food_db" store:Type="Tables" />
@@ -595,111 +617,115 @@
           <EntitySet Name="SimpleProductCombo" EntityType="Self.SimpleProductCombo" Schema="fast_food_db" store:Type="Tables" />
           <EntitySet Name="UnitType" EntityType="Self.UnitType" Schema="fast_food_db" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="fast_food_db" store:Type="Tables" />
-          <AssociationSet Name="cashmovement_ibfk_1" Association="Self.cashmovement_ibfk_1">
+          <AssociationSet Name="CashMovement_ibfk_1" Association="Self.CashMovement_ibfk_1">
             <End Role="Login" EntitySet="Login" />
             <End Role="CashMovement" EntitySet="CashMovement" />
           </AssociationSet>
-          <AssociationSet Name="combo_ibfk_1" Association="Self.combo_ibfk_1">
+          <AssociationSet Name="Combo_ibfk_1" Association="Self.Combo_ibfk_1">
             <End Role="Product" EntitySet="Product" />
             <End Role="Combo" EntitySet="Combo" />
           </AssociationSet>
-          <AssociationSet Name="compoundproduct_ibfk_1" Association="Self.compoundproduct_ibfk_1">
+          <AssociationSet Name="CompoundProduct_ibfk_1" Association="Self.CompoundProduct_ibfk_1">
             <End Role="Product" EntitySet="Product" />
             <End Role="CompoundProduct" EntitySet="CompoundProduct" />
           </AssociationSet>
-          <AssociationSet Name="compoundproductcombo_ibfk_1" Association="Self.compoundproductcombo_ibfk_1">
+          <AssociationSet Name="CompoundProductCombo_ibfk_1" Association="Self.CompoundProductCombo_ibfk_1">
             <End Role="CompoundProduct" EntitySet="CompoundProduct" />
             <End Role="CompoundProductCombo" EntitySet="CompoundProductCombo" />
           </AssociationSet>
-          <AssociationSet Name="compoundproductcombo_ibfk_2" Association="Self.compoundproductcombo_ibfk_2">
+          <AssociationSet Name="CompoundProductCombo_ibfk_2" Association="Self.CompoundProductCombo_ibfk_2">
             <End Role="Combo" EntitySet="Combo" />
             <End Role="CompoundProductCombo" EntitySet="CompoundProductCombo" />
           </AssociationSet>
-          <AssociationSet Name="compoundproductfoodinput_ibfk_1" Association="Self.compoundproductfoodinput_ibfk_1">
+          <AssociationSet Name="CompoundProductFoodInput_ibfk_1" Association="Self.CompoundProductFoodInput_ibfk_1">
             <End Role="CompoundProduct" EntitySet="CompoundProduct" />
             <End Role="CompoundProductFoodInput" EntitySet="CompoundProductFoodInput" />
           </AssociationSet>
-          <AssociationSet Name="compoundproductfoodinput_ibfk_2" Association="Self.compoundproductfoodinput_ibfk_2">
+          <AssociationSet Name="CompoundProductFoodInput_ibfk_2" Association="Self.CompoundProductFoodInput_ibfk_2">
             <End Role="FoodInput" EntitySet="FoodInput" />
             <End Role="CompoundProductFoodInput" EntitySet="CompoundProductFoodInput" />
           </AssociationSet>
-          <AssociationSet Name="foodinput_ibfk_1" Association="Self.foodinput_ibfk_1">
+          <AssociationSet Name="FK_SaleOrder_OrderState" Association="Self.FK_SaleOrder_OrderState">
+            <End Role="OrderState" EntitySet="OrderState" />
+            <End Role="SaleOrder" EntitySet="SaleOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FoodInput_ibfk_1" Association="Self.FoodInput_ibfk_1">
             <End Role="UnitType" EntitySet="UnitType" />
             <End Role="FoodInput" EntitySet="FoodInput" />
           </AssociationSet>
-          <AssociationSet Name="foodinputcombo_ibfk_1" Association="Self.foodinputcombo_ibfk_1">
+          <AssociationSet Name="FoodInputCombo_ibfk_1" Association="Self.FoodInputCombo_ibfk_1">
             <End Role="FoodInput" EntitySet="FoodInput" />
             <End Role="FoodInputCombo" EntitySet="FoodInputCombo" />
           </AssociationSet>
-          <AssociationSet Name="foodinputcombo_ibfk_2" Association="Self.foodinputcombo_ibfk_2">
+          <AssociationSet Name="FoodInputCombo_ibfk_2" Association="Self.FoodInputCombo_ibfk_2">
             <End Role="Combo" EntitySet="Combo" />
             <End Role="FoodInputCombo" EntitySet="FoodInputCombo" />
           </AssociationSet>
-          <AssociationSet Name="login_ibfk_1" Association="Self.login_ibfk_1">
+          <AssociationSet Name="Login_ibfk_1" Association="Self.Login_ibfk_1">
             <End Role="User" EntitySet="User" />
             <End Role="Login" EntitySet="Login" />
           </AssociationSet>
-          <AssociationSet Name="product_ibfk_1" Association="Self.product_ibfk_1">
+          <AssociationSet Name="Product_ibfk_1" Association="Self.Product_ibfk_1">
             <End Role="CategoryType" EntitySet="CategoryType" />
             <End Role="Product" EntitySet="Product" />
           </AssociationSet>
-          <AssociationSet Name="productproviderrelation_ibfk_1" Association="Self.productproviderrelation_ibfk_1">
+          <AssociationSet Name="ProductProviderRelation_ibfk_1" Association="Self.ProductProviderRelation_ibfk_1">
             <End Role="Provider" EntitySet="Provider" />
             <End Role="ProductProviderRelation" EntitySet="ProductProviderRelation" />
           </AssociationSet>
-          <AssociationSet Name="productproviderrelation_ibfk_2" Association="Self.productproviderrelation_ibfk_2">
+          <AssociationSet Name="ProductProviderRelation_ibfk_2" Association="Self.ProductProviderRelation_ibfk_2">
             <End Role="Product" EntitySet="Product" />
             <End Role="ProductProviderRelation" EntitySet="ProductProviderRelation" />
           </AssociationSet>
-          <AssociationSet Name="purchase_ibfk_1" Association="Self.purchase_ibfk_1">
+          <AssociationSet Name="Purchase_ibfk_1" Association="Self.Purchase_ibfk_1">
             <End Role="Login" EntitySet="Login" />
             <End Role="Purchase" EntitySet="Purchase" />
           </AssociationSet>
-          <AssociationSet Name="purchasedetail_ibfk_1" Association="Self.purchasedetail_ibfk_1">
+          <AssociationSet Name="PurchaseDetail_ibfk_1" Association="Self.PurchaseDetail_ibfk_1">
             <End Role="Purchase" EntitySet="Purchase" />
             <End Role="PurchaseDetail" EntitySet="PurchaseDetail" />
           </AssociationSet>
-          <AssociationSet Name="purchasedetail_ibfk_2" Association="Self.purchasedetail_ibfk_2">
+          <AssociationSet Name="PurchaseDetail_ibfk_2" Association="Self.PurchaseDetail_ibfk_2">
             <End Role="Product" EntitySet="Product" />
             <End Role="PurchaseDetail" EntitySet="PurchaseDetail" />
           </AssociationSet>
-          <AssociationSet Name="sale_ibfk_1" Association="Self.sale_ibfk_1">
+          <AssociationSet Name="Sale_ibfk_1" Association="Self.Sale_ibfk_1">
             <End Role="Login" EntitySet="Login" />
             <End Role="Sale" EntitySet="Sale" />
           </AssociationSet>
-          <AssociationSet Name="sale_ibfk_2" Association="Self.sale_ibfk_2">
+          <AssociationSet Name="Sale_ibfk_2" Association="Self.Sale_ibfk_2">
             <End Role="SaleType" EntitySet="SaleType" />
             <End Role="Sale" EntitySet="Sale" />
           </AssociationSet>
-          <AssociationSet Name="sale_ibfk_3" Association="Self.sale_ibfk_3">
+          <AssociationSet Name="Sale_ibfk_3" Association="Self.Sale_ibfk_3">
             <End Role="Client" EntitySet="Client" />
             <End Role="Sale" EntitySet="Sale" />
           </AssociationSet>
-          <AssociationSet Name="saledetail_ibfk_1" Association="Self.saledetail_ibfk_1">
+          <AssociationSet Name="SaleDetail_ibfk_1" Association="Self.SaleDetail_ibfk_1">
             <End Role="Sale" EntitySet="Sale" />
             <End Role="SaleDetail" EntitySet="SaleDetail" />
           </AssociationSet>
-          <AssociationSet Name="saledetail_ibfk_2" Association="Self.saledetail_ibfk_2">
+          <AssociationSet Name="SaleDetail_ibfk_2" Association="Self.SaleDetail_ibfk_2">
             <End Role="Product" EntitySet="Product" />
             <End Role="SaleDetail" EntitySet="SaleDetail" />
           </AssociationSet>
-          <AssociationSet Name="saleorder_ibfk_1" Association="Self.saleorder_ibfk_1">
+          <AssociationSet Name="SaleOrder_ibfk_1" Association="Self.SaleOrder_ibfk_1">
             <End Role="Login" EntitySet="Login" />
             <End Role="SaleOrder" EntitySet="SaleOrder" />
           </AssociationSet>
-          <AssociationSet Name="saleorderdetail_ibfk_1" Association="Self.saleorderdetail_ibfk_1">
+          <AssociationSet Name="SaleOrderDetail_ibfk_1" Association="Self.SaleOrderDetail_ibfk_1">
             <End Role="SaleOrder" EntitySet="SaleOrder" />
             <End Role="SaleOrderDetail" EntitySet="SaleOrderDetail" />
           </AssociationSet>
-          <AssociationSet Name="simpleproduct_ibfk_1" Association="Self.simpleproduct_ibfk_1">
+          <AssociationSet Name="SimpleProduct_ibfk_1" Association="Self.SimpleProduct_ibfk_1">
             <End Role="Product" EntitySet="Product" />
             <End Role="SimpleProduct" EntitySet="SimpleProduct" />
           </AssociationSet>
-          <AssociationSet Name="simpleproductcombo_ibfk_1" Association="Self.simpleproductcombo_ibfk_1">
+          <AssociationSet Name="SimpleProductCombo_ibfk_1" Association="Self.SimpleProductCombo_ibfk_1">
             <End Role="SimpleProduct" EntitySet="SimpleProduct" />
             <End Role="SimpleProductCombo" EntitySet="SimpleProductCombo" />
           </AssociationSet>
-          <AssociationSet Name="simpleproductcombo_ibfk_2" Association="Self.simpleproductcombo_ibfk_2">
+          <AssociationSet Name="SimpleProductCombo_ibfk_2" Association="Self.SimpleProductCombo_ibfk_2">
             <End Role="Combo" EntitySet="Combo" />
             <End Role="SimpleProductCombo" EntitySet="SimpleProductCombo" />
           </AssociationSet>
@@ -708,7 +734,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="DatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="FastFoodDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="BillConfig">
           <Key>
             <PropertyRef Name="Id" />
@@ -729,7 +755,7 @@
           <Property Name="DateTime" Type="DateTime" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Hide" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Login" Relationship="Self.cashmovement_ibfk_1" FromRole="CashMovement" ToRole="Login" />
+          <NavigationProperty Name="Login" Relationship="Self.CashMovement_ibfk_1" FromRole="CashMovement" ToRole="Login" />
         </EntityType>
         <EntityType Name="CategoryType">
           <Key>
@@ -737,7 +763,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Products" Relationship="Self.product_ibfk_1" FromRole="CategoryType" ToRole="Product" />
+          <NavigationProperty Name="Products" Relationship="Self.Product_ibfk_1" FromRole="CategoryType" ToRole="Product" />
         </EntityType>
         <EntityType Name="Client">
           <Key>
@@ -746,26 +772,26 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nit" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Sales" Relationship="Self.sale_ibfk_3" FromRole="Client" ToRole="Sale" />
+          <NavigationProperty Name="Sales" Relationship="Self.Sale_ibfk_3" FromRole="Client" ToRole="Sale" />
         </EntityType>
         <EntityType Name="Combo">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Product" Relationship="Self.combo_ibfk_1" FromRole="Combo" ToRole="Product" />
-          <NavigationProperty Name="CompoundProductComboes" Relationship="Self.compoundproductcombo_ibfk_2" FromRole="Combo" ToRole="CompoundProductCombo" />
-          <NavigationProperty Name="FoodInputComboes" Relationship="Self.foodinputcombo_ibfk_2" FromRole="Combo" ToRole="FoodInputCombo" />
-          <NavigationProperty Name="SimpleProductComboes" Relationship="Self.simpleproductcombo_ibfk_2" FromRole="Combo" ToRole="SimpleProductCombo" />
+          <NavigationProperty Name="Product" Relationship="Self.Combo_ibfk_1" FromRole="Combo" ToRole="Product" />
+          <NavigationProperty Name="CompoundProductComboes" Relationship="Self.CompoundProductCombo_ibfk_2" FromRole="Combo" ToRole="CompoundProductCombo" />
+          <NavigationProperty Name="FoodInputComboes" Relationship="Self.FoodInputCombo_ibfk_2" FromRole="Combo" ToRole="FoodInputCombo" />
+          <NavigationProperty Name="SimpleProductComboes" Relationship="Self.SimpleProductCombo_ibfk_2" FromRole="Combo" ToRole="SimpleProductCombo" />
         </EntityType>
         <EntityType Name="CompoundProduct">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Product" Relationship="Self.compoundproduct_ibfk_1" FromRole="CompoundProduct" ToRole="Product" />
-          <NavigationProperty Name="CompoundProductComboes" Relationship="Self.compoundproductcombo_ibfk_1" FromRole="CompoundProduct" ToRole="CompoundProductCombo" />
-          <NavigationProperty Name="CompoundProductFoodInputs" Relationship="Self.compoundproductfoodinput_ibfk_1" FromRole="CompoundProduct" ToRole="CompoundProductFoodInput" />
+          <NavigationProperty Name="Product" Relationship="Self.CompoundProduct_ibfk_1" FromRole="CompoundProduct" ToRole="Product" />
+          <NavigationProperty Name="CompoundProductComboes" Relationship="Self.CompoundProductCombo_ibfk_1" FromRole="CompoundProduct" ToRole="CompoundProductCombo" />
+          <NavigationProperty Name="CompoundProductFoodInputs" Relationship="Self.CompoundProductFoodInput_ibfk_1" FromRole="CompoundProduct" ToRole="CompoundProductFoodInput" />
         </EntityType>
         <EntityType Name="CompoundProductCombo">
           <Key>
@@ -775,8 +801,8 @@
           <Property Name="CompoundProductId" Type="Int32" Nullable="false" />
           <Property Name="ComboId" Type="Int32" Nullable="false" />
           <Property Name="RequiredUnits" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Combo" Relationship="Self.compoundproductcombo_ibfk_2" FromRole="CompoundProductCombo" ToRole="Combo" />
-          <NavigationProperty Name="CompoundProduct" Relationship="Self.compoundproductcombo_ibfk_1" FromRole="CompoundProductCombo" ToRole="CompoundProduct" />
+          <NavigationProperty Name="Combo" Relationship="Self.CompoundProductCombo_ibfk_2" FromRole="CompoundProductCombo" ToRole="Combo" />
+          <NavigationProperty Name="CompoundProduct" Relationship="Self.CompoundProductCombo_ibfk_1" FromRole="CompoundProductCombo" ToRole="CompoundProduct" />
         </EntityType>
         <EntityType Name="CompoundProductFoodInput">
           <Key>
@@ -786,8 +812,8 @@
           <Property Name="CompoundProductId" Type="Int32" Nullable="false" />
           <Property Name="FoodInputId" Type="Int32" Nullable="false" />
           <Property Name="RequiredUnits" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="CompoundProduct" Relationship="Self.compoundproductfoodinput_ibfk_1" FromRole="CompoundProductFoodInput" ToRole="CompoundProduct" />
-          <NavigationProperty Name="FoodInput" Relationship="Self.compoundproductfoodinput_ibfk_2" FromRole="CompoundProductFoodInput" ToRole="FoodInput" />
+          <NavigationProperty Name="CompoundProduct" Relationship="Self.CompoundProductFoodInput_ibfk_1" FromRole="CompoundProductFoodInput" ToRole="CompoundProduct" />
+          <NavigationProperty Name="FoodInput" Relationship="Self.CompoundProductFoodInput_ibfk_2" FromRole="CompoundProductFoodInput" ToRole="FoodInput" />
         </EntityType>
         <EntityType Name="FoodInput">
           <Key>
@@ -798,9 +824,9 @@
           <Property Name="UnitValue" Type="Int32" Nullable="false" />
           <Property Name="UnitCost" Type="Decimal" Nullable="false" />
           <Property Name="Units" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="CompoundProductFoodInputs" Relationship="Self.compoundproductfoodinput_ibfk_2" FromRole="FoodInput" ToRole="CompoundProductFoodInput" />
-          <NavigationProperty Name="UnitType" Relationship="Self.foodinput_ibfk_1" FromRole="FoodInput" ToRole="UnitType" />
-          <NavigationProperty Name="FoodInputComboes" Relationship="Self.foodinputcombo_ibfk_1" FromRole="FoodInput" ToRole="FoodInputCombo" />
+          <NavigationProperty Name="CompoundProductFoodInputs" Relationship="Self.CompoundProductFoodInput_ibfk_2" FromRole="FoodInput" ToRole="CompoundProductFoodInput" />
+          <NavigationProperty Name="UnitType" Relationship="Self.FoodInput_ibfk_1" FromRole="FoodInput" ToRole="UnitType" />
+          <NavigationProperty Name="FoodInputComboes" Relationship="Self.FoodInputCombo_ibfk_1" FromRole="FoodInput" ToRole="FoodInputCombo" />
         </EntityType>
         <EntityType Name="FoodInputCombo">
           <Key>
@@ -810,8 +836,8 @@
           <Property Name="FoodInputId" Type="Int32" Nullable="false" />
           <Property Name="ComboId" Type="Int32" Nullable="false" />
           <Property Name="RequiredUnits" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Combo" Relationship="Self.foodinputcombo_ibfk_2" FromRole="FoodInputCombo" ToRole="Combo" />
-          <NavigationProperty Name="FoodInput" Relationship="Self.foodinputcombo_ibfk_1" FromRole="FoodInputCombo" ToRole="FoodInput" />
+          <NavigationProperty Name="Combo" Relationship="Self.FoodInputCombo_ibfk_2" FromRole="FoodInputCombo" ToRole="Combo" />
+          <NavigationProperty Name="FoodInput" Relationship="Self.FoodInputCombo_ibfk_1" FromRole="FoodInputCombo" ToRole="FoodInput" />
         </EntityType>
         <EntityType Name="Login">
           <Key>
@@ -823,11 +849,19 @@
           <Property Name="EndDateTime" Type="DateTime" />
           <Property Name="StartCashValue" Type="Decimal" Nullable="false" />
           <Property Name="EndCashValue" Type="Decimal" />
-          <NavigationProperty Name="CashMovements" Relationship="Self.cashmovement_ibfk_1" FromRole="Login" ToRole="CashMovement" />
-          <NavigationProperty Name="User" Relationship="Self.login_ibfk_1" FromRole="Login" ToRole="User" />
-          <NavigationProperty Name="Purchases" Relationship="Self.purchase_ibfk_1" FromRole="Login" ToRole="Purchase" />
-          <NavigationProperty Name="Sales" Relationship="Self.sale_ibfk_1" FromRole="Login" ToRole="Sale" />
-          <NavigationProperty Name="SaleOrders" Relationship="Self.saleorder_ibfk_1" FromRole="Login" ToRole="SaleOrder" />
+          <NavigationProperty Name="CashMovements" Relationship="Self.CashMovement_ibfk_1" FromRole="Login" ToRole="CashMovement" />
+          <NavigationProperty Name="User" Relationship="Self.Login_ibfk_1" FromRole="Login" ToRole="User" />
+          <NavigationProperty Name="Purchases" Relationship="Self.Purchase_ibfk_1" FromRole="Login" ToRole="Purchase" />
+          <NavigationProperty Name="Sales" Relationship="Self.Sale_ibfk_1" FromRole="Login" ToRole="Sale" />
+          <NavigationProperty Name="SaleOrders" Relationship="Self.SaleOrder_ibfk_1" FromRole="Login" ToRole="SaleOrder" />
+        </EntityType>
+        <EntityType Name="OrderState">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="SaleOrders" Relationship="Self.FK_SaleOrder_OrderState" FromRole="OrderState" ToRole="SaleOrder" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -841,12 +875,12 @@
           <Property Name="SaleDiscount" Type="Decimal" Nullable="false" />
           <Property Name="Hide" Type="Boolean" Nullable="false" />
           <Property Name="HideForSales" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="CategoryType" Relationship="Self.product_ibfk_1" FromRole="Product" ToRole="CategoryType" />
-          <NavigationProperty Name="Combo" Relationship="Self.combo_ibfk_1" FromRole="Product" ToRole="Combo" />
-          <NavigationProperty Name="CompoundProduct" Relationship="Self.compoundproduct_ibfk_1" FromRole="Product" ToRole="CompoundProduct" />
-          <NavigationProperty Name="PurchaseDetails" Relationship="Self.purchasedetail_ibfk_2" FromRole="Product" ToRole="PurchaseDetail" />
-          <NavigationProperty Name="SaleDetails" Relationship="Self.saledetail_ibfk_2" FromRole="Product" ToRole="SaleDetail" />
-          <NavigationProperty Name="SimpleProduct" Relationship="Self.simpleproduct_ibfk_1" FromRole="Product" ToRole="SimpleProduct" />
+          <NavigationProperty Name="CategoryType" Relationship="Self.Product_ibfk_1" FromRole="Product" ToRole="CategoryType" />
+          <NavigationProperty Name="Combo" Relationship="Self.Combo_ibfk_1" FromRole="Product" ToRole="Combo" />
+          <NavigationProperty Name="CompoundProduct" Relationship="Self.CompoundProduct_ibfk_1" FromRole="Product" ToRole="CompoundProduct" />
+          <NavigationProperty Name="PurchaseDetails" Relationship="Self.PurchaseDetail_ibfk_2" FromRole="Product" ToRole="PurchaseDetail" />
+          <NavigationProperty Name="SaleDetails" Relationship="Self.SaleDetail_ibfk_2" FromRole="Product" ToRole="SaleDetail" />
+          <NavigationProperty Name="SimpleProduct" Relationship="Self.SimpleProduct_ibfk_1" FromRole="Product" ToRole="SimpleProduct" />
           <NavigationProperty Name="Providers" Relationship="Self.ProductProviderRelation" FromRole="Product" ToRole="Provider" />
         </EntityType>
         <EntityType Name="Provider">
@@ -869,8 +903,8 @@
           <Property Name="LoginId" Type="Int64" Nullable="false" />
           <Property Name="DateTime" Type="DateTime" Nullable="false" />
           <Property Name="Hide" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Login" Relationship="Self.purchase_ibfk_1" FromRole="Purchase" ToRole="Login" />
-          <NavigationProperty Name="PurchaseDetails" Relationship="Self.purchasedetail_ibfk_1" FromRole="Purchase" ToRole="PurchaseDetail" />
+          <NavigationProperty Name="Login" Relationship="Self.Purchase_ibfk_1" FromRole="Purchase" ToRole="Login" />
+          <NavigationProperty Name="PurchaseDetails" Relationship="Self.PurchaseDetail_ibfk_1" FromRole="Purchase" ToRole="PurchaseDetail" />
         </EntityType>
         <EntityType Name="PurchaseDetail">
           <Key>
@@ -881,8 +915,8 @@
           <Property Name="ProductId" Type="Int32" Nullable="false" />
           <Property Name="Units" Type="Int32" Nullable="false" />
           <Property Name="UnitValue" Type="Decimal" Nullable="false" />
-          <NavigationProperty Name="Product" Relationship="Self.purchasedetail_ibfk_2" FromRole="PurchaseDetail" ToRole="Product" />
-          <NavigationProperty Name="Purchase" Relationship="Self.purchasedetail_ibfk_1" FromRole="PurchaseDetail" ToRole="Purchase" />
+          <NavigationProperty Name="Product" Relationship="Self.PurchaseDetail_ibfk_2" FromRole="PurchaseDetail" ToRole="Product" />
+          <NavigationProperty Name="Purchase" Relationship="Self.PurchaseDetail_ibfk_1" FromRole="PurchaseDetail" ToRole="Purchase" />
         </EntityType>
         <EntityType Name="Sale">
           <Key>
@@ -897,10 +931,10 @@
           <Property Name="ControlCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="DateTime" Type="DateTime" Nullable="false" />
           <Property Name="Hide" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Client" Relationship="Self.sale_ibfk_3" FromRole="Sale" ToRole="Client" />
-          <NavigationProperty Name="Login" Relationship="Self.sale_ibfk_1" FromRole="Sale" ToRole="Login" />
-          <NavigationProperty Name="SaleType" Relationship="Self.sale_ibfk_2" FromRole="Sale" ToRole="SaleType" />
-          <NavigationProperty Name="SaleDetails" Relationship="Self.saledetail_ibfk_1" FromRole="Sale" ToRole="SaleDetail" />
+          <NavigationProperty Name="Client" Relationship="Self.Sale_ibfk_3" FromRole="Sale" ToRole="Client" />
+          <NavigationProperty Name="Login" Relationship="Self.Sale_ibfk_1" FromRole="Sale" ToRole="Login" />
+          <NavigationProperty Name="SaleType" Relationship="Self.Sale_ibfk_2" FromRole="Sale" ToRole="SaleType" />
+          <NavigationProperty Name="SaleDetails" Relationship="Self.SaleDetail_ibfk_1" FromRole="Sale" ToRole="SaleDetail" />
         </EntityType>
         <EntityType Name="SaleDetail">
           <Key>
@@ -913,8 +947,8 @@
           <Property Name="UnitValue" Type="Decimal" Nullable="false" />
           <Property Name="UnitCost" Type="Decimal" Nullable="false" />
           <Property Name="DiscountValue" Type="Decimal" Nullable="false" />
-          <NavigationProperty Name="Product" Relationship="Self.saledetail_ibfk_2" FromRole="SaleDetail" ToRole="Product" />
-          <NavigationProperty Name="Sale" Relationship="Self.saledetail_ibfk_1" FromRole="SaleDetail" ToRole="Sale" />
+          <NavigationProperty Name="Product" Relationship="Self.SaleDetail_ibfk_2" FromRole="SaleDetail" ToRole="Product" />
+          <NavigationProperty Name="Sale" Relationship="Self.SaleDetail_ibfk_1" FromRole="SaleDetail" ToRole="Sale" />
         </EntityType>
         <EntityType Name="SaleOrder">
           <Key>
@@ -922,13 +956,16 @@
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="LoginId" Type="Int64" Nullable="false" />
+          <Property Name="OrderStateId" Type="Int64" Nullable="false" />
           <Property Name="OrderName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Observation" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="DailyId" Type="Int32" Nullable="false" />
           <Property Name="DateTime" Type="DateTime" Nullable="false" />
           <Property Name="Hide" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Login" Relationship="Self.saleorder_ibfk_1" FromRole="SaleOrder" ToRole="Login" />
-          <NavigationProperty Name="SaleOrderDetails" Relationship="Self.saleorderdetail_ibfk_1" FromRole="SaleOrder" ToRole="SaleOrderDetail" />
+          <NavigationProperty Name="Login" Relationship="Self.SaleOrder_ibfk_1" FromRole="SaleOrder" ToRole="Login" />
+          <NavigationProperty Name="OrderState" Relationship="Self.FK_SaleOrder_OrderState" FromRole="SaleOrder" ToRole="OrderState" />
+          <NavigationProperty Name="SaleOrderDetails" Relationship="Self.SaleOrderDetail_ibfk_1" FromRole="SaleOrder" ToRole="SaleOrderDetail" />
         </EntityType>
         <EntityType Name="SaleOrderDetail">
           <Key>
@@ -941,7 +978,7 @@
           <Property Name="UnitValue" Type="Decimal" Nullable="false" />
           <Property Name="UnitCost" Type="Decimal" Nullable="false" />
           <Property Name="DiscountValue" Type="Decimal" Nullable="false" />
-          <NavigationProperty Name="SaleOrder" Relationship="Self.saleorderdetail_ibfk_1" FromRole="SaleOrderDetail" ToRole="SaleOrder" />
+          <NavigationProperty Name="SaleOrder" Relationship="Self.SaleOrderDetail_ibfk_1" FromRole="SaleOrderDetail" ToRole="SaleOrder" />
         </EntityType>
         <EntityType Name="SaleType">
           <Key>
@@ -949,7 +986,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Sales" Relationship="Self.sale_ibfk_2" FromRole="SaleType" ToRole="Sale" />
+          <NavigationProperty Name="Sales" Relationship="Self.Sale_ibfk_2" FromRole="SaleType" ToRole="Sale" />
         </EntityType>
         <EntityType Name="SimpleProduct">
           <Key>
@@ -958,8 +995,8 @@
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="Units" Type="Int32" Nullable="false" />
           <Property Name="UnitCost" Type="Decimal" Nullable="false" />
-          <NavigationProperty Name="Product" Relationship="Self.simpleproduct_ibfk_1" FromRole="SimpleProduct" ToRole="Product" />
-          <NavigationProperty Name="SimpleProductComboes" Relationship="Self.simpleproductcombo_ibfk_1" FromRole="SimpleProduct" ToRole="SimpleProductCombo" />
+          <NavigationProperty Name="Product" Relationship="Self.SimpleProduct_ibfk_1" FromRole="SimpleProduct" ToRole="Product" />
+          <NavigationProperty Name="SimpleProductComboes" Relationship="Self.SimpleProductCombo_ibfk_1" FromRole="SimpleProduct" ToRole="SimpleProductCombo" />
         </EntityType>
         <EntityType Name="SimpleProductCombo">
           <Key>
@@ -969,8 +1006,8 @@
           <Property Name="SimpleProductId" Type="Int32" Nullable="false" />
           <Property Name="ComboId" Type="Int32" Nullable="false" />
           <Property Name="RequiredUnits" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Combo" Relationship="Self.simpleproductcombo_ibfk_2" FromRole="SimpleProductCombo" ToRole="Combo" />
-          <NavigationProperty Name="SimpleProduct" Relationship="Self.simpleproductcombo_ibfk_1" FromRole="SimpleProductCombo" ToRole="SimpleProduct" />
+          <NavigationProperty Name="Combo" Relationship="Self.SimpleProductCombo_ibfk_2" FromRole="SimpleProductCombo" ToRole="Combo" />
+          <NavigationProperty Name="SimpleProduct" Relationship="Self.SimpleProductCombo_ibfk_1" FromRole="SimpleProductCombo" ToRole="SimpleProduct" />
         </EntityType>
         <EntityType Name="UnitType">
           <Key>
@@ -979,7 +1016,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ShortName" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="FoodInputs" Relationship="Self.foodinput_ibfk_1" FromRole="UnitType" ToRole="FoodInput" />
+          <NavigationProperty Name="FoodInputs" Relationship="Self.FoodInput_ibfk_1" FromRole="UnitType" ToRole="FoodInput" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -991,9 +1028,9 @@
           <Property Name="FullName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Admin" Type="Boolean" Nullable="false" />
           <Property Name="Hide" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Logins" Relationship="Self.login_ibfk_1" FromRole="User" ToRole="Login" />
+          <NavigationProperty Name="Logins" Relationship="Self.Login_ibfk_1" FromRole="User" ToRole="Login" />
         </EntityType>
-        <Association Name="cashmovement_ibfk_1">
+        <Association Name="CashMovement_ibfk_1">
           <End Role="Login" Type="Self.Login" Multiplicity="1" />
           <End Role="CashMovement" Type="Self.CashMovement" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1005,7 +1042,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="product_ibfk_1">
+        <Association Name="Product_ibfk_1">
           <End Role="CategoryType" Type="Self.CategoryType" Multiplicity="1" />
           <End Role="Product" Type="Self.Product" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1017,7 +1054,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="sale_ibfk_3">
+        <Association Name="Sale_ibfk_3">
           <End Role="Client" Type="Self.Client" Multiplicity="1" />
           <End Role="Sale" Type="Self.Sale" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1029,7 +1066,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="combo_ibfk_1">
+        <Association Name="Combo_ibfk_1">
           <End Role="Product" Type="Self.Product" Multiplicity="1" />
           <End Role="Combo" Type="Self.Combo" Multiplicity="0..1" />
           <ReferentialConstraint>
@@ -1041,7 +1078,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="compoundproductcombo_ibfk_2">
+        <Association Name="CompoundProductCombo_ibfk_2">
           <End Role="Combo" Type="Self.Combo" Multiplicity="1" />
           <End Role="CompoundProductCombo" Type="Self.CompoundProductCombo" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1053,7 +1090,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="foodinputcombo_ibfk_2">
+        <Association Name="FoodInputCombo_ibfk_2">
           <End Role="Combo" Type="Self.Combo" Multiplicity="1" />
           <End Role="FoodInputCombo" Type="Self.FoodInputCombo" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1065,7 +1102,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="simpleproductcombo_ibfk_2">
+        <Association Name="SimpleProductCombo_ibfk_2">
           <End Role="Combo" Type="Self.Combo" Multiplicity="1" />
           <End Role="SimpleProductCombo" Type="Self.SimpleProductCombo" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1077,7 +1114,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="compoundproduct_ibfk_1">
+        <Association Name="CompoundProduct_ibfk_1">
           <End Role="Product" Type="Self.Product" Multiplicity="1" />
           <End Role="CompoundProduct" Type="Self.CompoundProduct" Multiplicity="0..1" />
           <ReferentialConstraint>
@@ -1089,7 +1126,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="compoundproductcombo_ibfk_1">
+        <Association Name="CompoundProductCombo_ibfk_1">
           <End Role="CompoundProduct" Type="Self.CompoundProduct" Multiplicity="1" />
           <End Role="CompoundProductCombo" Type="Self.CompoundProductCombo" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1101,7 +1138,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="compoundproductfoodinput_ibfk_1">
+        <Association Name="CompoundProductFoodInput_ibfk_1">
           <End Role="CompoundProduct" Type="Self.CompoundProduct" Multiplicity="1" />
           <End Role="CompoundProductFoodInput" Type="Self.CompoundProductFoodInput" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1113,7 +1150,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="compoundproductfoodinput_ibfk_2">
+        <Association Name="CompoundProductFoodInput_ibfk_2">
           <End Role="FoodInput" Type="Self.FoodInput" Multiplicity="1" />
           <End Role="CompoundProductFoodInput" Type="Self.CompoundProductFoodInput" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1125,7 +1162,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="foodinput_ibfk_1">
+        <Association Name="FoodInput_ibfk_1">
           <End Role="UnitType" Type="Self.UnitType" Multiplicity="1" />
           <End Role="FoodInput" Type="Self.FoodInput" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1137,7 +1174,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="foodinputcombo_ibfk_1">
+        <Association Name="FoodInputCombo_ibfk_1">
           <End Role="FoodInput" Type="Self.FoodInput" Multiplicity="1" />
           <End Role="FoodInputCombo" Type="Self.FoodInputCombo" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1149,7 +1186,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="login_ibfk_1">
+        <Association Name="Login_ibfk_1">
           <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="Login" Type="Self.Login" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1161,7 +1198,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="purchase_ibfk_1">
+        <Association Name="Purchase_ibfk_1">
           <End Role="Login" Type="Self.Login" Multiplicity="1" />
           <End Role="Purchase" Type="Self.Purchase" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1173,7 +1210,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="sale_ibfk_1">
+        <Association Name="Sale_ibfk_1">
           <End Role="Login" Type="Self.Login" Multiplicity="1" />
           <End Role="Sale" Type="Self.Sale" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1185,7 +1222,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="saleorder_ibfk_1">
+        <Association Name="SaleOrder_ibfk_1">
           <End Role="Login" Type="Self.Login" Multiplicity="1" />
           <End Role="SaleOrder" Type="Self.SaleOrder" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1197,7 +1234,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="purchasedetail_ibfk_2">
+        <Association Name="FK_SaleOrder_OrderState">
+          <End Role="OrderState" Type="Self.OrderState" Multiplicity="1" />
+          <End Role="SaleOrder" Type="Self.SaleOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderState">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SaleOrder">
+              <PropertyRef Name="OrderStateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PurchaseDetail_ibfk_2">
           <End Role="Product" Type="Self.Product" Multiplicity="1" />
           <End Role="PurchaseDetail" Type="Self.PurchaseDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1209,7 +1258,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="saledetail_ibfk_2">
+        <Association Name="SaleDetail_ibfk_2">
           <End Role="Product" Type="Self.Product" Multiplicity="1" />
           <End Role="SaleDetail" Type="Self.SaleDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1221,7 +1270,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="simpleproduct_ibfk_1">
+        <Association Name="SimpleProduct_ibfk_1">
           <End Role="Product" Type="Self.Product" Multiplicity="1" />
           <End Role="SimpleProduct" Type="Self.SimpleProduct" Multiplicity="0..1" />
           <ReferentialConstraint>
@@ -1233,7 +1282,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="purchasedetail_ibfk_1">
+        <Association Name="PurchaseDetail_ibfk_1">
           <End Role="Purchase" Type="Self.Purchase" Multiplicity="1" />
           <End Role="PurchaseDetail" Type="Self.PurchaseDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1245,7 +1294,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="sale_ibfk_2">
+        <Association Name="Sale_ibfk_2">
           <End Role="SaleType" Type="Self.SaleType" Multiplicity="1" />
           <End Role="Sale" Type="Self.Sale" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1257,7 +1306,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="saledetail_ibfk_1">
+        <Association Name="SaleDetail_ibfk_1">
           <End Role="Sale" Type="Self.Sale" Multiplicity="1" />
           <End Role="SaleDetail" Type="Self.SaleDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1269,7 +1318,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="saleorderdetail_ibfk_1">
+        <Association Name="SaleOrderDetail_ibfk_1">
           <End Role="SaleOrder" Type="Self.SaleOrder" Multiplicity="1" />
           <End Role="SaleOrderDetail" Type="Self.SaleOrderDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1281,7 +1330,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="simpleproductcombo_ibfk_1">
+        <Association Name="SimpleProductCombo_ibfk_1">
           <End Role="SimpleProduct" Type="Self.SimpleProduct" Multiplicity="1" />
           <End Role="SimpleProductCombo" Type="Self.SimpleProductCombo" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1309,6 +1358,7 @@
           <EntitySet Name="FoodInputs" EntityType="Self.FoodInput" />
           <EntitySet Name="FoodInputComboes" EntityType="Self.FoodInputCombo" />
           <EntitySet Name="Logins" EntityType="Self.Login" />
+          <EntitySet Name="OrderStates" EntityType="Self.OrderState" />
           <EntitySet Name="Products" EntityType="Self.Product" />
           <EntitySet Name="Providers" EntityType="Self.Provider" />
           <EntitySet Name="Purchases" EntityType="Self.Purchase" />
@@ -1322,103 +1372,107 @@
           <EntitySet Name="SimpleProductComboes" EntityType="Self.SimpleProductCombo" />
           <EntitySet Name="UnitTypes" EntityType="Self.UnitType" />
           <EntitySet Name="Users" EntityType="Self.User" />
-          <AssociationSet Name="cashmovement_ibfk_1" Association="Self.cashmovement_ibfk_1">
+          <AssociationSet Name="CashMovement_ibfk_1" Association="Self.CashMovement_ibfk_1">
             <End Role="Login" EntitySet="Logins" />
             <End Role="CashMovement" EntitySet="CashMovements" />
           </AssociationSet>
-          <AssociationSet Name="product_ibfk_1" Association="Self.product_ibfk_1">
+          <AssociationSet Name="Product_ibfk_1" Association="Self.Product_ibfk_1">
             <End Role="CategoryType" EntitySet="CategoryTypes" />
             <End Role="Product" EntitySet="Products" />
           </AssociationSet>
-          <AssociationSet Name="sale_ibfk_3" Association="Self.sale_ibfk_3">
+          <AssociationSet Name="Sale_ibfk_3" Association="Self.Sale_ibfk_3">
             <End Role="Client" EntitySet="Clients" />
             <End Role="Sale" EntitySet="Sales" />
           </AssociationSet>
-          <AssociationSet Name="combo_ibfk_1" Association="Self.combo_ibfk_1">
+          <AssociationSet Name="Combo_ibfk_1" Association="Self.Combo_ibfk_1">
             <End Role="Product" EntitySet="Products" />
             <End Role="Combo" EntitySet="Comboes" />
           </AssociationSet>
-          <AssociationSet Name="compoundproductcombo_ibfk_2" Association="Self.compoundproductcombo_ibfk_2">
+          <AssociationSet Name="CompoundProductCombo_ibfk_2" Association="Self.CompoundProductCombo_ibfk_2">
             <End Role="Combo" EntitySet="Comboes" />
             <End Role="CompoundProductCombo" EntitySet="CompoundProductComboes" />
           </AssociationSet>
-          <AssociationSet Name="foodinputcombo_ibfk_2" Association="Self.foodinputcombo_ibfk_2">
+          <AssociationSet Name="FoodInputCombo_ibfk_2" Association="Self.FoodInputCombo_ibfk_2">
             <End Role="Combo" EntitySet="Comboes" />
             <End Role="FoodInputCombo" EntitySet="FoodInputComboes" />
           </AssociationSet>
-          <AssociationSet Name="simpleproductcombo_ibfk_2" Association="Self.simpleproductcombo_ibfk_2">
+          <AssociationSet Name="SimpleProductCombo_ibfk_2" Association="Self.SimpleProductCombo_ibfk_2">
             <End Role="Combo" EntitySet="Comboes" />
             <End Role="SimpleProductCombo" EntitySet="SimpleProductComboes" />
           </AssociationSet>
-          <AssociationSet Name="compoundproduct_ibfk_1" Association="Self.compoundproduct_ibfk_1">
+          <AssociationSet Name="CompoundProduct_ibfk_1" Association="Self.CompoundProduct_ibfk_1">
             <End Role="Product" EntitySet="Products" />
             <End Role="CompoundProduct" EntitySet="CompoundProducts" />
           </AssociationSet>
-          <AssociationSet Name="compoundproductcombo_ibfk_1" Association="Self.compoundproductcombo_ibfk_1">
+          <AssociationSet Name="CompoundProductCombo_ibfk_1" Association="Self.CompoundProductCombo_ibfk_1">
             <End Role="CompoundProduct" EntitySet="CompoundProducts" />
             <End Role="CompoundProductCombo" EntitySet="CompoundProductComboes" />
           </AssociationSet>
-          <AssociationSet Name="compoundproductfoodinput_ibfk_1" Association="Self.compoundproductfoodinput_ibfk_1">
+          <AssociationSet Name="CompoundProductFoodInput_ibfk_1" Association="Self.CompoundProductFoodInput_ibfk_1">
             <End Role="CompoundProduct" EntitySet="CompoundProducts" />
             <End Role="CompoundProductFoodInput" EntitySet="CompoundProductFoodInputs" />
           </AssociationSet>
-          <AssociationSet Name="compoundproductfoodinput_ibfk_2" Association="Self.compoundproductfoodinput_ibfk_2">
+          <AssociationSet Name="CompoundProductFoodInput_ibfk_2" Association="Self.CompoundProductFoodInput_ibfk_2">
             <End Role="FoodInput" EntitySet="FoodInputs" />
             <End Role="CompoundProductFoodInput" EntitySet="CompoundProductFoodInputs" />
           </AssociationSet>
-          <AssociationSet Name="foodinput_ibfk_1" Association="Self.foodinput_ibfk_1">
+          <AssociationSet Name="FoodInput_ibfk_1" Association="Self.FoodInput_ibfk_1">
             <End Role="UnitType" EntitySet="UnitTypes" />
             <End Role="FoodInput" EntitySet="FoodInputs" />
           </AssociationSet>
-          <AssociationSet Name="foodinputcombo_ibfk_1" Association="Self.foodinputcombo_ibfk_1">
+          <AssociationSet Name="FoodInputCombo_ibfk_1" Association="Self.FoodInputCombo_ibfk_1">
             <End Role="FoodInput" EntitySet="FoodInputs" />
             <End Role="FoodInputCombo" EntitySet="FoodInputComboes" />
           </AssociationSet>
-          <AssociationSet Name="login_ibfk_1" Association="Self.login_ibfk_1">
+          <AssociationSet Name="Login_ibfk_1" Association="Self.Login_ibfk_1">
             <End Role="User" EntitySet="Users" />
             <End Role="Login" EntitySet="Logins" />
           </AssociationSet>
-          <AssociationSet Name="purchase_ibfk_1" Association="Self.purchase_ibfk_1">
+          <AssociationSet Name="Purchase_ibfk_1" Association="Self.Purchase_ibfk_1">
             <End Role="Login" EntitySet="Logins" />
             <End Role="Purchase" EntitySet="Purchases" />
           </AssociationSet>
-          <AssociationSet Name="sale_ibfk_1" Association="Self.sale_ibfk_1">
+          <AssociationSet Name="Sale_ibfk_1" Association="Self.Sale_ibfk_1">
             <End Role="Login" EntitySet="Logins" />
             <End Role="Sale" EntitySet="Sales" />
           </AssociationSet>
-          <AssociationSet Name="saleorder_ibfk_1" Association="Self.saleorder_ibfk_1">
+          <AssociationSet Name="SaleOrder_ibfk_1" Association="Self.SaleOrder_ibfk_1">
             <End Role="Login" EntitySet="Logins" />
             <End Role="SaleOrder" EntitySet="SaleOrders" />
           </AssociationSet>
-          <AssociationSet Name="purchasedetail_ibfk_2" Association="Self.purchasedetail_ibfk_2">
+          <AssociationSet Name="FK_SaleOrder_OrderState" Association="Self.FK_SaleOrder_OrderState">
+            <End Role="OrderState" EntitySet="OrderStates" />
+            <End Role="SaleOrder" EntitySet="SaleOrders" />
+          </AssociationSet>
+          <AssociationSet Name="PurchaseDetail_ibfk_2" Association="Self.PurchaseDetail_ibfk_2">
             <End Role="Product" EntitySet="Products" />
             <End Role="PurchaseDetail" EntitySet="PurchaseDetails" />
           </AssociationSet>
-          <AssociationSet Name="saledetail_ibfk_2" Association="Self.saledetail_ibfk_2">
+          <AssociationSet Name="SaleDetail_ibfk_2" Association="Self.SaleDetail_ibfk_2">
             <End Role="Product" EntitySet="Products" />
             <End Role="SaleDetail" EntitySet="SaleDetails" />
           </AssociationSet>
-          <AssociationSet Name="simpleproduct_ibfk_1" Association="Self.simpleproduct_ibfk_1">
+          <AssociationSet Name="SimpleProduct_ibfk_1" Association="Self.SimpleProduct_ibfk_1">
             <End Role="Product" EntitySet="Products" />
             <End Role="SimpleProduct" EntitySet="SimpleProducts" />
           </AssociationSet>
-          <AssociationSet Name="purchasedetail_ibfk_1" Association="Self.purchasedetail_ibfk_1">
+          <AssociationSet Name="PurchaseDetail_ibfk_1" Association="Self.PurchaseDetail_ibfk_1">
             <End Role="Purchase" EntitySet="Purchases" />
             <End Role="PurchaseDetail" EntitySet="PurchaseDetails" />
           </AssociationSet>
-          <AssociationSet Name="sale_ibfk_2" Association="Self.sale_ibfk_2">
+          <AssociationSet Name="Sale_ibfk_2" Association="Self.Sale_ibfk_2">
             <End Role="SaleType" EntitySet="SaleTypes" />
             <End Role="Sale" EntitySet="Sales" />
           </AssociationSet>
-          <AssociationSet Name="saledetail_ibfk_1" Association="Self.saledetail_ibfk_1">
+          <AssociationSet Name="SaleDetail_ibfk_1" Association="Self.SaleDetail_ibfk_1">
             <End Role="Sale" EntitySet="Sales" />
             <End Role="SaleDetail" EntitySet="SaleDetails" />
           </AssociationSet>
-          <AssociationSet Name="saleorderdetail_ibfk_1" Association="Self.saleorderdetail_ibfk_1">
+          <AssociationSet Name="SaleOrderDetail_ibfk_1" Association="Self.SaleOrderDetail_ibfk_1">
             <End Role="SaleOrder" EntitySet="SaleOrders" />
             <End Role="SaleOrderDetail" EntitySet="SaleOrderDetails" />
           </AssociationSet>
-          <AssociationSet Name="simpleproductcombo_ibfk_1" Association="Self.simpleproductcombo_ibfk_1">
+          <AssociationSet Name="SimpleProductCombo_ibfk_1" Association="Self.SimpleProductCombo_ibfk_1">
             <End Role="SimpleProduct" EntitySet="SimpleProducts" />
             <End Role="SimpleProductCombo" EntitySet="SimpleProductComboes" />
           </AssociationSet>
@@ -1432,9 +1486,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="DatabaseModelStoreContainer" CdmEntityContainer="DatabaseEntities">
+        <EntityContainerMapping StorageEntityContainer="FastFoodDbModelStoreContainer" CdmEntityContainer="DatabaseEntities">
           <EntitySetMapping Name="BillConfigs">
-            <EntityTypeMapping TypeName="DatabaseModel.BillConfig">
+            <EntityTypeMapping TypeName="FastFoodDbModel.BillConfig">
               <MappingFragment StoreEntitySet="BillConfig">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="AuthorizationCode" ColumnName="AuthorizationCode" />
@@ -1445,7 +1499,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CashMovements">
-            <EntityTypeMapping TypeName="DatabaseModel.CashMovement">
+            <EntityTypeMapping TypeName="FastFoodDbModel.CashMovement">
               <MappingFragment StoreEntitySet="CashMovement">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="LoginId" ColumnName="LoginId" />
@@ -1457,7 +1511,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CategoryTypes">
-            <EntityTypeMapping TypeName="DatabaseModel.CategoryType">
+            <EntityTypeMapping TypeName="FastFoodDbModel.CategoryType">
               <MappingFragment StoreEntitySet="CategoryType">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
@@ -1465,7 +1519,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Clients">
-            <EntityTypeMapping TypeName="DatabaseModel.Client">
+            <EntityTypeMapping TypeName="FastFoodDbModel.Client">
               <MappingFragment StoreEntitySet="Client">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Nit" ColumnName="Nit" />
@@ -1474,21 +1528,21 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Comboes">
-            <EntityTypeMapping TypeName="DatabaseModel.Combo">
+            <EntityTypeMapping TypeName="FastFoodDbModel.Combo">
               <MappingFragment StoreEntitySet="Combo">
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CompoundProducts">
-            <EntityTypeMapping TypeName="DatabaseModel.CompoundProduct">
+            <EntityTypeMapping TypeName="FastFoodDbModel.CompoundProduct">
               <MappingFragment StoreEntitySet="CompoundProduct">
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CompoundProductComboes">
-            <EntityTypeMapping TypeName="DatabaseModel.CompoundProductCombo">
+            <EntityTypeMapping TypeName="FastFoodDbModel.CompoundProductCombo">
               <MappingFragment StoreEntitySet="CompoundProductCombo">
                 <ScalarProperty Name="CompoundProductId" ColumnName="CompoundProductId" />
                 <ScalarProperty Name="ComboId" ColumnName="ComboId" />
@@ -1497,7 +1551,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CompoundProductFoodInputs">
-            <EntityTypeMapping TypeName="DatabaseModel.CompoundProductFoodInput">
+            <EntityTypeMapping TypeName="FastFoodDbModel.CompoundProductFoodInput">
               <MappingFragment StoreEntitySet="CompoundProductFoodInput">
                 <ScalarProperty Name="CompoundProductId" ColumnName="CompoundProductId" />
                 <ScalarProperty Name="FoodInputId" ColumnName="FoodInputId" />
@@ -1506,7 +1560,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="FoodInputs">
-            <EntityTypeMapping TypeName="DatabaseModel.FoodInput">
+            <EntityTypeMapping TypeName="FastFoodDbModel.FoodInput">
               <MappingFragment StoreEntitySet="FoodInput">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UnitTypeId" ColumnName="UnitTypeId" />
@@ -1517,7 +1571,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="FoodInputComboes">
-            <EntityTypeMapping TypeName="DatabaseModel.FoodInputCombo">
+            <EntityTypeMapping TypeName="FastFoodDbModel.FoodInputCombo">
               <MappingFragment StoreEntitySet="FoodInputCombo">
                 <ScalarProperty Name="FoodInputId" ColumnName="FoodInputId" />
                 <ScalarProperty Name="ComboId" ColumnName="ComboId" />
@@ -1526,7 +1580,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Logins">
-            <EntityTypeMapping TypeName="DatabaseModel.Login">
+            <EntityTypeMapping TypeName="FastFoodDbModel.Login">
               <MappingFragment StoreEntitySet="Login">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -1537,8 +1591,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="OrderStates">
+            <EntityTypeMapping TypeName="FastFoodDbModel.OrderState">
+              <MappingFragment StoreEntitySet="OrderState">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Products">
-            <EntityTypeMapping TypeName="DatabaseModel.Product">
+            <EntityTypeMapping TypeName="FastFoodDbModel.Product">
               <MappingFragment StoreEntitySet="Product">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CategoryTypeId" ColumnName="CategoryTypeId" />
@@ -1552,7 +1614,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Providers">
-            <EntityTypeMapping TypeName="DatabaseModel.Provider">
+            <EntityTypeMapping TypeName="FastFoodDbModel.Provider">
               <MappingFragment StoreEntitySet="Provider">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="FullName" ColumnName="FullName" />
@@ -1564,7 +1626,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Purchases">
-            <EntityTypeMapping TypeName="DatabaseModel.Purchase">
+            <EntityTypeMapping TypeName="FastFoodDbModel.Purchase">
               <MappingFragment StoreEntitySet="Purchase">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="LoginId" ColumnName="LoginId" />
@@ -1574,7 +1636,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PurchaseDetails">
-            <EntityTypeMapping TypeName="DatabaseModel.PurchaseDetail">
+            <EntityTypeMapping TypeName="FastFoodDbModel.PurchaseDetail">
               <MappingFragment StoreEntitySet="PurchaseDetail">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="PurchaseId" ColumnName="PurchaseId" />
@@ -1585,7 +1647,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Sales">
-            <EntityTypeMapping TypeName="DatabaseModel.Sale">
+            <EntityTypeMapping TypeName="FastFoodDbModel.Sale">
               <MappingFragment StoreEntitySet="Sale">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="LoginId" ColumnName="LoginId" />
@@ -1600,7 +1662,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="SaleDetails">
-            <EntityTypeMapping TypeName="DatabaseModel.SaleDetail">
+            <EntityTypeMapping TypeName="FastFoodDbModel.SaleDetail">
               <MappingFragment StoreEntitySet="SaleDetail">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="SaleId" ColumnName="SaleId" />
@@ -1613,12 +1675,14 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="SaleOrders">
-            <EntityTypeMapping TypeName="DatabaseModel.SaleOrder">
+            <EntityTypeMapping TypeName="FastFoodDbModel.SaleOrder">
               <MappingFragment StoreEntitySet="SaleOrder">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="LoginId" ColumnName="LoginId" />
+                <ScalarProperty Name="OrderStateId" ColumnName="OrderStateId" />
                 <ScalarProperty Name="OrderName" ColumnName="OrderName" />
                 <ScalarProperty Name="Observation" ColumnName="Observation" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
                 <ScalarProperty Name="DailyId" ColumnName="DailyId" />
                 <ScalarProperty Name="DateTime" ColumnName="DateTime" />
                 <ScalarProperty Name="Hide" ColumnName="Hide" />
@@ -1626,7 +1690,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="SaleOrderDetails">
-            <EntityTypeMapping TypeName="DatabaseModel.SaleOrderDetail">
+            <EntityTypeMapping TypeName="FastFoodDbModel.SaleOrderDetail">
               <MappingFragment StoreEntitySet="SaleOrderDetail">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="SaleOrderId" ColumnName="SaleOrderId" />
@@ -1639,7 +1703,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="SaleTypes">
-            <EntityTypeMapping TypeName="DatabaseModel.SaleType">
+            <EntityTypeMapping TypeName="FastFoodDbModel.SaleType">
               <MappingFragment StoreEntitySet="SaleType">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
@@ -1647,7 +1711,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="SimpleProducts">
-            <EntityTypeMapping TypeName="DatabaseModel.SimpleProduct">
+            <EntityTypeMapping TypeName="FastFoodDbModel.SimpleProduct">
               <MappingFragment StoreEntitySet="SimpleProduct">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Units" ColumnName="Units" />
@@ -1656,7 +1720,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="SimpleProductComboes">
-            <EntityTypeMapping TypeName="DatabaseModel.SimpleProductCombo">
+            <EntityTypeMapping TypeName="FastFoodDbModel.SimpleProductCombo">
               <MappingFragment StoreEntitySet="SimpleProductCombo">
                 <ScalarProperty Name="SimpleProductId" ColumnName="SimpleProductId" />
                 <ScalarProperty Name="ComboId" ColumnName="ComboId" />
@@ -1665,7 +1729,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UnitTypes">
-            <EntityTypeMapping TypeName="DatabaseModel.UnitType">
+            <EntityTypeMapping TypeName="FastFoodDbModel.UnitType">
               <MappingFragment StoreEntitySet="UnitType">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ShortName" ColumnName="ShortName" />
@@ -1674,7 +1738,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="DatabaseModel.User">
+            <EntityTypeMapping TypeName="FastFoodDbModel.User">
               <MappingFragment StoreEntitySet="User">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Username" ColumnName="Username" />
@@ -1685,7 +1749,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="ProductProviderRelation" TypeName="DatabaseModel.ProductProviderRelation" StoreEntitySet="ProductProviderRelation">
+          <AssociationSetMapping Name="ProductProviderRelation" TypeName="FastFoodDbModel.ProductProviderRelation" StoreEntitySet="ProductProviderRelation">
             <EndProperty Name="Provider">
               <ScalarProperty Name="Id" ColumnName="ProviderId" />
             </EndProperty>

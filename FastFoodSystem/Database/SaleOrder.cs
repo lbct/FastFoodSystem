@@ -21,13 +21,16 @@ namespace FastFoodSystem.Database
     
         public long Id { get; set; }
         public long LoginId { get; set; }
+        public long OrderStateId { get; set; }
         public string OrderName { get; set; }
         public string Observation { get; set; }
+        public string PhoneNumber { get; set; }
         public int DailyId { get; set; }
         public System.DateTime DateTime { get; set; }
         public bool Hide { get; set; }
     
         public virtual Login Login { get; set; }
+        public virtual OrderState OrderState { get; set; }
         public virtual ICollection<SaleOrderDetail> SaleOrderDetails { get; set; }
     }
 }

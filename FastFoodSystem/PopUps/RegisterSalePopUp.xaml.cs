@@ -161,7 +161,7 @@ namespace FastFoodSystem.PopUps
             return correct ? sale : null;
         }
 
-        private async Task<SaleOrder> CreateOrder(int dailyId, string name, string obs)
+        private async Task<SaleOrder> CreateOrder(int dailyId, string name, string obs, string phone, OrderState state)
         {
             bool correct = true;
             SaleOrder order = null;
@@ -173,6 +173,9 @@ namespace FastFoodSystem.PopUps
                 DateTime = saleDateTime,
                 LoginId = UserSession.LoginID,
                 Observation = obs,
+                PhoneNumber = phone,
+                OrderState = state,
+                OrderStateId = state.Id,
                 OrderName = name
             };
             correct = await App.RunAsync(() =>
@@ -243,16 +246,20 @@ namespace FastFoodSystem.PopUps
 
         private void Save_as_order_button_Click(object sender, RoutedEventArgs e)
         {
-            App.OpenSystemPopUp<NewOrderPopUp>().Init(async (name, obs) =>
+            App.OpenSystemPopUp<NewOrderPopUp>().Init(async (name, obs, phone, state) =>
             {
                 App.ShowLoad();
                 try
                 {
-                    var order = await CreateOrder(UserSession.DailyOrderId, name, obs);
+                    var order = await CreateOrder(UserSession.DailyOrderId, name, obs, phone, state);
                     if (order != null)
                     {
                         App.ShowMessage("Pedido (" + order.DailyId + ") guardado a nombre de " + order.OrderName, true,
-                            () => App.GetSystemPage<NewSalePage>().Refresh());
+                            () => 
+                            { 
+                                App.GetSystemPage<NewSalePage>().Refresh();
+                                App.GetSystemPage<NewSalePage>().PrintOrder(order);
+                            });
                     }
                     else
                         App.OpenSystemPopUp<RegisterSalePopUp>();

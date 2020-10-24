@@ -73,10 +73,7 @@ namespace FastFoodSystem.Scripts
                 if (user != null)
                 {
                     login = true;
-                    dailyOrderId = await App.RunAsync(() =>
-                    {
-                        return App.Database.SaleOrders.Count() <= 0 ? 0 : App.Database.SaleOrders.Max(o => o.DailyId);
-                    });
+                    
                     await LoadProducts();
 
                     var lastLogin = await App.RunAsync(() => 
@@ -106,7 +103,21 @@ namespace FastFoodSystem.Scripts
                     BillConfigId = lastBillConfig.Id;
 
                     if (lastLogin != null && lastLogin.EndDateTime == null)
+                    {
                         LoginID = lastLogin.Id;
+                        dailyOrderId = await App.RunAsync(() =>
+                        {
+                            int maxId = 0;
+                            try
+                            {
+                                maxId = App.Database.SaleOrders.Count() <= 0 ? 0 : App.Database.SaleOrders
+                                .Where(o => o.LoginId == LoginID)
+                                .Max(o => o.DailyId);
+                            }
+                            catch { }
+                            return maxId;
+                        });
+                    }
                     else
                     {
                         decimal startCash = 0;
@@ -123,6 +134,7 @@ namespace FastFoodSystem.Scripts
                             App.Database.Logins.Add(currentLogin);
                             App.Database.SaveChanges();
                         });
+                        dailyOrderId = 0;
                         if (login)
                             LoginID = currentLogin.Id;
                     }

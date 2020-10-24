@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:FastFoodSystem.Scripts"
       xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
       mc:Ignorable="d" 
-      Width="400" Height="260"
+      Width="400" VerticalAlignment="Center"
       >
     <Border Background="WhiteSmoke" CornerRadius="10" BorderThickness="5" BorderBrush="#ee9f23">
         <Grid>
@@ -27,6 +27,10 @@
                     <telerik:RadWatermarkTextBox Name="name_text"></telerik:RadWatermarkTextBox>
                     <Label Content="Observación:"></Label>
                     <telerik:RadWatermarkTextBox Name="observation_text"></telerik:RadWatermarkTextBox>
+                    <Label Content="Teléfono:"></Label>
+                    <telerik:RadWatermarkTextBox Name="phone_text"></telerik:RadWatermarkTextBox>
+                    <Label Content="Estado:"></Label>
+                    <telerik:RadComboBox Name="order_state_combo" DisplayMemberPath="Name"></telerik:RadComboBox>
                 </StackPanel>
                 <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
                     <telerik:RadButton MaxWidth="100" Name="save_button" IsDefault="True" Margin="0, 10, 20, 20" Content="Guardar" Click="Save_button_Click"></telerik:RadButton>

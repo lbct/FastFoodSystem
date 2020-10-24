@@ -4,57 +4,59 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="0357b8ad5a6f4f8ea03c2c8370ec84d2" Name="Diagram1">
-        <EntityTypeShape EntityType="DatabaseModel.BillConfig" Width="1.5" PointX="0.75" PointY="2.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.CashMovement" Width="1.5" PointX="8" PointY="19.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.CategoryType" Width="1.5" PointX="0.75" PointY="12.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Client" Width="1.5" PointX="5.75" PointY="5.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Combo" Width="1.5" PointX="5.25" PointY="10" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.CompoundProduct" Width="1.5" PointX="5.25" PointY="12.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.CompoundProductCombo" Width="1.5" PointX="7.5" PointY="11.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.CompoundProductFoodInput" Width="1.5" PointX="10.5" PointY="12.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.FoodInput" Width="1.5" PointX="5.25" PointY="28.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.FoodInputCombo" Width="1.5" PointX="7.5" PointY="8" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Login" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Product" Width="1.5" PointX="3" PointY="11.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Provider" Width="1.5" PointX="0.75" PointY="9.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Purchase" Width="1.5" PointX="3" PointY="16.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.PurchaseDetail" Width="1.5" PointX="5.25" PointY="15.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Sale" Width="1.5" PointX="8" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.SaleDetail" Width="1.5" PointX="10.25" PointY="8.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.SaleOrder" Width="1.5" PointX="8" PointY="22.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.SaleOrderDetail" Width="1.5" PointX="10.25" PointY="22.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.SaleType" Width="1.5" PointX="5.75" PointY="25.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.SimpleProduct" Width="1.5" PointX="5.25" PointY="21.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.SimpleProductCombo" Width="1.5" PointX="7.5" PointY="16" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.UnitType" Width="1.5" PointX="3" PointY="29.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.User" Width="1.5" PointX="3.5" PointY="5.375" IsExpanded="true" />
-        <AssociationConnector Association="DatabaseModel.cashmovement_ibfk_1" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.product_ibfk_1" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.sale_ibfk_3" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.combo_ibfk_1" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.compoundproductcombo_ibfk_2" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.foodinputcombo_ibfk_2" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.simpleproductcombo_ibfk_2" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.compoundproduct_ibfk_1" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.compoundproductcombo_ibfk_1" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.compoundproductfoodinput_ibfk_1" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.compoundproductfoodinput_ibfk_2" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.foodinput_ibfk_1" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.foodinputcombo_ibfk_1" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.login_ibfk_1" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.purchase_ibfk_1" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.sale_ibfk_1" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.saleorder_ibfk_1" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.purchasedetail_ibfk_2" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.saledetail_ibfk_2" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.simpleproduct_ibfk_1" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.purchasedetail_ibfk_1" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.sale_ibfk_2" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.saledetail_ibfk_1" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.saleorderdetail_ibfk_1" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.simpleproductcombo_ibfk_1" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.ProductProviderRelation" ManuallyRouted="false" />
+      <Diagram DiagramId="768016d8fc9b4391bdf6c33de4f149e7" Name="Diagram1">
+        <EntityTypeShape EntityType="FastFoodDbModel.BillConfig" Width="1.5" PointX="0.75" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="FastFoodDbModel.CashMovement" Width="1.5" PointX="8" PointY="19.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="FastFoodDbModel.CategoryType" Width="1.5" PointX="0.75" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="FastFoodDbModel.Client" Width="1.5" PointX="5.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FastFoodDbModel.Combo" Width="1.5" PointX="5.25" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="FastFoodDbModel.CompoundProduct" Width="1.5" PointX="5.25" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="FastFoodDbModel.CompoundProductCombo" Width="1.5" PointX="7.5" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="FastFoodDbModel.CompoundProductFoodInput" Width="1.5" PointX="10.5" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FastFoodDbModel.FoodInput" Width="1.5" PointX="5.25" PointY="28.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="FastFoodDbModel.FoodInputCombo" Width="1.5" PointX="7.5" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="FastFoodDbModel.Login" Width="1.5" PointX="5.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="FastFoodDbModel.OrderState" Width="1.5" PointX="8.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FastFoodDbModel.Product" Width="1.5" PointX="3" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="FastFoodDbModel.Provider" Width="1.5" PointX="0.75" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="FastFoodDbModel.Purchase" Width="1.5" PointX="3" PointY="16.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="FastFoodDbModel.PurchaseDetail" Width="1.5" PointX="5.25" PointY="15.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="FastFoodDbModel.Sale" Width="1.5" PointX="8" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="FastFoodDbModel.SaleDetail" Width="1.5" PointX="10.25" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="FastFoodDbModel.SaleOrder" Width="1.5" PointX="11" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FastFoodDbModel.SaleOrderDetail" Width="1.5" PointX="13.25" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FastFoodDbModel.SaleType" Width="1.5" PointX="5.75" PointY="25.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FastFoodDbModel.SimpleProduct" Width="1.5" PointX="5.25" PointY="22" IsExpanded="true" />
+        <EntityTypeShape EntityType="FastFoodDbModel.SimpleProductCombo" Width="1.5" PointX="7.5" PointY="16.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="FastFoodDbModel.UnitType" Width="1.5" PointX="3" PointY="29.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FastFoodDbModel.User" Width="1.5" PointX="3.5" PointY="5.5" IsExpanded="true" />
+        <AssociationConnector Association="FastFoodDbModel.CashMovement_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="FastFoodDbModel.Product_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="FastFoodDbModel.Sale_ibfk_3" ManuallyRouted="false" />
+        <AssociationConnector Association="FastFoodDbModel.Combo_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="FastFoodDbModel.CompoundProductCombo_ibfk_2" ManuallyRouted="false" />
+        <AssociationConnector Association="FastFoodDbModel.FoodInputCombo_ibfk_2" ManuallyRouted="false" />
+        <AssociationConnector Association="FastFoodDbModel.SimpleProductCombo_ibfk_2" ManuallyRouted="false" />
+        <AssociationConnector Association="FastFoodDbModel.CompoundProduct_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="FastFoodDbModel.CompoundProductCombo_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="FastFoodDbModel.CompoundProductFoodInput_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="FastFoodDbModel.CompoundProductFoodInput_ibfk_2" ManuallyRouted="false" />
+        <AssociationConnector Association="FastFoodDbModel.FoodInput_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="FastFoodDbModel.FoodInputCombo_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="FastFoodDbModel.Login_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="FastFoodDbModel.Purchase_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="FastFoodDbModel.Sale_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="FastFoodDbModel.SaleOrder_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="FastFoodDbModel.FK_SaleOrder_OrderState" ManuallyRouted="false" />
+        <AssociationConnector Association="FastFoodDbModel.PurchaseDetail_ibfk_2" ManuallyRouted="false" />
+        <AssociationConnector Association="FastFoodDbModel.SaleDetail_ibfk_2" ManuallyRouted="false" />
+        <AssociationConnector Association="FastFoodDbModel.SimpleProduct_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="FastFoodDbModel.PurchaseDetail_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="FastFoodDbModel.Sale_ibfk_2" ManuallyRouted="false" />
+        <AssociationConnector Association="FastFoodDbModel.SaleDetail_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="FastFoodDbModel.SaleOrderDetail_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="FastFoodDbModel.SimpleProductCombo_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="FastFoodDbModel.ProductProviderRelation" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

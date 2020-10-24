@@ -139,13 +139,13 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <telerik:RadButton Grid.Column="0" Name="okButton" IsDefault="True" Margin="20, 10, 10, 20" Content="Realizar Venta" Click="OkButton_Click"></telerik:RadButton>
-                <telerik:RadButton Grid.Column="1" Name="delete_button" Margin="10, 10, 10, 20" Content="Eliminar Pedido" Click="Delete_button_Click"></telerik:RadButton>
-                <telerik:RadButton Grid.Column="2" Name="editButton" Margin="10, 10, 10, 20" Content="Editar Pedido" Click="EditButton_Click"></telerik:RadButton>
-                <telerik:RadButton Grid.Column="3" Name="cancelButton" Margin="10, 10, 20, 20" Content="Cancelar" Click="CancelButton_Click"></telerik:RadButton>
+                <!--
+                <telerik:RadButton Grid.Column="1" Name="delete_button" Visibility="Collapsed" Margin="10, 10, 10, 20" Content="Eliminar Pedido" Click="Delete_button_Click"></telerik:RadButton>
+                <telerik:RadButton Grid.Column="2" Name="editButton" Visibility="Collapsed" Margin="10, 10, 10, 20" Content="Editar Pedido" Click="EditButton_Click"></telerik:RadButton>
+                -->
+                <telerik:RadButton Grid.Column="1" Name="cancelButton" Margin="10, 10, 20, 20" Content="Cancelar" Click="CancelButton_Click"></telerik:RadButton>
             </Grid>
         </Grid>
     </Border>

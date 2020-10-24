@@ -36,6 +36,7 @@ namespace FastFoodSystem.Database
         public DbSet<FoodInput> FoodInputs { get; set; }
         public DbSet<FoodInputCombo> FoodInputComboes { get; set; }
         public DbSet<Login> Logins { get; set; }
+        public DbSet<OrderState> OrderStates { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Provider> Providers { get; set; }
         public DbSet<Purchase> Purchases { get; set; }

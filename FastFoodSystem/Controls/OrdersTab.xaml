@@ -1,0 +1,140 @@
+﻿<UserControl x:Class="FastFoodSystem.Controls.OrdersTab"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FastFoodSystem.Scripts"
+             xmlns:controls="clr-namespace:FastFoodSystem.Controls"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="0"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <telerik:Label Content="Filtrar por: "></telerik:Label>
+            <telerik:RadComboBox x:Name="filter_combo" MinWidth="200" SelectionChanged="filter_combo_SelectionChanged"></telerik:RadComboBox>
+            <telerik:RadDatePicker MinWidth="200" Name="selected_date"></telerik:RadDatePicker>
+        </StackPanel>
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled">
+            <telerik:RadGridView
+                    ShowGroupPanel="False"
+                            Background="WhiteSmoke"
+                             GroupRenderMode="Flat"
+                             x:Name="orders_table"
+                             Grid.Column="1"                                                                      
+							 Grid.Row="0"							
+							 CanUserFreezeColumns="False"
+							 RowIndicatorVisibility="Collapsed"
+							 IsReadOnly="True"								
+							 AutoGenerateColumns="False"
+                             ShowColumnFooters="False"
+							 >
+                <telerik:RadGridView.Columns>
+                    <telerik:GridViewDataColumn                         
+                                            Name="editColumn"
+                                            Header="Editar"                                   
+                                            Width="auto"
+                                            IsResizable="False"
+                                            IsReorderable="False"
+                                            >
+                        <telerik:GridViewDataColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Name="view_order_button" IsEnabled="{Binding IsEnable}" BorderThickness="0" Background="Transparent" Padding="0" Initialized="View_order_button_Initialized">
+                                    <Viewbox Height="15">
+                                        <Path Height="15" Style="{StaticResource iconoEditar}" Fill="Black"/>
+                                    </Viewbox>
+                                </Button>
+                            </DataTemplate>
+                        </telerik:GridViewDataColumn.CellTemplate>
+                    </telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn
+                                            Header="Ver"                                   
+                                            Width="auto"
+                                            IsResizable="False"
+                                            IsReorderable="False"
+                                            >
+                        <telerik:GridViewDataColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Name="view_confirm_order_button" BorderThickness="0" Background="Transparent" Padding="0" Click="view_confirm_order_button_Click">
+                                    <Viewbox Height="15">
+                                        <Path Height="15" Style="{StaticResource iconoVer}" Fill="Black"/>
+                                    </Viewbox>
+                                </Button>
+                            </DataTemplate>
+                        </telerik:GridViewDataColumn.CellTemplate>
+                    </telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn
+                                            Header="Imprimir"                                   
+                                            Width="auto"
+                                            IsResizable="False"
+                                            IsReorderable="False"
+                                            >
+                        <telerik:GridViewDataColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Name="print_order_button" IsEnabled="{Binding IsEnable}" BorderThickness="0" Background="Transparent" Padding="0" Click="print_order_button_Click">
+                                    <Viewbox Height="15">
+                                        <telerik:RadGlyph Glyph="&#xe10a;" Foreground="Black" Height="15"></telerik:RadGlyph>
+                                    </Viewbox>
+                                </Button>
+                            </DataTemplate>
+                        </telerik:GridViewDataColumn.CellTemplate>
+                    </telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn
+                                            Header="Número de Pedido"
+                                            DataMemberBinding="{Binding DailyId, StringFormat={}{0:00000}}"
+                                            Width="*">
+                        <telerik:GridViewDataColumn.AggregateFunctions>
+                            <telerik:CountFunction Caption="Recuento: "></telerik:CountFunction>
+                        </telerik:GridViewDataColumn.AggregateFunctions>
+                    </telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn
+                                            Header="Id Pedido"
+                                            DataMemberBinding="{Binding Id, StringFormat={}{0:00000}}"
+                                            Width="*">
+                    </telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn
+                                            Header="Nombre"
+                                            DataMemberBinding="{Binding OrderName}"
+                                            Width="*">
+                    </telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn
+                                            Header="Observación"
+                                            DataMemberBinding="{Binding Observation}"
+                                            Width="*">
+                    </telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn
+                                            Header="Teléfono"
+                                            DataMemberBinding="{Binding PhoneNumber}"
+                                            Width="*">
+                    </telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn
+                                            Header="Estado"
+                                            DataMemberBinding="{Binding OrderState.Name}"
+                                            Width="*">
+                        <telerik:GridViewDataColumn.CellTemplate>
+                            <DataTemplate>
+                                <telerik:RadComboBox SelectedIndex="{Binding StateIndex, Mode=OneWay}" IsEnabled="{Binding IsEnable, Mode=OneWay}" SelectionChanged="RadComboBox_SelectionChanged">
+                                    <telerik:RadComboBoxItem>Pendiente</telerik:RadComboBoxItem>
+                                    <telerik:RadComboBoxItem>Realizado</telerik:RadComboBoxItem>
+                                    <telerik:RadComboBoxItem>Pagado</telerik:RadComboBoxItem>
+                                </telerik:RadComboBox>
+                            </DataTemplate>
+                        </telerik:GridViewDataColumn.CellTemplate>
+                    </telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn
+                                            Header="Hora"
+                                            DataMemberBinding="{Binding DateTime, StringFormat={}{0:HH:mm}}"
+                                            Width="*">
+                    </telerik:GridViewDataColumn>
+                </telerik:RadGridView.Columns>
+            </telerik:RadGridView>
+        </ScrollViewer>
+        <Grid Grid.Row="2">
+            <controls:CommandTemplate x:Name="cmd"></controls:CommandTemplate>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -14,16 +14,17 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="10*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="0"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid Background="#E0E0E0">
-            <telerik:Label FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Nueva Venta" FontSize="20"></telerik:Label>
+            <telerik:Label Name="title" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Nueva Venta" FontSize="20"></telerik:Label>
         </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto" x:Name="list_column"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <telerik:RadTabControl Name="category_container" Background="LightGray">
+            <telerik:RadTabControl Name="category_container" Background="LightGray" SelectionChanged="category_container_SelectionChanged">
                 <telerik:RadTabItem Header="Todo">
                     <Grid>
                         <ScrollViewer HorizontalScrollBarVisibility="Disabled">
@@ -45,6 +46,7 @@
                         </ScrollViewer>
                     </Grid>
                 </telerik:RadTabItem>
+                <telerik:RadTabItem Header="Pedidos" IsEnabled="False"></telerik:RadTabItem>
                 <telerik:RadTabItem Header="Salsas"></telerik:RadTabItem>
                 <telerik:RadTabItem Header="Gaseosas"></telerik:RadTabItem>
                 <telerik:RadTabItem Header="Tacos"></telerik:RadTabItem>
@@ -57,7 +59,24 @@
                     <RowDefinition Height="48" Name="order_row"></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
-                <Rectangle Fill="#3f51b5"></Rectangle>
+                <Grid Background="#3f51b5">
+                    <Grid Margin="10, 0" VerticalAlignment="Center">
+                        <telerik:RadToggleButton
+                            Padding="0"
+				        x:Name="orders_button" Click="Orders_button_Click" Unchecked="orders_button_Unchecked">
+                            <StackPanel Orientation="Horizontal">
+                                <Viewbox Height="20" Margin="10,10,5,10">
+                                    <Image RenderOptions.BitmapScalingMode="Fant" Source="/FastFoodSystem;component/Resources/Images/user.png"/>
+                                </Viewbox>
+                                <telerik:Label Content="Pedidos"/>
+                            </StackPanel>
+                        </telerik:RadToggleButton>
+                        <Grid Name="order_alert_container" Margin="-8" Height="25" Width="25" HorizontalAlignment="Right" VerticalAlignment="Top">
+                            <Ellipse Fill="IndianRed"></Ellipse>
+                            <telerik:Label Name="order_count" Content="10" FontWeight="Bold" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0"></telerik:Label>
+                        </Grid>
+                    </Grid>
+                </Grid>
                 <Grid Grid.Row="1" Background="#FFD2D200">
                     <StackPanel Orientation="Horizontal">
                         <telerik:Label Content="Editando Pedido N°" Padding="0" Margin="10, 0, 0, 0"></telerik:Label>
@@ -117,22 +136,6 @@
                 </telerik:RadButton>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                     <StackPanel Orientation="Horizontal" Name="sale_buttons_container">
-                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <telerik:RadButton 				
-				        x:Name="orders_button" Click="Orders_button_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <Viewbox Height="20" Margin="10,10,5,10">
-                                        <Image RenderOptions.BitmapScalingMode="Fant" Source="/FastFoodSystem;component/Resources/Images/user.png"/>
-                                    </Viewbox>
-                                    <telerik:Label Content="Pedidos"/>
-                                </StackPanel>
-                            </telerik:RadButton>
-                            <Grid Name="order_alert_container" Margin="2" Height="25" Width="25" HorizontalAlignment="Right" VerticalAlignment="Top">
-                                <Ellipse Fill="IndianRed"></Ellipse>
-                                <telerik:Label Name="order_count" Content="10" FontWeight="Bold" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0"></telerik:Label>
-                            </Grid>
-
-                        </Grid>
                         <telerik:RadButton 				
 				        x:Name="view_sales_button" Margin="10, 0, 0, 0" Click="View_sales_button_Click">
                             <StackPanel Orientation="Horizontal">
@@ -184,5 +187,8 @@
                 </StackPanel>
             </Grid>
         </Border>
+        <Grid Grid.Row="3">
+            <controls:CommandTemplate x:Name="cmd"></controls:CommandTemplate>
+        </Grid>
     </Grid>
 </local:SystemPageClass>

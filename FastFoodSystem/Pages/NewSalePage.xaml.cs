@@ -27,11 +27,16 @@ namespace FastFoodSystem.Pages
     public partial class NewSalePage : SystemPageClass
     {
         private SaleOrder order;
+        private RadTabItem orderTab;
+        private OrdersTab ordersTabContent;
+        private bool isOrderTabSelected;
+
         private Dictionary<int, WrapPanel> item_containers;
 
         public NewSalePage()
         {
             InitializeComponent();
+            isOrderTabSelected = false;
             item_containers = new Dictionary<int, WrapPanel>();
         }
 
@@ -42,8 +47,19 @@ namespace FastFoodSystem.Pages
             App.CloseSystemPopUp();
         }
 
+        public void RefreshOrders()
+        {
+            ordersTabContent?.Init();
+        }
+
+        public void PrintOrder(SaleOrder order)
+        {
+            ordersTabContent?.PrintOrder(order, cmd);
+        }
+
         public async Task RefreshAll()
         {
+            list_column.Width = new GridLength(1, GridUnitType.Auto);
             var login = await App.RunAsync(() => App.Database.Logins.FirstOrDefault(l => l.Id == UserSession.LoginID));
             var user = await App.RunAsync(() => App.Database.Users.FirstOrDefault(u => u.Id == login.UserId));
             if (user.Admin)
@@ -63,11 +79,26 @@ namespace FastFoodSystem.Pages
                 if (tab != null)
                     category_container.Items.Add(tab);
             }
+
+            orderTab = new RadTabItem() { Header = "Pedidos", Visibility = Visibility.Collapsed };
+            ordersTabContent = new OrdersTab();
+            orderTab.Content = ordersTabContent;
+            category_container.Items.Add(orderTab);
+
+            if (order != null)
+                isOrderTabSelected = false;
+
             if (category_container.Items.Count > 0)
-                category_container.SelectedIndex = 0;
+            {
+                if (!isOrderTabSelected)
+                    category_container.SelectedIndex = 0;
+                else
+                    category_container.SelectedItem = orderTab;
+            }
+            isOrderTabSelected = false;
 
             var orders = await App.RunAsync(() => App.Database.SaleOrders
-            .Where(o => !o.Hide)
+            .Where(o => !o.Hide && o.OrderStateId != 2)
             .Count());
             if (orders <= 0)
                 order_alert_container.Visibility = Visibility.Collapsed;
@@ -80,6 +111,7 @@ namespace FastFoodSystem.Pages
             {
                 order_row.Height = new GridLength(0);
                 order_buttons_container.Visibility = Visibility.Collapsed;
+                orders_button.IsEnabled = true;
                 sale_buttons_container.Visibility = Visibility.Visible;
             }
             else
@@ -225,6 +257,7 @@ namespace FastFoodSystem.Pages
             order_row.Height = new GridLength(48);
             sale_buttons_container.Visibility = Visibility.Collapsed;
             order_buttons_container.Visibility = Visibility.Visible;
+            orders_button.IsEnabled = false;
             order_number_label.Content = order.DailyId;
             this.order = order;
             var details = await App.RunAsync(() =>
@@ -281,11 +314,9 @@ namespace FastFoodSystem.Pages
                 total_value.Value = 0;
         }
 
-        private async void Orders_button_Click(object sender, RoutedEventArgs e)
+        private void Orders_button_Click(object sender, RoutedEventArgs e)
         {
-            App.ShowLoad();
-            await App.GetSystemPopUp<OrdersPopUp>().Init();
-            App.OpenSystemPopUp<OrdersPopUp>();
+            category_container.SelectedItem = orderTab;
         }
 
         private async void View_sales_button_Click(object sender, RoutedEventArgs e)
@@ -332,17 +363,20 @@ namespace FastFoodSystem.Pages
                     }
                     await App.RunAsync(() => App.Database.SaveChanges());
 
-                    App.OpenSystemPopUp<NewOrderPopUp>().Init(async (name, obs) => 
+                    App.OpenSystemPopUp<NewOrderPopUp>().Init(async (name, obs, phone, state) => 
                     {
                         App.ShowLoad();
                         order.OrderName = name;
                         order.Observation = obs;
+                        order.PhoneNumber = phone;
+                        order.OrderStateId = state.Id;
+                        order.OrderState = state;
                         order.Hide = false;
                         await App.RunAsync(() => App.Database.SaveChanges());
                         order = null;
                         await RefreshAll();
                         App.CloseSystemPopUp();
-                    }, () => { }, order.OrderName, order.Observation);
+                    }, () => { }, order.OrderName, order.Observation, order.PhoneNumber, order.OrderState);
                 }
                 else
                 {
@@ -372,7 +406,39 @@ namespace FastFoodSystem.Pages
                 await App.RunAsync(() => App.Database.SaveChanges());
                 App.CloseSystemPopUp();
                 order = null;
+
+                isOrderTabSelected = true;
+                category_container.SelectedItem = orderTab;
+
                 Refresh();
+            }
+        }
+
+        private void category_container_SelectionChanged(object sender, RadSelectionChangedEventArgs e)
+        {
+            if (category_container.SelectedItem == orderTab)
+            {
+                list_column.Width = new GridLength(0);
+                title.Content = "Pedidos";
+                if(ordersTabContent != null)
+                    ordersTabContent.Init();
+                orders_button.IsChecked = true;
+                //isOrderTabSelected = true;
+            }
+            else
+            {
+                list_column.Width = new GridLength(1, GridUnitType.Auto);
+                title.Content = "Nueva venta";
+                orders_button.IsChecked = false;
+                isOrderTabSelected = false;
+            }
+        }
+
+        private void orders_button_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if(category_container.SelectedItem == orderTab)
+            {
+                category_container.SelectedIndex = 0;
             }
         }
     }

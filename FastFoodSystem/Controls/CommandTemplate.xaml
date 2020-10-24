@@ -1,0 +1,78 @@
+﻿<UserControl x:Class="FastFoodSystem.Controls.CommandTemplate"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FastFoodSystem.Scripts"
+             xmlns:controls="clr-namespace:FastFoodSystem.Controls"
+             mc:Ignorable="d" 
+             VerticalAlignment="Center" HorizontalAlignment="Center">
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+        <Grid Background="White" Name="cmd_container" Width="{Binding Source={x:Static local:PaperSize.BillWidth}}" VerticalAlignment="Center">
+            <Grid Margin="20">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Label FontSize="11" FontFamily="Consolas" Foreground="Black" Content="COMANDA" FontWeight="Bold"></Label>
+                        <Label FontSize="11" FontFamily="Consolas" Foreground="Black" Content="-" FontWeight="Bold"></Label>
+                        <Label FontSize="11" FontFamily="Consolas" Name="cmd_comany_name" Foreground="Black" Content="BIG ROLL" FontWeight="Bold"></Label>
+                    </StackPanel>
+                    <Separator Background="Black" Margin="0"></Separator>
+                    <Grid HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel HorizontalAlignment="Right">
+                            <Label FontSize="11" FontFamily="Consolas" Foreground="Black" FontWeight="Bold" Content="NÚMERO DE PEDIDO:" HorizontalAlignment="Right"></Label>
+                            <Label FontSize="11" FontFamily="Consolas" Foreground="Black" FontWeight="Bold" Content="NOMBRE:" HorizontalAlignment="Right"></Label>
+                            <Label FontSize="11" FontFamily="Consolas" Foreground="Black" FontWeight="Bold" Content="OBSERVACIÓN:" HorizontalAlignment="Right"></Label>
+                            <Label FontSize="11" FontFamily="Consolas" Foreground="Black" FontWeight="Bold" Content="TELÉFONO:" HorizontalAlignment="Right"></Label>
+                            <Label FontSize="11" FontFamily="Consolas" Foreground="Black" FontWeight="Bold" Content="FECHA Y HORA:" HorizontalAlignment="Right"></Label>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1">
+                            <Label FontSize="11" FontFamily="Consolas" Foreground="Black" Name="cmd_order_number" Content="0001"></Label>
+                            <Label FontSize="11" FontFamily="Consolas" Foreground="Black" Name="cmd_order_name" Content="Juan Perez"></Label>
+                            <Label FontSize="11" FontFamily="Consolas" Foreground="Black" Name="cmd_order_obs" Content="-"></Label>
+                            <Label FontSize="11" FontFamily="Consolas" Foreground="Black" Name="cmd_order_phone" Content="4411665"></Label>
+                            <Label FontSize="11" FontFamily="Consolas" Foreground="Black" Name="cmd_order_date" Content="24/10/2020 01:56"></Label>
+                        </StackPanel>
+                    </Grid>
+                    <Separator Background="Black" Margin="0"></Separator>
+                    <StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label FontSize="11" FontFamily="Consolas" Foreground="Black" FontWeight="Bold" Content="Concepto"></Label>
+                            <Label FontSize="11" FontFamily="Consolas" Foreground="Black" FontWeight="Bold" Content="Cantidad" Grid.Column="1"></Label>
+                            <Label FontSize="11" FontFamily="Consolas" Foreground="Black" FontWeight="Bold" Content="P. Unit." Grid.Column="2"></Label>
+                            <Label FontSize="11" FontFamily="Consolas" Foreground="Black" FontWeight="Bold" Content="SubTotal" Grid.Column="3"></Label>
+                        </Grid>
+                        <Separator Background="Black" Margin="0"></Separator>
+                        <StackPanel Name="cmd_detail_container">
+                            <controls:BillSaleDetailItem></controls:BillSaleDetailItem>
+                            <controls:BillSaleDetailItem></controls:BillSaleDetailItem>
+                        </StackPanel>
+                        <Separator Background="Black" Margin="0, 10, 0, 10"></Separator>
+                    </StackPanel>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <Label FontSize="11" FontFamily="Consolas" Foreground="Black" Padding="0" FontWeight="Bold" HorizontalAlignment="Right" Content="Total (Bs)"></Label>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1">
+                            <Label FontSize="11" FontFamily="Consolas" Foreground="Black" Name="cmd_total_order" Padding="0" Content="1300.00" HorizontalAlignment="Right"></Label>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

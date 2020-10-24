@@ -35,5 +35,15 @@ namespace FastFoodSystem.Controls
             unit_price_label.Content = Math.Round(detail.UnitValue, 2);
             total_label.Content = Math.Round(detail.UnitValue * detail.Units, 2);
         }
+
+        public async Task SetSaleOrderDetail(SaleOrderDetail detail)
+        {
+            var product = await App.RunAsync(() => App.Database.Products
+            .FirstOrDefault(p => p.Id == detail.ProductId));
+            product_name_label.Content = product.Description;
+            units_label.Content = detail.Units;
+            unit_price_label.Content = Math.Round(detail.UnitValue, 2);
+            total_label.Content = Math.Round(detail.UnitValue * detail.Units, 2);
+        }
     }
 }

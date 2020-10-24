@@ -35,6 +35,7 @@ namespace FastFoodSystem.PopUps
 
         public async Task Init(SaleOrder order)
         {
+            okButton.IsEnabled = order.OrderStateId != 2;
             detail_container.Children.Clear();
             this.order = order;
             var saleOrderDetails = await App.RunAsync(() => App.Database.SaleOrderDetails.Where(d => d.SaleOrderId == order.Id).ToArray());
@@ -77,8 +78,13 @@ namespace FastFoodSystem.PopUps
                 });
                 if (correct)
                 {
-                    order.Hide = true;
-                    await App.RunAsync(() => App.Database.SaveChanges());
+                    await App.RunAsync(() => 
+                    {
+                        var state = App.Database.OrderStates.First(s => s.Id == 2);
+                        order.OrderState = state;
+                        order.OrderStateId = state.Id;
+                        App.Database.SaveChanges(); 
+                    });
                     await AddSaleDetails(sale);
                     App.ShowMessage("Venta realizada", true, () =>
                     {
@@ -116,7 +122,7 @@ namespace FastFoodSystem.PopUps
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            App.OpenSystemPopUp<OrdersPopUp>();
+            App.GetSystemPage<NewSalePage>().RefreshOrders();
         }
 
         private void CalculatorButton_Click(object sender, RoutedEventArgs e)
@@ -136,7 +142,7 @@ namespace FastFoodSystem.PopUps
             }
         }
 
-        private void Delete_button_Click(object sender, RoutedEventArgs e)
+        /*private void Delete_button_Click(object sender, RoutedEventArgs e)
         {
             App.OpenSystemPopUp<ConfirmPopUp>().Init("¿Desea eliminar el pedido?", async () => 
             {
@@ -158,7 +164,7 @@ namespace FastFoodSystem.PopUps
             {
                 App.OpenSystemPopUp<CommitOrderPopUp>();
             });
-        }
+        }*/
 
         private async Task IncreaseProductUnits(SaleOrderDetail detail)
         {
@@ -241,7 +247,7 @@ namespace FastFoodSystem.PopUps
             }
         }
 
-        private async void EditButton_Click(object sender, RoutedEventArgs e)
+        /*private async void EditButton_Click(object sender, RoutedEventArgs e)
         {
             if (!App.GetSystemPage<NewSalePage>().DetailContainerInUse)
             {
@@ -266,6 +272,6 @@ namespace FastFoodSystem.PopUps
                 {
                     App.OpenSystemPopUp<CommitOrderPopUp>();
                 });
-        }
+        }*/
     }
 }
