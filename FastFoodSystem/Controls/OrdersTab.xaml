@@ -117,10 +117,8 @@
                                             Width="*">
                         <telerik:GridViewDataColumn.CellTemplate>
                             <DataTemplate>
-                                <telerik:RadComboBox SelectedIndex="{Binding StateIndex, Mode=OneWay}" IsEnabled="{Binding IsEnable, Mode=OneWay}" SelectionChanged="RadComboBox_SelectionChanged">
-                                    <telerik:RadComboBoxItem>Pendiente</telerik:RadComboBoxItem>
-                                    <telerik:RadComboBoxItem>Realizado</telerik:RadComboBoxItem>
-                                    <telerik:RadComboBoxItem>Pagado</telerik:RadComboBoxItem>
+                                <telerik:RadComboBox SelectedIndex="{Binding StateIndex, Mode=OneWay}" Initialized="RadComboBox_Initialized" IsEnabled="{Binding IsEnable, Mode=OneWay}" Loaded="RadComboBox_Loaded" SelectionChanged="RadComboBox_SelectionChanged">
+                                    
                                 </telerik:RadComboBox>
                             </DataTemplate>
                         </telerik:GridViewDataColumn.CellTemplate>

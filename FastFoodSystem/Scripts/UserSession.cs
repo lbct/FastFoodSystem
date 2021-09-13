@@ -28,11 +28,8 @@ namespace FastFoodSystem.Scripts
         }
         public static int DailyOrderId
         {
-            get
-            {
-                return ++dailyOrderId;
-            }
-        }
+            get; set;
+        } = 1;
 
         public async static Task Logout()
         {

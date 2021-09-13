@@ -51,6 +51,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>order-food.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
@@ -239,6 +242,7 @@
     <Compile Include="Database\Modifications\GetPurchaseDetail_Result.cs" />
     <Compile Include="Database\Modifications\GetSaleDetailByLogin_Result.cs" />
     <Compile Include="Database\Modifications\GetSaleDetail_Result.cs" />
+    <Compile Include="Database\Modifications\OrderState.cs" />
     <Compile Include="Database\Modifications\SaleOrder.cs" />
     <Compile Include="Database\Modifications\ProductView.cs" />
     <Compile Include="Database\OrderState.cs">
@@ -678,6 +682,7 @@
       <DependentUpon>FastFoodDbModel.edmx</DependentUpon>
       <LastGenOutput>FastFoodDbModel.cs</LastGenOutput>
     </Content>
+    <Resource Include="order-food.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

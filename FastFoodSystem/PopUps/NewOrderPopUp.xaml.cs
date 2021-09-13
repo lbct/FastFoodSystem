@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Telerik.Windows.Controls;
 
 namespace FastFoodSystem.PopUps
 {
@@ -22,7 +23,7 @@ namespace FastFoodSystem.PopUps
     /// </summary>
     public partial class NewOrderPopUp : SystemPopUpClass
     {
-        private Action<string, string, string, OrderState> action;
+        private Action<int, string, string, string, OrderState> action;
         private Action actionCancel;
 
         public NewOrderPopUp()
@@ -30,15 +31,27 @@ namespace FastFoodSystem.PopUps
             InitializeComponent();
         }
 
-        public async void Init(Action<string, string, string, OrderState> action, Action actionCancel, string name = "", string obs = "", string phone = "", OrderState orderState = null)
+        public async void Init(Action<int, string, string, string, OrderState> action, Action actionCancel, int orderNumber, string name = "", string obs = "", string phone = "", OrderState orderState = null)
         {
             this.action = action;
             this.actionCancel = actionCancel;
             name_text.Text = name;
             observation_text.Text = obs;
             phone_text.Text = phone;
-            var items = await App.RunAsync(() => App.Database.OrderStates.Where(o => o.Id != 2).ToArray());
-            order_state_combo.ItemsSource = items;
+            order_number.Value = orderNumber;
+            var items = await App.RunAsync(() => App.Database.OrderStates.ToArray());
+            var cbItems = new List<RadComboBoxItem>();
+            foreach(var item in items)
+            {
+                var cbItem = new RadComboBoxItem()
+                {
+                    Content = item,
+                    Background = item.GetColor()
+                };
+                cbItems.Add(cbItem);
+            }
+
+            order_state_combo.ItemsSource = cbItems;
             order_state_combo.SelectedItem = orderState != null ? items.First(i => i.Id == orderState.Id) : null;
         }
 
@@ -53,12 +66,14 @@ namespace FastFoodSystem.PopUps
                     throw new Exception("Debe ingresar un teléfono");
                 if (order_state_combo.SelectedItem == null)
                     throw new Exception("Debe seleccionar un estado");
+                if (order_number.Value == null)
+                    throw new Exception("Debe especificar un número de orden");
                 string name = name_text.Text.Trim();
                 string obs = observation_text.Text.Trim();
                 string phone = phone_text.Text.Trim();
-                var state = order_state_combo.SelectedItem as OrderState;
+                var state = (order_state_combo.SelectedItem as RadComboBoxItem).Content as OrderState;
                 App.CloseSystemPopUp();
-                action?.Invoke(name, obs, phone, state);
+                action?.Invoke((int)order_number.Value.Value, name, obs, phone, state);
             }
             catch(Exception ex)
             {

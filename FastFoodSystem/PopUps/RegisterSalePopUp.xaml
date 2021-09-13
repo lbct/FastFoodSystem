@@ -124,12 +124,12 @@
             </Grid>
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="0"></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <telerik:RadButton BorderThickness="2" BorderBrush="#32ba7c" Grid.Column="0" Name="okButton" IsDefault="True" Margin="20, 10, 10, 20" Content="Realizar Venta" Click="OkButton_Click"></telerik:RadButton>
-                <telerik:RadButton Grid.Column="1" Name="save_as_order_button" Margin="10, 10, 10, 20" IsDefault="True" Content="Guardar como Pedido" Click="Save_as_order_button_Click"></telerik:RadButton>
+                <!--<telerik:RadButton BorderThickness="2" BorderBrush="#32ba7c" Grid.Column="0" Name="okButton" IsDefault="True" Margin="20, 10, 10, 20" Content="Realizar Venta" Click="OkButton_Click"></telerik:RadButton>-->
+                <telerik:RadButton Grid.Column="1" BorderThickness="2" BorderBrush="#32ba7c" Name="save_as_order_button" Margin="20, 10, 10, 20" IsDefault="True" Content="Registrar" Click="Save_as_order_button_Click"></telerik:RadButton>
                 <telerik:RadButton Grid.Column="2" Name="cancelButton" Margin="10, 10, 20, 20" Content="Cancelar" Click="CancelButton_Click"></telerik:RadButton>
             </Grid>
         </Grid>

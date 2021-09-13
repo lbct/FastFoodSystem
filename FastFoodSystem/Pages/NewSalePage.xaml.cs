@@ -96,10 +96,13 @@ namespace FastFoodSystem.Pages
                     category_container.SelectedItem = orderTab;
             }
             isOrderTabSelected = false;
-
-            var orders = await App.RunAsync(() => App.Database.SaleOrders
-            .Where(o => !o.Hide && o.OrderStateId != 2)
-            .Count());
+            int orders = 0;
+            orders = await App.RunAsync(() =>
+            {
+                return App.Database.SaleOrders
+                .Where(o => !o.Hide && o.OrderStateId != 2).ToArray()
+                .Length;
+            });
             if (orders <= 0)
                 order_alert_container.Visibility = Visibility.Collapsed;
             else
@@ -363,9 +366,10 @@ namespace FastFoodSystem.Pages
                     }
                     await App.RunAsync(() => App.Database.SaveChanges());
 
-                    App.OpenSystemPopUp<NewOrderPopUp>().Init(async (name, obs, phone, state) => 
+                    App.OpenSystemPopUp<NewOrderPopUp>().Init(async (orderNumber, name, obs, phone, state) => 
                     {
                         App.ShowLoad();
+                        order.DailyId = orderNumber;
                         order.OrderName = name;
                         order.Observation = obs;
                         order.PhoneNumber = phone;
@@ -376,7 +380,7 @@ namespace FastFoodSystem.Pages
                         order = null;
                         await RefreshAll();
                         App.CloseSystemPopUp();
-                    }, () => { }, order.OrderName, order.Observation, order.PhoneNumber, order.OrderState);
+                    }, () => { }, order.DailyId, order.OrderName, order.Observation, order.PhoneNumber, order.OrderState);
                 }
                 else
                 {

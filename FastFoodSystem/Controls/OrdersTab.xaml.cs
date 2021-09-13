@@ -28,14 +28,13 @@ namespace FastFoodSystem.Controls
     {
         private bool loading;
         private bool visualLoaded;
+        private List<OrderState> orderStateList;
 
         public OrdersTab()
         {
             InitializeComponent();
             visualLoaded = false;
-            var options = new string[] { "Todos", "Pendientes", "Pagados y pendientes", "Pagados", "Realizados" };
-            filter_combo.ItemsSource = options;
-            filter_combo.SelectedIndex = 2;
+            
             selected_date.SelectedValue = DateTime.Now;
             selected_date.SelectedDate = DateTime.Now;
             selected_date.SelectionChanged += selected_date_SelectionChanged;
@@ -46,6 +45,13 @@ namespace FastFoodSystem.Controls
             if (!loading)
             {
                 loading = true;
+
+                orderStateList = await App.RunAsync(() => App.Database.OrderStates.ToList());
+                
+                var options = new string[] { "Todos", orderStateList[0].Name, $"{orderStateList[2].Name} y {orderStateList[0].Name}", orderStateList[2].Name, orderStateList[1].Name };
+                filter_combo.ItemsSource = options;
+                filter_combo.SelectedIndex = 2;
+
                 if (!visualLoaded)
                 {
                     visualLoaded = true;
@@ -240,9 +246,11 @@ namespace FastFoodSystem.Controls
         private async void RadComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var order = ((FrameworkElement)sender).DataContext as SaleOrder;
-            int selectedIndex = (sender as Telerik.Windows.Controls.RadComboBox).SelectedIndex;
+            var combo = sender as Telerik.Windows.Controls.RadComboBox;
+            int selectedIndex = combo.SelectedIndex;
             if (order != null && selectedIndex != (((int)order.OrderStateId) - 1))
             {
+                combo.Background = orderStateList[combo.SelectedIndex].GetColor();
                 if (selectedIndex == 1)
                 {
                     App.ShowLoad();
@@ -282,10 +290,10 @@ namespace FastFoodSystem.Controls
             
             cmd.cmd_comany_name.Content = CompanyInformation.SelectedConfig.VisualName;
             cmd.cmd_order_date.Content = order.DateTime.ToString("dd/MM/yyyy HH:mm");
-            cmd.cmd_order_name.Content = order.OrderName;
+            cmd.cmd_order_name.Text = order.OrderName;
             cmd.cmd_order_number.Content = string.Format("{0:0000}", order.DailyId);
-            cmd.cmd_order_obs.Content = order.Observation;
-            cmd.cmd_order_phone.Content = order.PhoneNumber;
+            cmd.cmd_order_obs.Text = order.Observation;
+            cmd.cmd_order_phone.Text = order.PhoneNumber;
 
             var details = await App.RunAsync(() => App.Database.SaleOrderDetails.Where(d => d.SaleOrderId == order.Id).ToArray());
             cmd.cmd_detail_container.Children.Clear();
@@ -334,6 +342,30 @@ namespace FastFoodSystem.Controls
         {
             var order = ((FrameworkElement)sender).DataContext as SaleOrder;
             PrintOrder(order, cmd);
+        }
+
+        private void RadComboBox_Initialized(object sender, EventArgs e)
+        {
+            var combo = sender as RadComboBox;
+            List<RadComboBoxItem> list = new List<RadComboBoxItem>();
+            foreach(var item in orderStateList)
+            {
+                RadComboBoxItem cbItem = new RadComboBoxItem()
+                {
+                    Content = item,
+                    Background = item.GetColor()
+                };
+                list.Add(cbItem);
+            }
+            combo.ItemsSource = list;
+            //combo.Background = orderStateList[(int)order.OrderStateId - 1].GetColor();
+        }
+
+        private void RadComboBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var combo = sender as RadComboBox;
+            var order = ((FrameworkElement)sender).DataContext as SaleOrder;
+            combo.Background = orderStateList[(int)order.OrderStateId - 1].GetColor();
         }
     }
 }

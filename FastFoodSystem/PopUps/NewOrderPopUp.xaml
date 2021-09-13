@@ -23,6 +23,8 @@
                 </Grid.RowDefinitions>
                 <Label Content="Nuevo pedido" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="20"></Label>
                 <StackPanel Grid.Row="1" VerticalAlignment="Top"  Margin="20, 0">
+                    <Label Content="Número de orden:"></Label>
+                    <telerik:RadNumericUpDown Minimum="0" NumberDecimalDigits="0" IsInteger="True" Name="order_number"></telerik:RadNumericUpDown>
                     <Label Content="A Nombre De:"></Label>
                     <telerik:RadWatermarkTextBox Name="name_text"></telerik:RadWatermarkTextBox>
                     <Label Content="Observación:"></Label>

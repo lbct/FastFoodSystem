@@ -18,24 +18,32 @@
                     </StackPanel>
                     <Separator Background="Black" Margin="0"></Separator>
                     <Grid HorizontalAlignment="Center">
+                        
+                        
+                        
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <StackPanel HorizontalAlignment="Right">
-                            <Label FontSize="11" FontFamily="Consolas" Foreground="Black" FontWeight="Bold" Content="NÚMERO DE PEDIDO:" HorizontalAlignment="Right"></Label>
-                            <Label FontSize="11" FontFamily="Consolas" Foreground="Black" FontWeight="Bold" Content="NOMBRE:" HorizontalAlignment="Right"></Label>
-                            <Label FontSize="11" FontFamily="Consolas" Foreground="Black" FontWeight="Bold" Content="OBSERVACIÓN:" HorizontalAlignment="Right"></Label>
-                            <Label FontSize="11" FontFamily="Consolas" Foreground="Black" FontWeight="Bold" Content="TELÉFONO:" HorizontalAlignment="Right"></Label>
-                            <Label FontSize="11" FontFamily="Consolas" Foreground="Black" FontWeight="Bold" Content="FECHA Y HORA:" HorizontalAlignment="Right"></Label>
-                        </StackPanel>
-                        <StackPanel Grid.Column="1">
-                            <Label FontSize="11" FontFamily="Consolas" Foreground="Black" Name="cmd_order_number" Content="0001"></Label>
-                            <Label FontSize="11" FontFamily="Consolas" Foreground="Black" Name="cmd_order_name" Content="Juan Perez"></Label>
-                            <Label FontSize="11" FontFamily="Consolas" Foreground="Black" Name="cmd_order_obs" Content="-"></Label>
-                            <Label FontSize="11" FontFamily="Consolas" Foreground="Black" Name="cmd_order_phone" Content="4411665"></Label>
-                            <Label FontSize="11" FontFamily="Consolas" Foreground="Black" Name="cmd_order_date" Content="24/10/2020 01:56"></Label>
-                        </StackPanel>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Label Grid.Row="0" FontSize="11" FontFamily="Consolas" Foreground="Black" FontWeight="Bold" Content="NÚMERO DE PEDIDO:" HorizontalAlignment="Right"></Label>
+                        <Label Grid.Row="1" FontSize="11" FontFamily="Consolas" Foreground="Black" FontWeight="Bold" Content="NOMBRE:" HorizontalAlignment="Right"></Label>
+                        <Label Grid.Row="2" FontSize="11" FontFamily="Consolas" Foreground="Black" FontWeight="Bold" Content="OBSERVACIÓN:" HorizontalAlignment="Right"></Label>
+                        <Label Grid.Row="3" FontSize="11" FontFamily="Consolas" Foreground="Black" FontWeight="Bold" Content="TELÉFONO:" HorizontalAlignment="Right"></Label>
+                        <Label Grid.Row="4" FontSize="11" FontFamily="Consolas" Foreground="Black" FontWeight="Bold" Content="FECHA Y HORA:" HorizontalAlignment="Right"></Label>
+
+                        <Label Grid.Column="1" Grid.Row="0" FontSize="11" FontFamily="Consolas" Foreground="Black" Name="cmd_order_number" Content="0001"></Label>
+                        <TextBlock Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" Padding="{Binding ElementName=cmd_order_number, Path=Padding}" FontSize="11" FontFamily="Consolas" Foreground="Black" Name="cmd_order_name" Text="Juan Perez"></TextBlock>
+                        <TextBlock Grid.Column="1" Grid.Row="2" TextWrapping="Wrap" Padding="{Binding ElementName=cmd_order_number, Path=Padding}" FontSize="11" FontFamily="Consolas" Foreground="Black" Name="cmd_order_obs" Text="-"></TextBlock>
+                        <TextBlock Grid.Column="1" Grid.Row="3" FontSize="11" TextWrapping="Wrap" Padding="{Binding ElementName=cmd_order_number, Path=Padding}" FontFamily="Consolas" Foreground="Black" Name="cmd_order_phone" Text="4411665"></TextBlock>
+                        <Label Grid.Column="1" Grid.Row="4" FontSize="11" FontFamily="Consolas" Foreground="Black" Name="cmd_order_date" Content="24/10/2020 01:56"></Label>
                     </Grid>
                     <Separator Background="Black" Margin="0"></Separator>
                     <StackPanel>
