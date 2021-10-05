@@ -245,6 +245,28 @@ namespace FastFoodSystem.PopUps
             }
         }
 
+        private async Task AddSaleDetails(Sale sale, SaleOrder order)
+        {
+            var details = await App.RunAsync(() => App.Database.SaleOrderDetails.Where(d => d.SaleOrderId == order.Id).ToArray());
+            foreach (var detail in details)
+            {
+                SaleDetail saleDetail = new SaleDetail()
+                {
+                    DiscountValue = detail.DiscountValue,
+                    ProductId = detail.ProductId,
+                    SaleId = sale.Id,
+                    UnitCost = detail.UnitCost,
+                    Units = detail.Units,
+                    UnitValue = detail.UnitValue
+                };
+                await App.RunAsync(() =>
+                {
+                    App.Database.SaleDetails.Add(saleDetail);
+                    App.Database.SaveChanges();
+                });
+            }
+        }
+
         private void Save_as_order_button_Click(object sender, RoutedEventArgs e)
         {
             App.OpenSystemPopUp<NewOrderPopUp>().Init(async (orderId, name, obs, phone, state) =>
@@ -255,12 +277,49 @@ namespace FastFoodSystem.PopUps
                     var order = await CreateOrder(orderId, name, obs, phone, state);
                     if (order != null)
                     {
-                        App.ShowMessage("Pedido (" + order.DailyId + ") guardado a nombre de " + order.OrderName, true,
-                            () => 
-                            { 
+                        if (order.OrderStateId != 2)
+                        {
+                            App.ShowMessage("Pedido (" + order.DailyId + ") guardado a nombre de " + order.OrderName, true,
+                            () =>
+                            {
                                 App.GetSystemPage<NewSalePage>().Refresh();
                                 App.GetSystemPage<NewSalePage>().PrintOrder(order);
                             });
+                        }
+                        else
+                        {
+                            try
+                            {
+                                Sale sale = new Sale()
+                                {
+                                    BillNumber = 1,
+                                    ClientId = 1,
+                                    ControlCode = "0",
+                                    DailyId = UserSession.DailyId,
+                                    DateTime = DateTime.Now,
+                                    LoginId = UserSession.LoginID,
+                                    SaleTypeId = 1
+                                };
+                                bool correct = await App.RunAsync(() =>
+                                {
+                                    App.Database.Sales.Add(sale);
+                                    App.Database.SaveChanges();
+                                });
+                                if (correct)
+                                {
+                                    await AddSaleDetails(sale, order);
+                                    App.ShowMessage("Venta realizada", true, () =>
+                                    {
+                                        App.GetSystemPage<NewSalePage>().Refresh();
+                                        App.GetSystemPage<NewSalePage>().PrintOrder(order);
+                                    });
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                App.ShowMessage(ex.Message, false, () => App.OpenSystemPopUp<CommitOrderPopUp>());
+                            }
+                        }
                     }
                     else
                         App.OpenSystemPopUp<RegisterSalePopUp>();
