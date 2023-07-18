@@ -15,8 +15,13 @@
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
             <Label Name="title" Content="Ventas Realizadas" FontSize="20" Margin="20" FontWeight="Bold" HorizontalAlignment="Center"></Label>
-            <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled">
-                <telerik:RadGridView
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+                    <telerik:RadGridView
                             Background="WhiteSmoke"
                              GroupRenderMode="Flat"
                              x:Name="sales_table"
@@ -29,45 +34,67 @@
 							 AutoGenerateColumns="False"
                              ShowColumnFooters="False"
 							 >
-                    <telerik:RadGridView.Columns>
-                        <telerik:GridViewDataColumn                         
+                        <telerik:RadGridView.Columns>
+                            <telerik:GridViewDataColumn                         
                                             Name="editColumn"
                                             Header="Ver"                                   
                                             Width="auto"
                                             IsResizable="False"
                                             IsReorderable="False"
                                             >
-                            <telerik:GridViewDataColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Button Name="view_sale_button" BorderThickness="0" Background="Transparent" Padding="0" Initialized="View_sale_button_Initialized">
-                                        <Viewbox Height="15">
-                                            <Path Height="15" Style="{StaticResource iconoVer}" Fill="Black"/>
-                                        </Viewbox>
-                                    </Button>
-                                </DataTemplate>
-                            </telerik:GridViewDataColumn.CellTemplate>
-                        </telerik:GridViewDataColumn>
-                        <telerik:GridViewDataColumn
+                                <telerik:GridViewDataColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Name="view_sale_button" BorderThickness="0" Background="Transparent" Padding="0" Initialized="View_sale_button_Initialized">
+                                            <Viewbox Height="15">
+                                                <Path Height="15" Style="{StaticResource iconoVer}" Fill="Black"/>
+                                            </Viewbox>
+                                        </Button>
+                                    </DataTemplate>
+                                </telerik:GridViewDataColumn.CellTemplate>
+                            </telerik:GridViewDataColumn>
+                            <telerik:GridViewDataColumn
                                             Header="Número de Venta"
                                             DataMemberBinding="{Binding Sale.DailyId, StringFormat={}{0:00000}}"
                                             Width="*">
-                            <telerik:GridViewDataColumn.AggregateFunctions>
-                                <telerik:CountFunction Caption="Recuento: "></telerik:CountFunction>
-                            </telerik:GridViewDataColumn.AggregateFunctions>
-                        </telerik:GridViewDataColumn>
-                        <telerik:GridViewDataColumn
+                                <telerik:GridViewDataColumn.AggregateFunctions>
+                                    <telerik:CountFunction Caption="Recuento: "></telerik:CountFunction>
+                                </telerik:GridViewDataColumn.AggregateFunctions>
+                            </telerik:GridViewDataColumn>
+                            <telerik:GridViewDataColumn
                                             Header="Id Venta"
                                             DataMemberBinding="{Binding Sale.Id, StringFormat={}{0:00000}}"
                                             Width="*">
-                        </telerik:GridViewDataColumn>
-                        <telerik:GridViewDataColumn
+                            </telerik:GridViewDataColumn>
+                            <telerik:GridViewDataColumn
                                             Header="Fecha y Hora"
                                             DataMemberBinding="{Binding Sale.DateTime, StringFormat={}{0:dd/MM/yyyy HH:mm}}"
                                             Width="*">
-                        </telerik:GridViewDataColumn>
-                    </telerik:RadGridView.Columns>
-                </telerik:RadGridView>
-            </ScrollViewer>
+                            </telerik:GridViewDataColumn>
+                            <telerik:GridViewDataColumn 
+                                            Header="Total"
+                                            Name="total_column"
+                                            DataMemberBinding="{Binding TotalValue, Mode=OneWay}"
+                                            Width="*">
+                                <telerik:GridViewDataColumn.AggregateFunctions>
+                                    <telerik:SumFunction Caption="Total Bs: " ResultFormatString="{}{0:#,#.00}"/>
+                                </telerik:GridViewDataColumn.AggregateFunctions>
+                                <telerik:GridViewDataColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <telerik:RadNumericUpDown Background="{x:Null}" Foreground="Black" BorderThickness="0" Value="{Binding TotalValue, Mode=OneWay}" NumberDecimalDigits="0" IsEditable="False" CustomUnit="Bs" HideTrailingZeros="True" ShowButtons="False" IsHitTestVisible="False"/>
+                                    </DataTemplate>
+                                </telerik:GridViewDataColumn.CellTemplate>
+                            </telerik:GridViewDataColumn>
+                        </telerik:RadGridView.Columns>
+                    </telerik:RadGridView>
+                </ScrollViewer>
+                <Grid Grid.Row="1" Visibility="Visible">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Label FontWeight="Bold" Content="Total:" VerticalAlignment="Center"></Label>
+                        <telerik:RadNumericUpDown Name="total_sale_value" FontWeight="Bold" Margin="5" Value="0" Width="{Binding ElementName=total_column, Path=ActualWidth}" NumberDecimalDigits="2" CustomUnit="Bs" ShowButtons="False" Background="Transparent" BorderThickness="0" IsEditable="False" IsHitTestVisible="False"></telerik:RadNumericUpDown>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+            
             <Grid Grid.Row="2">
                 <telerik:RadButton Width="200" Margin="20" Name="cancel_button" Click="Cancel_button_Click">
                     <StackPanel Orientation="Horizontal">
